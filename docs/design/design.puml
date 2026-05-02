@@ -1,0 +1,104 @@
+@startuml Exploding Kittens Class Diagram
+
+' ── Enums ────────────────────────────────────────────────
+enum CardType {
+  EXPLODING_KITTEN
+  DEFUSE
+  SKIP
+  ATTACK
+  SHUFFLE
+  SEE_THE_FUTURE
+  FAVOR
+  NOPE
+  CAT_CARD
+}
+
+enum GameStatus {
+  ACTIVE
+  ENDED
+}
+
+' ── Model ────────────────────────────────────────────────
+class Card {
+  - type: CardType
+  - name: String
+}
+
+class Player {
+  - id: String
+  - name: String
+  - hand: List<Card>
+  - isEliminated: boolean
+  + addCard(card: Card): void
+  + removeCard(card: Card): void
+  + hasCard(type: CardType): boolean
+}
+
+class Deck {
+  - cards: List<Card>
+  + shuffle(): void
+  + drawTop(): Card
+  + insertAt(card: Card, index: int): void
+  + peekTop(n: int): List<Card>
+  + size(): int
+}
+
+class GameState {
+  - status: GameStatus
+  - players: List<Player>
+  - currentPlayerIndex: int
+  - turnsToTake: int
+  - skipDraw: boolean
+  - isAttacking: boolean
+  - pendingAction: Card
+  - nopeCount: int
+  - deck: Deck
+  - discardPile: List<Card>
+  + getCurrentPlayer(): Player
+  + getActivePlayers(): List<Player>
+  + advancePlayer(): void
+}
+
+' ── Repository ───────────────────────────────────────────
+class GameRepository {
+  + save(gameState: GameState): void
+  + load(): GameState
+} // we might not need this for now
+
+' ── Controller ───────────────────────────────────────────
+class GameController {
+  - gameState: GameState
+  - gameView: GameView
+  - gameRepository: GameRepository
+  + startGame(numPlayers: int): void
+  + playATurn(): void
+  + playCard(cards: List<Card>): void
+  + drawCard(): void
+  + endGame(): void
+}
+
+' ── View ─────────────────────────────────────────────────
+class GameView {
+  + showGameState(gameState: GameState): void
+  + showPlayerHand(player: Player): void
+  + promptCardSelection(player: Player): List<Card>
+  + showMessage(message: String): void
+  + showWinner(player: Player): void
+}
+
+' ── Relationships ─────────────────────────────────────────
+Card --> CardType
+GameState --> GameStatus
+
+GameState "1" *-- "1"   Deck        : deck
+GameState "1" *-- "2..*" Player      : players
+GameState "1" o-- "*"   Card        : discardPile
+
+Player  "1" o-- "*" Card : hand
+Deck    "1" *-- "*" Card : cards
+
+GameController --> GameState
+GameController --> GameView
+GameController --> GameRepository
+
+@enduml
