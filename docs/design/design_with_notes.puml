@@ -38,200 +38,213 @@
 '          one GameState owns zero or more Players
 '
 
-' ── Enums ────────────────────────────────────────────────
-enum CardType {
-  EXPLODING_KITTEN
-  DEFUSE
-  SKIP
-  ATTACK
-  SHUFFLE
-  SEE_THE_FUTURE
-  FAVOR
-  NOPE
-  CAT_CARD
+package ui{
+    class Main{
+        +{static}main(args: String[]): void
+    }
+
+    ' ── View ─────────────────────────────────────────────────
+    class GameView {
+      + showGameState(gameState: GameState): void
+      + showPlayerHand(player: Player): void
+      + showMessage(message: String): void
+      + showWinner(player: Player): void
+      + promptCardSelection(player: Player): List<Card>
+    }
+
+    ' ── Controller ───────────────────────────────────────────
+    class GameController {
+      - gameState: GameState
+      - display: IGameDisplay
+      - input: IPlayerInput
+      - deckFactory: DeckFactory
+      - comboValidator: ComboValidator
+      + startGame(numPlayers: int): void
+      + playATurn(): void
+      + playCard(cards: List<Card>): void
+      + drawCard(): void
+      + endGame(): void
+    }
+
+    interface IGameDisplay {
+      + showGameState(gameState: GameState): void
+      + showPlayerHand(player: Player): void
+      + showMessage(message: String): void
+      + showWinner(player: Player): void
+    }
+
 }
 
-enum GameStatus {
-  ACTIVE
-  ENDED
+package domain{
+
+    interface IPlayerInput {
+      + promptCardSelection(player: Player): List<Card>
+      + promptNumPlayers(): int
+      + promptNope(players: List<Player>): boolean
+    }
+
+    ' ── Enums ────────────────────────────────────────────────
+    enum CardType {
+      EXPLODING_KITTEN
+      DEFUSE
+      SKIP
+      ATTACK
+      SHUFFLE
+      SEE_THE_FUTURE
+      FAVOR
+      NOPE
+      CAT_CARD
+    }
+
+    enum GameStatus {
+      ACTIVE
+      ENDED
+    }
+
+    ' ── Card Action Strategy ──────────────────────────────────
+    interface CardAction {
+      + execute(gameState: GameState): void
+    }
+
+    class SkipAction implements CardAction
+    class AttackAction implements CardAction
+    class ShuffleAction implements CardAction
+    class SeeTheFutureAction implements CardAction
+    'nopeAction may not be needed if only prompted via promptNope in IPlayerInput'
+    class NopeAction implements CardAction
+    class DefuseAction implements CardAction
+
+    class PlayerInteractionHelper {
+      - input: IPlayerInput
+      + stealRandomCard(from: Player, to: Player): void
+      + stealNamedCard(from: Player, to: Player, type: CardType): void
+    }
+
+    class FavorAction {
+      - helper: PlayerInteractionHelper
+      + execute(gameState: GameState): void
+    }
+
+    class TwoCatAction {
+      - helper: PlayerInteractionHelper
+      + execute(gameState: GameState): void
+    }
+
+    class ThreeCatAction {
+      - helper: PlayerInteractionHelper
+      + execute(gameState: GameState): void
+    }
+
+    class ComboValidator {
+      + isValid(cards: List<Card>): boolean
+      + resolveAction(cards: List<Card>): CardAction
+    }
+
+    ' ── Model ────────────────────────────────────────────────
+    class Card {
+      - type: CardType
+      - name: String // get rid of this
+      - action: CardAction
+      + isType(type: CardType): boolean
+      + execute(gameState: GameState): void
+    }
+
+    class Player {
+      - id: String
+      - name: String
+      - hand: List<Card>
+      - peekCards: List<Card>
+      + addCard(card: Card): void
+      + removeCard(card: Card): void
+      + hasCard(type: CardType): boolean
+      + getCardOfType(type: CardType): Card
+      + storePeek(cards: List<Card>): void
+      + clearPeek(): void
+    }
+
+    class Deck {
+      - cards: List<Card>
+      + shuffle(): void
+      + drawTop(): Card
+      + insertAt(card: Card, index: int): void
+      + size(): int
+      + isEmpty(): boolean
+    }
+
+    class DeckFactory {
+      + buildDeck(numPlayers: int): Deck
+    }
+
+    class TurnState {
+      - turnsToTake: int
+      - skipDraw: boolean
+      - isAttacking: boolean
+      - pendingAction: Card
+      - nopeCount: int
+      + enableSkipDraw(): void
+      + startAttack(turns: int): void
+      + setPendingAction(card: Card): void
+      + clearPendingAction(): void
+      + incrementNopeCount(): void
+      + decrementTurns(): void
+      + shouldSkipDraw(): boolean
+      + isAttacking(): boolean
+      + nopeCount(): int
+      + turnsRemaining(): int
+      + reset(): void
+    }
+
+    class GameState {
+      - status: GameStatus
+      - activePlayers: Queue<Player>
+      - eliminatedPlayers: List<Player>
+      - deck: Deck
+      - discardPile: List<Card>
+      - turnState: TurnState
+      + isActive(): boolean
+      + endGame(): void
+      + getCurrentPlayer(): Player
+      + advancePlayer(): void
+      + eliminateCurrentPlayer(): void
+      + activePlayerCount(): int
+      + drawFromDeck(): Card
+      + isDeckEmpty(): boolean
+      + insertIntoDeck(card: Card, index: int): void //redundant it is in the Deck class, might not need to remove it
+      + shuffleDeck(): void
+      + discardCard(card: Card): void
+      + addCardToCurrentPlayer(card: Card): void
+      + removeCardFromCurrentPlayer(card: Card): void
+      + currentPlayerHasCard(type: CardType): boolean
+      + turnState(): TurnState
+    }
+
+
 }
 
-' ── Card Action Strategy ──────────────────────────────────
-interface CardAction {
-  + execute(gameState: GameState): void
-}
-
-class SkipAction implements CardAction
-class AttackAction implements CardAction
-class ShuffleAction implements CardAction
-class SeeTheFutureAction implements CardAction
-class NopeAction implements CardAction
-class DefuseAction implements CardAction
-
-class PlayerInteractionHelper {
-  + stealRandomCard(from: Player, to: Player): void
-  + stealNamedCard(from: Player, to: Player, type: CardType): void
-}
-
-class FavorAction {
-  - helper: PlayerInteractionHelper
-  + execute(gameState: GameState): void
-}
-
-class TwoCatAction {
-  - helper: PlayerInteractionHelper
-  + execute(gameState: GameState): void
-}
-
-class ThreeCatAction {
-  - helper: PlayerInteractionHelper
-  + execute(gameState: GameState): void
-}
-
-FavorAction    ..|> CardAction
-TwoCatAction   ..|> CardAction
-ThreeCatAction ..|> CardAction
-
-class ComboValidator {
-  + isValid(cards: List<Card>): boolean
-  + resolveAction(cards: List<Card>): CardAction
-}
-
-' ── Model ────────────────────────────────────────────────
-class Card {
-  - type: CardType
-  - name: String
-  - action: CardAction
-  + isType(type: CardType): boolean
-  + execute(gameState: GameState): void
-}
-
-class Player {
-  - id: String
-  - name: String
-  - hand: List<Card>
-  - peekCards: List<Card>
-  + addCard(card: Card): void
-  + removeCard(card: Card): void
-  + hasCard(type: CardType): boolean
-  + getCardOfType(type: CardType): Card
-  + storePeek(cards: List<Card>): void
-  + clearPeek(): void
-}
-
-class Deck {
-  - cards: List<Card>
-  + shuffle(): void
-  + drawTop(): Card
-  + insertAt(card: Card, index: int): void
-  + size(): int
-  + isEmpty(): boolean
-}
-
-class DeckFactory {
-  + buildDeck(numPlayers: int): Deck
-}
-
-class TurnState {
-  - turnsToTake: int
-  - skipDraw: boolean
-  - isAttacking: boolean
-  - pendingAction: Card
-  - nopeCount: int
-  + enableSkipDraw(): void
-  + startAttack(turns: int): void
-  + setPendingAction(card: Card): void
-  + clearPendingAction(): void
-  + incrementNopeCount(): void
-  + decrementTurns(): void
-  + shouldSkipDraw(): boolean
-  + isAttacking(): boolean
-  + nopeCount(): int
-  + turnsRemaining(): int
-  + reset(): void
-}
-
-class GameState {
-  - status: GameStatus
-  - activePlayers: Queue<Player>
-  - eliminatedPlayers: List<Player>
-  - deck: Deck
-  - discardPile: List<Card>
-  - turnState: TurnState
-  + isActive(): boolean
-  + endGame(): void
-  + getCurrentPlayer(): Player
-  + advancePlayer(): void
-  + eliminateCurrentPlayer(): void
-  + activePlayerCount(): int
-  + drawFromDeck(): Card
-  + isDeckEmpty(): boolean
-  + insertIntoDeck(card: Card, index: int): void
-  + shuffleDeck(): void
-  + discardCard(card: Card): void
-  + addCardToCurrentPlayer(card: Card): void
-  + removeCardFromCurrentPlayer(card: Card): void
-  + currentPlayerHasCard(type: CardType): boolean
-  + turnState(): TurnState
-}
-
-' ── View ─────────────────────────────────────────────────
-interface IGameDisplay {
-  + showGameState(gameState: GameState): void
-  + showPlayerHand(player: Player): void
-  + showMessage(message: String): void
-  + showWinner(player: Player): void
-}
-
-interface IPlayerInput {
-  + promptCardSelection(player: Player): List<Card>
-  + promptNumPlayers(): int
-  + promptNope(players: List<Player>): boolean
-}
-
-class GameView {
-  + showGameState(gameState: GameState): void
-  + showPlayerHand(player: Player): void
-  + showMessage(message: String): void
-  + showWinner(player: Player): void
-  + promptCardSelection(player: Player): List<Card>
-  + promptNumPlayers(): int
-}
+' ── Relationships ─────────────────────────────────────────
+Main ..> GameView
+Main ..> GameController
+Main ..> DeckFactory
 
 GameView ..|> IGameDisplay
 GameView ..|> IPlayerInput
 
-' ── Controller ───────────────────────────────────────────
-class GameController {
-  - gameState: GameState
-  - display: IGameDisplay
-  - input: IPlayerInput
-  - deckFactory: DeckFactory
-  - comboValidator: ComboValidator
-  + startGame(): void
-  + playATurn(): void
-  + playCard(cards: List<Card>): void
-  + drawCard(): void
-  + endGame(): void
-}
-
-' ── Relationships ─────────────────────────────────────────
 Card --> CardType
 Card --> CardAction
 
 GameState --> GameStatus
-GameState "1" *-- "1"   Deck      : deck
-GameState "1" *-- "*"   Player    : activePlayers
-GameState "1" o-- "*"   Player    : eliminatedPlayers
-GameState "1" *-- "1"   TurnState : turnState
-GameState "1" o-- "*"   Card      : discardPile
+GameState "1" --> "1"   Deck      : deck
+GameState "1" --> "*"   Player    : activePlayers
+GameState "1" --> "*"   Player    : eliminatedPlayers
+GameState "1" --> "1"   TurnState : turnState
+GameState "1" --> "*"   Card      : discardPile
 
-Player "1" o-- "*" Card : hand
-Deck   "1" *-- "*" Card : cards
+Player "1" --> "*" Card : hand
+Deck   "1" --> "*" Card : cards
 
-FavorAction    *-- PlayerInteractionHelper
-TwoCatAction   *-- PlayerInteractionHelper
-ThreeCatAction *-- PlayerInteractionHelper
+FavorAction    --> PlayerInteractionHelper
+TwoCatAction   --> PlayerInteractionHelper
+ThreeCatAction --> PlayerInteractionHelper
 
 GameController --> GameState
 GameController --> IGameDisplay
@@ -240,8 +253,13 @@ GameController --> DeckFactory
 GameController --> ComboValidator
 
 ComboValidator --> CardAction
+PlayerInteractionHelper --> IPlayerInput
 
-DeckFactory --> Deck
+DeckFactory ..> Deck
+
+FavorAction    ..|> CardAction
+TwoCatAction   ..|> CardAction
+ThreeCatAction ..|> CardAction
 
 ' ── Sticky Notes ─────────────────────────────────────────
 note top of IGameDisplay
