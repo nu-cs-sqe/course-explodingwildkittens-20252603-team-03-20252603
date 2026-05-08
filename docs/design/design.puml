@@ -12,6 +12,8 @@ package ui{
       + showMessage(message: String): void
       + showWinner(player: Player): void
       + promptCardSelection(player: Player): List<Card>
+      + promptNumPlayers(): int
+      + promptNope(players: List<Player>): boolean
     }
 
     ' ── Controller ───────────────────────────────────────────
