@@ -1,5 +1,43 @@
 @startuml Exploding Kittens Class Diagram
 
+' ── PlantUML Syntax Guide ─────────────────────────────────
+'
+' ── Visibility Modifiers (inside classes) ────────────────
+' +  → public   (accessible by everyone)
+' -  → private  (accessible only within the class)
+' #  → protected (accessible within class and subclasses)
+'
+' ── Relationships ─────────────────────────────────────────
+' ..>   → dependency: "uses" (weakest relationship)
+'          e.g. A ..> B means A uses B somewhere
+'
+' -->   → association: "has a reference to"
+'          e.g. GameController --> GameState means
+'          GameController holds a reference to GameState
+'
+' ..|>  → realization/implementation: "implements an interface"
+'          e.g. GameView ..|> IGameDisplay means
+'          GameView implements IGameDisplay
+'
+' --|>  → inheritance: "extends a class"
+'          e.g. Dog --|> Animal means Dog extends Animal
+'
+' *--   → composition: "owns it, it cannot exist without me"
+'          e.g. GameState "1" *-- "1" Deck means
+'          Deck is destroyed when GameState is destroyed
+'
+' o--   → aggregation: "has it, but it can exist without me"
+'          e.g. GameState "1" o-- "*" Card : discardPile means
+'          Cards exist independently of GameState
+'
+' ── Multiplicity (the numbers on relationships) ──────────
+' "1"  → exactly one
+' "*"  → zero or more
+' "1..*" → one or more
+'          e.g. GameState "1" *-- "*" Player means
+'          one GameState owns zero or more Players
+'
+
 package ui{
     class Main{
         +{static}main(args: String[]): void
@@ -224,5 +262,75 @@ DeckFactory ..> Deck
 FavorAction    ..|> CardAction
 TwoCatAction   ..|> CardAction
 ThreeCatAction ..|> CardAction
+
+' ── Sticky Notes ─────────────────────────────────────────
+note top of IGameDisplay
+  Output only, shows things on screen
+  showGameState: shows the overall current state to everyone (e.g. whose turn it is, what's in the discard pile)
+  showMessage: declares what action was taken, e.g. "Player 1 played attack card"
+  showWinner: declares the winner at the end of each game
+  showPlayerHand: shows the player's card to the player (each player only sees their own cards, but shouldn't be able
+  to see anyone else's)
+end note
+
+note top of IPlayerInput
+  Input from the user
+  promptCardSelection: asks the player which cards they want to play when it's their turn
+  promptNumPlayers: asks at the start how many players are playing
+  promptNope: asks players if they want to nope at each turn
+end note
+
+note top of CardAction
+  Strategy Pattern: defines a family of algorithms, encapsulate each into a separate class, making them interchangeable
+  at runtime
+  Why use Strategy Pattern? Adheres to Open/Close Principle, reduced repetitive if statements
+  *Note: actions that are not FavorAction, TwoCatAction, ThreeCatAction did not include execute because there's nothing
+  extra to show, but they would fulfill the execute
+  Why is it an interface? There are many implementations of what executing a card means for each card.
+end note
+
+note top of PlayerInteractionHelper
+  Favor Card: stealRandomCard
+  Two Cat Card: stealRandomCard
+  Three Cat Card: stealNamedCard
+  Is a class and not an interface because the stealing logic is the same, no matter what card
+  Favors composition over inheritance (helper is PlayerInteractionHelper), greater flexibility
+  Uses Delegation: one object passes work to another instead of doing it itself through PlayerInteractionHelper
+end note
+
+note top of ComboValidator
+  isValid: validates a list of cards to ensure they are valid
+  Valid Combination:
+  *Any single card action (Skip, Attack, Shuffle, etc.)
+  *2 of the same cat card (TwoCatAction)
+  *3 of th same cat card (ThreeCatAction)
+  Invalid Combination:
+  *Mixed cat cards (one Taco Cat + one Beard Cat, they have to match)
+  *An action card paired with anything (Skip + cat card makes no sense)
+  *Playing Defuse voluntarily from hand (it only triggers on drawing an Exploding Kitten)
+  *Playing an Exploding Kitten from hand
+  resolveAction: chooses what action to take based on what list of cards the player gives
+end note
+
+note top of GameState
+  GameState represents the entire game's memory, e.g. who is alive, what's in the deck, discardPile
+end note
+
+note top of TurnState
+  TurnState is a temporary snapshot of what's happening
+  skipDraw: whether the player can skip their draw (e.g. play attack or skip)
+  pendingAction: what card is pending a nope window
+end note
+
+note top of DeckFactory
+  Use factory design pattern to minimize complex logic of GameController
+end note
+
+note top of GameView
+  Why use 2 interfaces?
+  Separation of concerns, follows Interface Segregation since display vs input have different responsibilities
+  Since we want to start with a terminal game and get the functionality working first, we can just write a new class
+  and in GameController we'd only swap one line, so GameController doesn't have to change. This follows Open/Close
+end note
 
 @enduml
