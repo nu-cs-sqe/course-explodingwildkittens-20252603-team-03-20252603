@@ -1,5 +1,7 @@
 package domain.factory;
 
+import domain.enums.CardName;
+import domain.enums.CardType;
 import domain.model.Card;
 import domain.model.Deck;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,6 @@ public class DeckFactoryTest {
     void buildDeck_TwoPlayers_ReturnsDeck() {
         DeckFactory factory = new DeckFactory(2);
         Deck deck = factory.buildDeck();
-
         assertNotNull(deck);
         // other card type asserts will be added once deck class is implemented as integration tests
     }
@@ -25,7 +26,6 @@ public class DeckFactoryTest {
     void buildDeck_FivePlayers_ReturnsDeck() {
         DeckFactory factory = new DeckFactory(5);
         Deck deck = factory.buildDeck();
-
         assertNotNull(deck);
         // other card type asserts will be added once deck class is implemented as integration tests
     }
@@ -37,6 +37,8 @@ public class DeckFactoryTest {
         DeckFactory factory = new DeckFactory(2);
         List<Card> cards = factory.buildExplodingKittenCards();
         assertEquals(1, cards.size());
+        assertTrue(cards.get(0).isType(CardType.EXPLODING_KITTEN));
+        assertTrue(cards.get(0).isName(CardName.EXPLODING_KITTEN));
     }
 
     @Test
@@ -44,6 +46,10 @@ public class DeckFactoryTest {
         DeckFactory factory = new DeckFactory(5);
         List<Card> cards = factory.buildExplodingKittenCards();
         assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.EXPLODING_KITTEN));
+            assertTrue(card.isName(CardName.EXPLODING_KITTEN));
+        }
     }
 
     // --- buildDefuseCards() ---
@@ -53,6 +59,9 @@ public class DeckFactoryTest {
         DeckFactory factory = new DeckFactory(2);
         List<Card> cards = factory.buildDefuseCards();
         assertEquals(6, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.DEFUSE));
+        }
     }
 
     // --- getNumExplodingKittenCards() ---
@@ -74,60 +83,132 @@ public class DeckFactoryTest {
     @Test
     void generateDefuseCards_ReturnsSixCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(6, deckFactory.generateDefuseCards().size());
+        List<Card> cards = deckFactory.generateDefuseCards();
+        assertEquals(6, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.DEFUSE));
+            assertTrue(card.isName(CardName.DEFUSE));
+        }
     }
 
     @Test
     void generateExplodingKittenCards_TwoPlayers_ReturnsOneCard() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(1, deckFactory.generateExplodingKittenCards().size());
+        List<Card> cards = deckFactory.generateExplodingKittenCards();
+        assertEquals(1, cards.size());
+        assertTrue(cards.get(0).isType(CardType.EXPLODING_KITTEN));
+        assertTrue(cards.get(0).isName(CardName.EXPLODING_KITTEN));
     }
 
     @Test
     void generateExplodingKittenCards_FivePlayers_ReturnsFourCards() {
         DeckFactory deckFactory = new DeckFactory(5);
-        assertEquals(4, deckFactory.generateExplodingKittenCards().size());
+        List<Card> cards = deckFactory.generateExplodingKittenCards();
+        assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.EXPLODING_KITTEN));
+            assertTrue(card.isName(CardName.EXPLODING_KITTEN));
+        }
     }
 
     @Test
     void generateSkipCards_ReturnsFourCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(4, deckFactory.generateSkipCards().size());
+        List<Card> cards = deckFactory.generateSkipCards();
+        assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.SKIP));
+            assertTrue(card.isName(CardName.SKIP));
+        }
     }
 
     @Test
     void generateAttackCards_ReturnsFourCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(4, deckFactory.generateAttackCards().size());
+        List<Card> cards = deckFactory.generateAttackCards();
+        assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.ATTACK));
+            assertTrue(card.isName(CardName.ATTACK));
+        }
     }
 
     @Test
     void generateShuffleCards_ReturnsFourCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(4, deckFactory.generateShuffleCards().size());
+        List<Card> cards = deckFactory.generateShuffleCards();
+        assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.SHUFFLE));
+            assertTrue(card.isName(CardName.SHUFFLE));
+        }
     }
 
     @Test
     void generateSeeTheFutureCards_ReturnsFiveCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(5, deckFactory.generateSeeTheFutureCards().size());
+        List<Card> cards = deckFactory.generateSeeTheFutureCards();
+        assertEquals(5, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.SEE_THE_FUTURE));
+            assertTrue(card.isName(CardName.SEE_THE_FUTURE));
+        }
     }
 
     @Test
     void generateFavorCards_ReturnsFourCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(4, deckFactory.generateFavorCards().size());
+        List<Card> cards = deckFactory.generateFavorCards();
+        assertEquals(4, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.FAVOR));
+            assertTrue(card.isName(CardName.FAVOR));
+        }
     }
 
     @Test
     void generateNopeCards_ReturnsFiveCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(5, deckFactory.generateNopeCards().size());
+        List<Card> cards = deckFactory.generateNopeCards();
+        assertEquals(5, cards.size());
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.NOPE));
+            assertTrue(card.isName(CardName.NOPE));
+        }
     }
 
     @Test
     void generateCatCards_ReturnsTwentyCards() {
         DeckFactory deckFactory = new DeckFactory(2);
-        assertEquals(20, deckFactory.generateCatCards().size());
+        List<Card> cards = deckFactory.generateCatCards();
+        assertEquals(20, cards.size());
+
+        int numBeard_Cat_Cards = 0;
+        int numTaco_Cat_Cards = 0;
+        int numHairy_Potato_Cat_Cards = 0;
+        int numCattermelon_Cat_Cards = 0;
+        int numRainbow_Ralphing_Cat_Cards = 0;
+
+        for (Card card : cards) {
+            assertTrue(card.isType(CardType.CAT_CARD));
+
+            if (card.isName(CardName.BEARD_CAT)){
+                numBeard_Cat_Cards ++;
+            } else if (card.isName(CardName.TACO_CAT)){
+                numTaco_Cat_Cards ++;
+            } else if (card.isName(CardName.RAINBOW_RALPHING_CAT)){
+                numRainbow_Ralphing_Cat_Cards ++;
+            } else if (card.isName(CardName.HAIRY_POTATO_CAT)){
+                numHairy_Potato_Cat_Cards ++;
+            } else if (card.isName(CardName.CATTERMELON)){
+                numCattermelon_Cat_Cards ++;
+            }
+        }
+
+        assertEquals(4, numBeard_Cat_Cards);
+        assertEquals(4, numRainbow_Ralphing_Cat_Cards);
+        assertEquals(4, numCattermelon_Cat_Cards);
+        assertEquals(4, numHairy_Potato_Cat_Cards);
+        assertEquals(4, numTaco_Cat_Cards);
     }
 }
