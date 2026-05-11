@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,13 +36,16 @@ public class PlayerInteractionHelperTest {
         return mock;
     }
 
+    private static PlayerInteractionHelper helper(IPlayerInput input) {
+        return new PlayerInteractionHelper(input, new Random());
+    }
+
     @Test
     void stealRandomCard_FromEmptyHand_NoTransfer() {
         Player from = player("from");
         Player to = player("to");
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealRandomCard(from, to);
+        helper(unusedInput()).stealRandomCard(from, to);
 
         assertTrue(from.getHand().isEmpty());
         assertTrue(to.getHand().isEmpty());
@@ -53,9 +57,8 @@ public class PlayerInteractionHelperTest {
         Player to = player("to");
         Card card = skipCard();
         from.addCard(card);
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealRandomCard(from, to);
+        helper(unusedInput()).stealRandomCard(from, to);
 
         assertTrue(from.getHand().isEmpty());
         assertSame(card, to.getHand().get(0));
@@ -71,9 +74,8 @@ public class PlayerInteractionHelperTest {
         from.addCard(card1);
         from.addCard(card2);
         from.addCard(card3);
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealRandomCard(from, to);
+        new PlayerInteractionHelper(unusedInput(), new Random(0)).stealRandomCard(from, to);
 
         assertEquals(2, from.getHand().size());
         assertEquals(1, to.getHand().size());
@@ -87,9 +89,8 @@ public class PlayerInteractionHelperTest {
         Player from = player("from");
         Player to = player("to");
         from.addCard(attackCard());
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealNamedCard(from, to, CardType.SKIP);
+        helper(unusedInput()).stealNamedCard(from, to, CardType.SKIP);
 
         assertEquals(1, from.getHand().size());
         assertTrue(to.getHand().isEmpty());
@@ -101,9 +102,8 @@ public class PlayerInteractionHelperTest {
         Player to = player("to");
         Card skip = skipCard();
         from.addCard(skip);
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealNamedCard(from, to, CardType.SKIP);
+        helper(unusedInput()).stealNamedCard(from, to, CardType.SKIP);
 
         assertTrue(from.getHand().isEmpty());
         assertSame(skip, to.getHand().get(0));
@@ -115,9 +115,8 @@ public class PlayerInteractionHelperTest {
         Player to = player("to");
         from.addCard(skipCard());
         from.addCard(skipCard());
-        PlayerInteractionHelper helper = new PlayerInteractionHelper(unusedInput());
 
-        helper.stealNamedCard(from, to, CardType.SKIP);
+        helper(unusedInput()).stealNamedCard(from, to, CardType.SKIP);
 
         assertEquals(1, from.getHand().size());
         assertEquals(1, to.getHand().size());
@@ -133,7 +132,7 @@ public class PlayerInteractionHelperTest {
         EasyMock.expect(mockInput.promptCardSelection(from)).andReturn(Collections.emptyList());
         EasyMock.replay(mockInput);
 
-        new PlayerInteractionHelper(mockInput).giveCard(from, to);
+        new PlayerInteractionHelper(mockInput, new Random()).giveCard(from, to);
 
         assertEquals(1, from.getHand().size());
         assertTrue(to.getHand().isEmpty());
@@ -151,7 +150,7 @@ public class PlayerInteractionHelperTest {
         EasyMock.expect(mockInput.promptCardSelection(from)).andReturn(List.of(card));
         EasyMock.replay(mockInput);
 
-        new PlayerInteractionHelper(mockInput).giveCard(from, to);
+        new PlayerInteractionHelper(mockInput, new Random()).giveCard(from, to);
 
         assertTrue(from.getHand().isEmpty());
         assertSame(card, to.getHand().get(0));
