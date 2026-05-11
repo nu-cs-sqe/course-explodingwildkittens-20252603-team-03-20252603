@@ -14,4 +14,5 @@ public class GameView implements IGameDisplay, IPlayerInput {
     public List<Card> promptCardSelection(Player player) { return null; }
     public int promptNumPlayers() { return 0; }
     public boolean promptNope(List<Player> players) { return false; }
+    public int promptInsertPosition(int deckSize) { return 0; }
 }

@@ -1,7 +1,7 @@
 package domain.model;
 
 import domain.action.CardAction;
-import domain.action.DefuseAction;
+import domain.action.NoAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
 import org.easymock.EasyMock;
@@ -13,14 +13,14 @@ public class CardTest {
 
     @Test
     void isType_SameType_ReturnsTrue() {
-        DefuseAction defuseAction = new DefuseAction();
+        NoAction defuseAction = new NoAction();
         Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
         assertTrue(card.isType(CardType.DEFUSE));
     }
 
     @Test
     void isType_DifferentType_ReturnsFalse() {
-        DefuseAction defuseAction = new DefuseAction();
+        NoAction defuseAction = new NoAction();
         Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
         assertFalse(card.isType(CardType.ATTACK));
     }

@@ -2,8 +2,10 @@ package domain.factory;
 
 import domain.enums.CardName;
 import domain.enums.CardType;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.Deck;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,11 +14,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckFactoryTest {
 
+    private static DeckFactory factory(int numPlayers) {
+        IPlayerInput mock = EasyMock.createMock(IPlayerInput.class);
+        EasyMock.replay(mock);
+        return new DeckFactory(numPlayers, mock);
+    }
+
     // --- buildDeck ---
 
     @Test
     void buildDeck_TwoPlayers_ReturnsDeck() {
-        DeckFactory factory = new DeckFactory(2);
+        DeckFactory factory = factory(2);
         Deck deck = factory.buildDeck();
         assertNotNull(deck);
         // other card type asserts will be added once deck class is implemented as integration tests
@@ -24,7 +32,7 @@ public class DeckFactoryTest {
 
     @Test
     void buildDeck_FivePlayers_ReturnsDeck() {
-        DeckFactory factory = new DeckFactory(5);
+        DeckFactory factory = factory(5);
         Deck deck = factory.buildDeck();
         assertNotNull(deck);
         // other card type asserts will be added once deck class is implemented as integration tests
@@ -34,7 +42,7 @@ public class DeckFactoryTest {
 
     @Test
     void buildExplodingKittenCards_TwoPlayers_ReturnsOneCard() {
-        DeckFactory factory = new DeckFactory(2);
+        DeckFactory factory = factory(2);
         List<Card> cards = factory.buildExplodingKittenCards();
         assertEquals(1, cards.size());
         assertTrue(cards.get(0).isType(CardType.EXPLODING_KITTEN));
@@ -43,7 +51,7 @@ public class DeckFactoryTest {
 
     @Test
     void buildExplodingKittenCards_FivePlayers_ReturnsFourCards() {
-        DeckFactory factory = new DeckFactory(5);
+        DeckFactory factory = factory(5);
         List<Card> cards = factory.buildExplodingKittenCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -56,7 +64,7 @@ public class DeckFactoryTest {
 
     @Test
     void buildDefuseCards_ReturnsSixDefuseCards() {
-        DeckFactory factory = new DeckFactory(2);
+        DeckFactory factory = factory(2);
         List<Card> cards = factory.buildDefuseCards();
         assertEquals(6, cards.size());
         for (Card card : cards) {
@@ -68,13 +76,13 @@ public class DeckFactoryTest {
 
     @Test
     void getNumExplodingKittenCards_TwoPlayers_ReturnsOne() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         assertEquals(1, deckFactory.getNumExplodingKittenCards());
     }
 
     @Test
     void getNumExplodingKittenCards_FivePlayers_ReturnsFour() {
-        DeckFactory deckFactory = new DeckFactory(5);
+        DeckFactory deckFactory = factory(5);
         assertEquals(4, deckFactory.getNumExplodingKittenCards());
     }
 
@@ -82,7 +90,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateDefuseCards_ReturnsSixCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateDefuseCards();
         assertEquals(6, cards.size());
         for (Card card : cards) {
@@ -93,7 +101,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateExplodingKittenCards_TwoPlayers_ReturnsOneCard() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateExplodingKittenCards();
         assertEquals(1, cards.size());
         assertTrue(cards.get(0).isType(CardType.EXPLODING_KITTEN));
@@ -102,7 +110,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateExplodingKittenCards_FivePlayers_ReturnsFourCards() {
-        DeckFactory deckFactory = new DeckFactory(5);
+        DeckFactory deckFactory = factory(5);
         List<Card> cards = deckFactory.generateExplodingKittenCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -113,7 +121,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateSkipCards_ReturnsFourCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateSkipCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -124,7 +132,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateAttackCards_ReturnsFourCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateAttackCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -135,7 +143,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateShuffleCards_ReturnsFourCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateShuffleCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -146,7 +154,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateSeeTheFutureCards_ReturnsFiveCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateSeeTheFutureCards();
         assertEquals(5, cards.size());
         for (Card card : cards) {
@@ -157,7 +165,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateFavorCards_ReturnsFourCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateFavorCards();
         assertEquals(4, cards.size());
         for (Card card : cards) {
@@ -168,7 +176,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateNopeCards_ReturnsFiveCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateNopeCards();
         assertEquals(5, cards.size());
         for (Card card : cards) {
@@ -179,7 +187,7 @@ public class DeckFactoryTest {
 
     @Test
     void generateCatCards_ReturnsTwentyCards() {
-        DeckFactory deckFactory = new DeckFactory(2);
+        DeckFactory deckFactory = factory(2);
         List<Card> cards = deckFactory.generateCatCards();
         assertEquals(20, cards.size());
 

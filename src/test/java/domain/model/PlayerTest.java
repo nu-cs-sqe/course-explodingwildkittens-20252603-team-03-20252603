@@ -1,6 +1,6 @@
 package domain.model;
 
-import domain.action.DefuseAction;
+import domain.action.NoAction;
 import domain.action.SkipAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
 
     private static Card defuseCard() {
-        return new Card(CardType.DEFUSE, CardName.DEFUSE, new DefuseAction());
+        return new Card(CardType.DEFUSE, CardName.DEFUSE, new NoAction());
     }
 
     private static Card skipCard() {
@@ -74,7 +74,7 @@ public class PlayerTest {
     void removeCard_CardNotInHand_Unchanged() {
         Player player = new Player("p1", "Alice");
         Card inHand = defuseCard();
-        Card other = new Card(CardType.DEFUSE, CardName.DEFUSE, new DefuseAction());
+        Card other = new Card(CardType.DEFUSE, CardName.DEFUSE, new NoAction());
         player.addCard(inHand);
         player.removeCard(other);
         assertEquals(1, player.getHand().size());
@@ -127,7 +127,7 @@ public class PlayerTest {
     void getCardOfType_MultipleMatches_ReturnsFirst() {
         Player player = new Player("p1", "Alice");
         Card first = defuseCard();
-        Card second = new Card(CardType.DEFUSE, CardName.DEFUSE, new DefuseAction());
+        Card second = new Card(CardType.DEFUSE, CardName.DEFUSE, new NoAction());
         player.addCard(skipCard());
         player.addCard(first);
         player.addCard(second);
