@@ -106,6 +106,32 @@ public class PlayerTest {
     }
 
     @Test
+    void getCardOfType_NoMatch_ReturnsNull() {
+        Player player = new Player("p1", "Alice");
+        player.addCard(skipCard());
+        assertNull(player.getCardOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    void getCardOfType_OneMatch_ReturnsThatCard() {
+        Player player = new Player("p1", "Alice");
+        Card card = defuseCard();
+        player.addCard(card);
+        assertSame(card, player.getCardOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    void getCardOfType_MultipleMatches_ReturnsFirst() {
+        Player player = new Player("p1", "Alice");
+        Card first = defuseCard();
+        Card second = new Card(CardType.DEFUSE, CardName.DEFUSE, new DefuseAction());
+        player.addCard(skipCard());
+        player.addCard(first);
+        player.addCard(second);
+        assertSame(first, player.getCardOfType(CardType.DEFUSE));
+    }
+
+    @Test
     void getHand_IsUnmodifiable() {
         Player player = new Player("p1", "Alice");
         assertThrows(UnsupportedOperationException.class, () -> player.getHand().add(defuseCard()));

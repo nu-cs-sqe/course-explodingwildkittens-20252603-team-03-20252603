@@ -52,6 +52,11 @@ public class Player {
     }
 
     public Card getCardOfType(CardType type) {
+        for (Card card : hand) {
+            if (card.isType(type)) {
+                return card;
+            }
+        }
         return null;
     }
 

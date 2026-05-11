@@ -65,9 +65,9 @@ spaces: no match; single match; multiple matches (first wins)
 
 | test_Name                                    | State of the System      | Expected output | Implemented?       |
 |----------------------------------------------|--------------------------|-----------------|--------------------|
-| getCardOfType_NoMatch_ReturnsNull            | hand has no such type    | null            | :x: |
-| getCardOfType_OneMatch_ReturnsThatCard       | one matching card        | that reference  | :x: |
-| getCardOfType_MultipleMatches_ReturnsFirst   | two matching, order known| first in hand   | :x: |
+| getCardOfType_NoMatch_ReturnsNull            | hand has no such type    | null            | :white_check_mark: |
+| getCardOfType_OneMatch_ReturnsThatCard       | one matching card        | that reference  | :white_check_mark: |
+| getCardOfType_MultipleMatches_ReturnsFirst   | two matching, order known| first in hand   | :white_check_mark: |
 
 ### Method under test: `storePeek()`
 
