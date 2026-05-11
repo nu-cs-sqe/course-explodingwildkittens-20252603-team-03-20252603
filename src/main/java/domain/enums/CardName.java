@@ -1,0 +1,17 @@
+package domain.enums;
+
+public enum CardName {
+    EXPLODING_KITTEN,
+    DEFUSE,
+    SKIP,
+    ATTACK,
+    SHUFFLE,
+    SEE_THE_FUTURE,
+    FAVOR,
+    NOPE,
+    TACO_CAT,
+    CATTERMELON,
+    HAIRY_POTATO_CAT,
+    BEARD_CAT,
+    RAINBOW_RALPHING_CAT
+}
