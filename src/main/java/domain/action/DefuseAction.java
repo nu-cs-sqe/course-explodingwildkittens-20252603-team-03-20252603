@@ -13,7 +13,6 @@ public class DefuseAction implements CardAction {
 
     public void execute(GameState gameState) {
         int position = input.promptInsertPosition(gameState.getDeckSize());
-        // Tell Don't Ask: GameState owns the pending kitten and validates internally
         gameState.insertPendingCardAt(position);
     }
 }

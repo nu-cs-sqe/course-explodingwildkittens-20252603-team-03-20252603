@@ -13,6 +13,7 @@
 - pickTarget and pickCardType delegate entirely to IPlayerInput — no additional BVA needed beyond the delegation itself.
 - giveCard prompts `from` to choose a card via IPlayerInput.promptCardSelection and transfers the first chosen card.
 - giveCard does nothing if the prompted selection is empty.
+- giveCard does nothing if the selected card is not in `from`'s hand.
 
 
 
@@ -62,3 +63,4 @@ cases:
 |----------------------------------------------------|---------------------------------|----------------------------|--------------|
 | giveCard_SelectionEmpty_NoTransfer                 | from prompted, returns no card  | no card moved              | :x:          |
 | giveCard_SelectionOneCard_TransfersThatCard        | from prompted, returns 1 card   | from loses it, to gains it | :x:          |
+| giveCard_SelectedCardNotInHand_NoTransfer          | selection returns card not in from's hand | no card moved     | :x:          |

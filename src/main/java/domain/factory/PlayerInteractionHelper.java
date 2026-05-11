@@ -43,6 +43,9 @@ public class PlayerInteractionHelper {
             return;
         }
         Card card = selection.get(0);
+        if (!from.getHand().contains(card)) {
+            return;
+        }
         from.removeCard(card);
         to.addCard(card);
     }

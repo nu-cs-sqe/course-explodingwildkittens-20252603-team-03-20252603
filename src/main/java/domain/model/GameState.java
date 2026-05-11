@@ -29,7 +29,6 @@ public class GameState {
     public boolean currentPlayerHasCard(CardType type) { return false; }
     public List<Card> peekTopOfDeck(int n) { return null; }
     public int getDeckSize() { return 0; }
-    // Tell Don't Ask: caller provides position; GameState fetches the pending card and inserts it internally
     public void insertPendingCardAt(int position) {}
     public TurnState turnState() { return null; }
 }

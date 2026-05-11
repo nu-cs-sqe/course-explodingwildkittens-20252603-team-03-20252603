@@ -156,4 +156,23 @@ public class PlayerInteractionHelperTest {
         assertSame(card, to.getHand().get(0));
         EasyMock.verify(mockInput);
     }
+
+    @Test
+    void giveCard_SelectedCardNotInHand_NoTransfer() {
+        Player from = player("from");
+        Player to = player("to");
+        Card cardInHand = skipCard();
+        Card cardNotInHand = attackCard();
+        from.addCard(cardInHand);
+
+        IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+        EasyMock.expect(mockInput.promptCardSelection(from)).andReturn(List.of(cardNotInHand));
+        EasyMock.replay(mockInput);
+
+        new PlayerInteractionHelper(mockInput, new Random()).giveCard(from, to);
+
+        assertEquals(1, from.getHand().size());
+        assertTrue(to.getHand().isEmpty());
+        EasyMock.verify(mockInput);
+    }
 }
