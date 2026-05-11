@@ -60,7 +60,14 @@ public class Player {
         return null;
     }
 
-    public void storePeek(List<Card> cards) {}
+    public void storePeek(List<Card> cards) {
+        peekCards.clear();
+        if (cards != null) {
+            peekCards.addAll(cards);
+        }
+    }
 
-    public void clearPeek() {}
+    public void clearPeek() {
+        peekCards.clear();
+    }
 }

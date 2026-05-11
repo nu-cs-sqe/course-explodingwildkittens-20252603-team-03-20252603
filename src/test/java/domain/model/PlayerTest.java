@@ -6,6 +6,9 @@ import domain.enums.CardName;
 import domain.enums.CardType;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
@@ -129,6 +132,51 @@ public class PlayerTest {
         player.addCard(first);
         player.addCard(second);
         assertSame(first, player.getCardOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    void storePeek_Null_ClearsPeek() {
+        Player player = new Player("p1", "Alice");
+        player.storePeek(List.of(defuseCard()));
+        player.storePeek(null);
+        assertTrue(player.getPeekCards().isEmpty());
+    }
+
+    @Test
+    void storePeek_NonNull_ReplacesPeek() {
+        Player player = new Player("p1", "Alice");
+        Card a = defuseCard();
+        Card b = skipCard();
+        player.storePeek(Arrays.asList(a, b));
+        assertEquals(2, player.getPeekCards().size());
+        assertSame(a, player.getPeekCards().get(0));
+        assertSame(b, player.getPeekCards().get(1));
+    }
+
+    @Test
+    void storePeek_SecondCall_ReplacesFirst() {
+        Player player = new Player("p1", "Alice");
+        Card firstBatch = defuseCard();
+        Card secondBatch = skipCard();
+        player.storePeek(List.of(firstBatch));
+        player.storePeek(List.of(secondBatch));
+        assertEquals(1, player.getPeekCards().size());
+        assertSame(secondBatch, player.getPeekCards().get(0));
+    }
+
+    @Test
+    void clearPeek_NonEmpty_ClearsPeek() {
+        Player player = new Player("p1", "Alice");
+        player.storePeek(List.of(defuseCard()));
+        player.clearPeek();
+        assertTrue(player.getPeekCards().isEmpty());
+    }
+
+    @Test
+    void clearPeek_AlreadyEmpty_NoThrow() {
+        Player player = new Player("p1", "Alice");
+        assertDoesNotThrow(player::clearPeek);
+        assertTrue(player.getPeekCards().isEmpty());
     }
 
     @Test

@@ -75,9 +75,9 @@ spaces: null vs non-null list; replace behavior
 
 | test_Name                              | State of the System     | Expected output        | Implemented?       |
 |----------------------------------------|-------------------------|------------------------|--------------------|
-| storePeek_Null_ClearsPeek              | had peek cards before   | peek empty             | :x: |
-| storePeek_NonNull_ReplacesPeek         | prior peek + new list   | peek equals new cards  | :x: |
-| storePeek_SecondCall_ReplacesFirst     | two storePeek in sequence | only second content  | :x: |
+| storePeek_Null_ClearsPeek              | had peek cards before   | peek empty             | :white_check_mark: |
+| storePeek_NonNull_ReplacesPeek         | prior peek + new list   | peek equals new cards  | :white_check_mark: |
+| storePeek_SecondCall_ReplacesFirst     | two storePeek in sequence | only second content  | :white_check_mark: |
 
 ### Method under test: `clearPeek()`
 
@@ -85,8 +85,8 @@ spaces: peek empty vs non-empty
 
 | test_Name                       | State of the System | Expected output | Implemented?       |
 |---------------------------------|---------------------|-----------------|--------------------|
-| clearPeek_NonEmpty_ClearsPeek   | peek has cards      | peek empty      | :x: |
-| clearPeek_AlreadyEmpty_NoThrow  | peek empty          | still empty     | :x: |
+| clearPeek_NonEmpty_ClearsPeek   | peek has cards      | peek empty      | :white_check_mark: |
+| clearPeek_AlreadyEmpty_NoThrow  | peek empty          | still empty     | :white_check_mark: |
 
 ### Method under test: `getHand()` / `getPeekCards()` (encapsulation)
 
