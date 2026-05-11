@@ -26,9 +26,9 @@ spaces: hand size, peek size, id/name assignment
 
 | test_Name                              | State of the System        | Expected output              | Implemented?       |
 |----------------------------------------|-----------------------------|------------------------------|--------------------|
-| constructor_SetsIdAndName              | any id and name strings     | getId/getName match          | :x: |
-| constructor_InitializesEmptyHand       | new player                  | getHand is empty             | :x: |
-| constructor_InitializesEmptyPeekBuffer | new player                  | getPeekCards is empty        | :x: |
+| constructor_SetsIdAndName              | any id and name strings     | getId/getName match          | :white_check_mark: |
+| constructor_InitializesEmptyHand       | new player                  | getHand is empty             | :white_check_mark: |
+| constructor_InitializesEmptyPeekBuffer | new player                  | getPeekCards is empty        | :white_check_mark: |
 
 ### Method under test: `addCard()`
 
@@ -94,5 +94,5 @@ spaces: mutating returned view
 
 | test_Name                    | State of the System | Expected output              | Implemented?       |
 |------------------------------|---------------------|------------------------------|--------------------|
-| getHand_IsUnmodifiable       | any player          | add on view throws           | :x: |
-| getPeekCards_IsUnmodifiable  | any player          | add on view throws           | :x: |
+| getHand_IsUnmodifiable       | any player          | add on view throws           | :white_check_mark: |
+| getPeekCards_IsUnmodifiable  | any player          | add on view throws           | :white_check_mark: |
