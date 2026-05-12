@@ -159,7 +159,7 @@ package domain{
       + addCard(card: Card): void
       + removeCard(card: Card): void
       + hasCard(type: CardType): boolean
-      + getCardOfType(type: CardType): Card
+      + removeCardOfType(type: CardType): Optional<Card>
       + storePeek(cards: List<Card>): void
       + clearPeek(): void
     }
