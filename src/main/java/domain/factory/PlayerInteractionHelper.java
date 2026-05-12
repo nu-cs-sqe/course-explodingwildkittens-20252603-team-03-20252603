@@ -37,6 +37,14 @@ public class PlayerInteractionHelper {
         to.addCard(card);
     }
 
+    public Player pickTarget(List<Player> candidates) {
+        return input.promptTargetSelection(candidates);
+    }
+
+    public CardType pickCardType() {
+        return input.promptCardType();
+    }
+
     public void giveCard(Player from, Player to) {
         List<Card> selection = input.promptCardSelection(from);
         if (selection.isEmpty()) {

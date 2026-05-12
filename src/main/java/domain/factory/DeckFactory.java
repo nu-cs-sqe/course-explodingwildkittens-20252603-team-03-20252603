@@ -9,15 +9,18 @@ import domain.model.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DeckFactory {
 
     private final int numPlayers;
     private final IPlayerInput input;
+    private final PlayerInteractionHelper helper;
 
     public DeckFactory(int numPlayers, IPlayerInput input) {
         this.numPlayers = numPlayers;
         this.input = input;
+        this.helper = new PlayerInteractionHelper(input, new Random());
     }
 
     private static final int NUM_DEFUSE_CARDS = 6;
@@ -84,7 +87,7 @@ public class DeckFactory {
     List<Card> generateFavorCards() {
         List<Card> cards = new ArrayList<>();
         for (int i = 0; i < NUM_FAVOR_CARDS; i++) {
-            cards.add(new Card(CardType.FAVOR, CardName.FAVOR, new FavorAction()));
+            cards.add(new Card(CardType.FAVOR, CardName.FAVOR, new FavorAction(helper)));
         }
         return cards;
     }

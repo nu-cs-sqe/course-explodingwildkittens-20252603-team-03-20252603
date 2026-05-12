@@ -2,6 +2,7 @@ package domain.model;
 
 import domain.enums.CardType;
 import domain.enums.GameStatus;
+import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 
@@ -27,6 +28,7 @@ public class GameState {
     public void addCardToCurrentPlayer(Card card) {}
     public void removeCardFromCurrentPlayer(Card card) {}
     public boolean currentPlayerHasCard(CardType type) { return false; }
+    public List<Player> getOtherActivePlayers() { return Collections.emptyList(); }
     public List<Card> peekTopOfDeck(int n) { return null; }
     public int getDeckSize() { return 0; }
     public void insertPendingCardAt(int position) {}

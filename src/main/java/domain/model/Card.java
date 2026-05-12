@@ -27,6 +27,10 @@ public class Card {
         this.action.execute(gameState);
     }
 
+    public boolean isSameName(Card other) {
+        return this.name == other.name;
+    }
+
     public void setAction(CardAction cardAction) {
         this.action = cardAction;
     }
