@@ -10,7 +10,7 @@
 - addCard(card) → void
 - removeCard(card) → void
 - hasCard(type) → boolean
-- getCardOfType(type) → Card or null
+- removeCardOfType(type) → Optional<Card>; removes the first matching card from the hand when present
 - storePeek(cards) → void
 - clearPeek() → void
 
@@ -18,7 +18,7 @@
 
 - `Card` uses default `equals` / `hashCode`; `removeCard` removes by object identity (same reference as in the hand).
 - `storePeek` replaces the entire peek buffer; `null` argument is treated like an empty list (clears peek, adds nothing).
-- `getCardOfType` returns the first card in hand order that matches the type.
+- `removeCardOfType` removes and returns the first card in hand order that matches the type; otherwise returns an empty Optional and leaves the hand unchanged.
 
 ### Method under test: `Player(id, name)` (constructor)
 
@@ -59,15 +59,15 @@ spaces: empty hand; matching type present; no matching type
 | hasCard_MatchingType_ReturnsTrue    | hand has that type    | true            | :white_check_mark: |
 | hasCard_NoMatchingType_ReturnsFalse | hand has other types  | false           | :white_check_mark: |
 
-### Method under test: `getCardOfType()`
+### Method under test: `removeCardOfType()`
 
 spaces: no match; single match; multiple matches (first wins)
 
 | test_Name                                    | State of the System      | Expected output | Implemented?       |
 |----------------------------------------------|--------------------------|-----------------|--------------------|
-| getCardOfType_NoMatch_ReturnsNull            | hand has no such type    | null            | :white_check_mark: |
-| getCardOfType_OneMatch_ReturnsThatCard       | one matching card        | that reference  | :white_check_mark: |
-| getCardOfType_MultipleMatches_ReturnsFirst   | two matching, order known| first in hand   | :white_check_mark: |
+| removeCardOfType_NoMatch_ReturnsEmpty        | hand has no such type    | empty Optional, hand unchanged | :white_check_mark: |
+| removeCardOfType_OneMatch_RemovesAndReturnsThatCard | one matching card | Optional with that card, hand no longer contains it | :white_check_mark: |
+| removeCardOfType_MultipleMatches_RemovesFirstInHandOrder | two matching, order known | first removed, second remains | :white_check_mark: |
 
 ### Method under test: `storePeek()`
 
