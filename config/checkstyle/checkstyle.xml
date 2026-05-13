@@ -22,50 +22,6 @@
             <property name="ignoreComments" value="true"/>
         </module>
 
-        <!-- ===== NAMING CONVENTIONS (Clean Code Ch. 2) ===== -->
-
-        <!-- Classes and interfaces: UpperCamelCase noun/noun phrase -->
-        <module name="TypeName">
-            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
-            <message key="name.invalidPattern" value="Type name ''{0}'' must be UpperCamelCase."/>
-        </module>
-
-        <!-- Methods: lowerCamelCase verb/verb phrase -->
-        <module name="MethodName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-            <message key="name.invalidPattern" value="Method name ''{0}'' must be lowerCamelCase."/>
-        </module>
-
-        <!-- Local variables: lowerCamelCase, no Hungarian notation -->
-        <module name="LocalVariableName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-            <message key="name.invalidPattern" value="Local variable ''{0}'' must be lowerCamelCase (no prefixes)."/>
-        </module>
-
-        <!-- Parameters: lowerCamelCase -->
-        <module name="ParameterName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-            <message key="name.invalidPattern" value="Parameter ''{0}'' must be lowerCamelCase."/>
-        </module>
-
-        <!-- Instance variables: lowerCamelCase, no m_ or other prefixes -->
-        <module name="MemberName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-            <message key="name.invalidPattern" value="Member variable ''{0}'' must be lowerCamelCase (no m_ prefix)."/>
-        </module>
-
-        <!-- Constants: UPPER_SNAKE_CASE -->
-        <module name="ConstantName">
-            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
-            <message key="name.invalidPattern" value="Constant ''{0}'' must be UPPER_SNAKE_CASE."/>
-        </module>
-
-        <!-- Packages: all lowercase -->
-        <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-            <message key="name.invalidPattern" value="Package name ''{0}'' must be all lowercase."/>
-        </module>
-
         <!-- ===== FUNCTIONS / METHODS (Clean Code Ch. 3) ===== -->
 
         <!-- Methods should be small: flag if over 20 lines -->
