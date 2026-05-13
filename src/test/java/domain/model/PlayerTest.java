@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,29 +110,35 @@ public class PlayerTest {
     }
 
     @Test
-    void getCardOfType_NoMatch_ReturnsNull() {
+    void removeCardOfType_NoMatch_ReturnsEmpty() {
         Player player = new Player("p1", "Alice");
         player.addCard(skipCard());
-        assertNull(player.getCardOfType(CardType.DEFUSE));
+        assertEquals(Optional.empty(), player.removeCardOfType(CardType.DEFUSE));
+        assertEquals(1, player.getHand().size());
     }
 
     @Test
-    void getCardOfType_OneMatch_ReturnsThatCard() {
+    void removeCardOfType_OneMatch_RemovesAndReturnsThatCard() {
         Player player = new Player("p1", "Alice");
         Card card = defuseCard();
         player.addCard(card);
-        assertSame(card, player.getCardOfType(CardType.DEFUSE));
+        assertSame(card, player.removeCardOfType(CardType.DEFUSE).orElseThrow());
+        assertTrue(player.getHand().isEmpty());
     }
 
     @Test
-    void getCardOfType_MultipleMatches_ReturnsFirst() {
+    void removeCardOfType_MultipleMatches_RemovesFirstInHandOrder() {
         Player player = new Player("p1", "Alice");
+        Card skip = skipCard();
         Card first = defuseCard();
         Card second = new Card(CardType.DEFUSE, CardName.DEFUSE, new NoAction());
-        player.addCard(skipCard());
+        player.addCard(skip);
         player.addCard(first);
         player.addCard(second);
-        assertSame(first, player.getCardOfType(CardType.DEFUSE));
+        assertSame(first, player.removeCardOfType(CardType.DEFUSE).orElseThrow());
+        assertEquals(2, player.getHand().size());
+        assertSame(skip, player.getHand().get(0));
+        assertSame(second, player.getHand().get(1));
     }
 
     @Test

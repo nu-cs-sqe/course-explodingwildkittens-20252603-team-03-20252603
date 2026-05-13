@@ -1,5 +1,6 @@
 package domain.input;
 
+import domain.enums.CardType;
 import domain.model.Card;
 import domain.model.Player;
 
@@ -10,4 +11,6 @@ public interface IPlayerInput {
     int promptNumPlayers();
     boolean promptNope(List<Player> players);
     int promptInsertPosition(int deckSize);
+    Player promptTargetSelection(List<Player> candidates);
+    CardType promptCardType();
 }

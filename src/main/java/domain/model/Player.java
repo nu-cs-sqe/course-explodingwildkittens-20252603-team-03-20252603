@@ -4,6 +4,7 @@ import domain.enums.CardType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class Player {
     private final String id;
@@ -51,13 +52,14 @@ public class Player {
         return false;
     }
 
-    public Card getCardOfType(CardType type) {
+    public Optional<Card> removeCardOfType(CardType type) {
         for (Card card : hand) {
             if (card.isType(type)) {
-                return card;
+                hand.remove(card);
+                return Optional.of(card);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void storePeek(List<Card> cards) {

@@ -29,12 +29,15 @@ public class PlayerInteractionHelper {
     }
 
     public void stealNamedCard(Player from, Player to, CardType type) {
-        if (!from.hasCard(type)) {
-            return;
-        }
-        Card card = from.getCardOfType(type);
-        from.removeCard(card);
-        to.addCard(card);
+        from.removeCardOfType(type).ifPresent(to::addCard);
+    }
+
+    public Player pickTarget(List<Player> candidates) {
+        return input.promptTargetSelection(candidates);
+    }
+
+    public CardType pickCardType() {
+        return input.promptCardType();
     }
 
     public void giveCard(Player from, Player to) {
