@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="error"/>
+
+    <!-- ===== FILE-LEVEL CHECKS ===== -->
+
+    <!-- Max line length: 120 characters (URLs and imports are exempt) -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+    </module>
+
+    <!-- No tab characters (use spaces consistently) -->
+    <!-- Uncomment below and remove the tab rule in TreeWalker if your team switches to spaces -->
+    <!-- <module name="FileTabCharacter"/> -->
+
+    <module name="TreeWalker">
+
+        <!-- ===== INDENTATION ===== -->
+
+        <!-- Indent must use tab characters -->
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="^\t* "/>
+            <property name="message" value="Indent must use tab characters"/>
+            <property name="ignoreComments" value="true"/>
+        </module>
+
+
+        <!-- ===== NAMING CONVENTIONS ===== -->
+
+        <!-- Classes and interfaces: UpperCamelCase noun/noun phrase -->
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Type name ''{0}'' must be UpperCamelCase."/>
+        </module>
+
+        <!-- Methods: lowerCamelCase verb/verb phrase -->
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Method name ''{0}'' must be lowerCamelCase."/>
+        </module>
+
+        <!-- Local variables: lowerCamelCase, no Hungarian notation -->
+        <module name="LocalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Local variable ''{0}'' must be lowerCamelCase (no prefixes)."/>
+        </module>
+
+        <!-- Parameters: lowerCamelCase -->
+        <module name="ParameterName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Parameter ''{0}'' must be lowerCamelCase."/>
+        </module>
+
+        <!-- Instance variables: lowerCamelCase, no m_ or other prefixes -->
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Member variable ''{0}'' must be lowerCamelCase (no m_ prefix)."/>
+        </module>
+
+        <!-- Constants: UPPER_SNAKE_CASE -->
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+            <message key="name.invalidPattern" value="Constant ''{0}'' must be UPPER_SNAKE_CASE."/>
+        </module>
+
+        <!-- Packages: all lowercase -->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <message key="name.invalidPattern" value="Package name ''{0}'' must be all lowercase."/>
+        </module>
+
+
+        <!-- ===== FUNCTIONS / METHODS ===== -->
+
+        <!-- Methods should be small: flag if over 20 lines -->
+        <module name="MethodLength">
+            <property name="max" value="20"/>
+            <property name="countEmpty" value="false"/>
+            <message key="maxLen.method" value="Method length is {0} lines (max 20). Methods should do one thing only."/>
+        </module>
+
+        <!-- Limit parameters: max 2, flag 3+ -->
+        <module name="ParameterNumber">
+            <property name="max" value="2"/>
+            <message key="maxParam" value="Method has {0} parameters (max 2). Consider grouping into a class."/>
+        </module>
+
+        <!-- No boolean (flag) arguments that cause split behavior -->
+        <!-- Enforced via ParameterNumber and code review -->
+
+
+        <!-- ===== CLASSES ===== -->
+
+        <!-- Classes should not be excessively long -->
+        <module name="TypeLength">
+            <property name="max" value="200"/>
+            <message key="maxLen.type" value="Type length is {0} lines (max 200). Consider splitting responsibilities (SRP)."/>
+        </module>
+
+        <!-- Only one top-level class per file -->
+        <module name="OneTopLevelClass"/>
+
+        <!-- ===== FORMATTING ===== -->
+
+        <!-- Braces required for all control flow blocks -->
+        <module name="NeedBraces">
+            <message key="needBraces" value="''{0}'' construct must use '{''}' braces."/>
+        </module>
+
+        <!-- Left brace on same line -->
+        <module name="LeftCurly"/>
+
+        <!-- Right brace placement -->
+        <module name="RightCurly"/>
+
+        <!-- Whitespace around operators -->
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+        </module>
+
+        <!-- No whitespace before commas, semicolons -->
+        <module name="NoWhitespaceBefore"/>
+
+        <!-- Whitespace after commas, semicolons, etc. -->
+        <module name="WhitespaceAfter"/>
+
+        <!-- No space between method name and opening paren -->
+        <module name="MethodParamPad"/>
+
+        <!-- One statement per line -->
+        <module name="OneStatementPerLine"/>
+
+        <!-- No trailing whitespace -->
+        <module name="Regexp">
+            <property name="format" value="[ \t]+$"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Trailing whitespace is not allowed."/>
+        </module>
+
+
+        <!-- ===== COMMENTS ===== -->
+
+        <!-- No commented-out code (catches common patterns) -->
+        <module name="Regexp">
+            <property name="format" value="//\s*(System\.out|System\.err|TODO REMOVE|FIXME REMOVE)"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Remove commented-out code. Version control preserves history."/>
+        </module>
+
+
+        <!-- ===== ERROR HANDLING ===== -->
+
+        <!-- Empty catch blocks are not allowed -->
+        <module name="EmptyCatchBlock">
+            <property name="exceptionVariableName" value="expected|ignore"/>
+            <message key="catch.block.empty" value="Empty catch block. Handle the exception or document why it is safe to ignore."/>
+        </module>
+
+        <!-- ===== IMPORTS ===== -->
+
+        <!-- No wildcard imports (e.g. import java.util.*) -->
+        <module name="AvoidStarImport">
+            <message key="import.avoidStar" value="Avoid wildcard imports. Import each class explicitly."/>
+        </module>
+
+        <!-- No unused imports -->
+        <module name="UnusedImports"/>
+
+        <!-- No redundant imports -->
+        <module name="RedundantImport"/>
+
+
+        <!-- ===== MISC / BEST PRACTICES ===== -->
+
+        <!-- No magic numbers (use named constants) -->
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2"/>
+            <property name="ignoreAnnotation" value="true"/>
+            <message key="magic.number" value="Magic number ''{0}'' should be defined as a named constant."/>
+        </module>
+
+        <!-- Simplify boolean expressions -->
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- No redundant modifiers -->
+        <module name="RedundantModifier"/>
+
+        <!-- equals() and hashCode() must be overridden together -->
+        <module name="EqualsHashCode">
+            <message key="equals.noHashCode" value="Class overrides equals() but not hashCode() — both must be overridden together."/>
+        </module>
+
+        <!-- Avoid == on strings/objects; use .equals() -->
+        <!-- SpotBugs catches this more reliably; Checkstyle does not have a direct rule -->
+
+        <!-- Default case required in switch statements -->
+        <module name="DefaultComesLast"/>
+        <module name="MissingSwitchDefault"/>
+
+        <!-- No fall-through in switch without comment -->
+        <module name="FallThrough"/>
+
+    </module>
+
+</module>
