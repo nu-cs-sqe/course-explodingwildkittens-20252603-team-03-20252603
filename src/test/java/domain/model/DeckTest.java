@@ -23,7 +23,7 @@ public class DeckTest {
 		List<Card> cards = new ArrayList<>();
 		Deck deck = new Deck(cards);
 
-		//should call random somehwere or shuflle class
+		//should call random somewhere or shuffle class
 		EasyMock.replay(mockRandom);
 
 		assertDoesNotThrow(deck::shuffle);
@@ -168,7 +168,6 @@ public class DeckTest {
 		assertEquals(1, deck.size());
 		deck.insertAt(mockCard2, 1);
 		assertEquals(2, deck.size());
-		Card drawnCard1 = deck.drawTop();
 		Card drawnCard2 = deck.drawTop();
 		assertEquals(mockCard2, drawnCard2);
 	}
@@ -205,7 +204,6 @@ public class DeckTest {
 		deck.insertAt(mockCard4, 1);
 		assertEquals(4, deck.size());
 
-		Card drawnCard1 = deck.drawTop();
 		Card drawnCard2 = deck.drawTop();
 		assertEquals(mockCard4, drawnCard2);
 	}
@@ -285,9 +283,6 @@ public class DeckTest {
 		int largestValidIndex = deck.size();
 		deck.insertAt(mockCard4, largestValidIndex);
 		assertEquals(4, deck.size());
-		Card drawnCard1 = deck.drawTop();
-		Card drawnCard2 = deck.drawTop();
-		Card drawnCard3 = deck.drawTop();
 		Card drawnCard4 = deck.drawTop();
 		assertEquals(mockCard4, drawnCard4);
 	}
