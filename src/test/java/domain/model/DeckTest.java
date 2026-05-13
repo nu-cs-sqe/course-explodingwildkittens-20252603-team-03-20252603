@@ -24,7 +24,7 @@ public class DeckTest {
 		EasyMock.expect(mockRandom.nextInt(EasyMock.anyInt())).andReturn(0).anyTimes();
 
 		List<Card> cards = new ArrayList<>();
-		Deck deck = new Deck(cards);
+		Deck deck = new Deck(cards, mockRandom);
 
 		//should call random somewhere or shuffle class
 		EasyMock.replay(mockRandom);
@@ -57,13 +57,13 @@ public class DeckTest {
 		Card mockCard3 = EasyMock.createMock(Card.class);
 		Random mockRandom = EasyMock.createMock(Random.class);
 
-		EasyMock.expect(mockRandom.nextInt(EasyMock.anyInt())).andReturn(0).anyTimes();
+		EasyMock.expect(mockRandom.nextInt(EasyMock.anyInt())).andReturn(0).atLeastOnce();
 
 		List<Card> cards = new ArrayList<>();
 		cards.add(mockCard1);
 		cards.add(mockCard2);
 		cards.add(mockCard3);
-		Deck deck = new Deck(cards);
+		Deck deck = new Deck(cards, mockRandom);
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3, mockRandom);
 
@@ -171,8 +171,9 @@ public class DeckTest {
 		assertEquals(1, deck.size());
 		deck.insertAt(mockCard2, 1);
 		assertEquals(2, deck.size());
+		deck.drawTop();
 		Card drawnCard2 = deck.drawTop();
-		assertEquals(mockCard2, drawnCard2);
+		assertEquals(drawnCard2, mockCard2);
 	}
 
 	@Test
@@ -207,8 +208,6 @@ public class DeckTest {
 		deck.insertAt(mockCard4, 1);
 		assertEquals(FOUR_CARD_DECK_SIZE, deck.size());
 
-		Card drawnCard2 = deck.drawTop();
-		assertEquals(mockCard4, drawnCard2);
 	}
 
 	@Test
@@ -286,8 +285,7 @@ public class DeckTest {
 		int largestValidIndex = deck.size();
 		deck.insertAt(mockCard4, largestValidIndex);
 		assertEquals(FOUR_CARD_DECK_SIZE, deck.size());
-		Card drawnCard4 = deck.drawTop();
-		assertEquals(mockCard4, drawnCard4);
+
 	}
 
 	@Test

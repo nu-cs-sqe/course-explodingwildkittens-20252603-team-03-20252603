@@ -23,7 +23,6 @@ public class ComboValidatorTest {
 		return new Card(type, name, new NoAction());
 	}
 
-	// --- isValid ---
 
 	@Test
 	void isValid_NullList_ReturnsFalse() {
@@ -83,6 +82,15 @@ public class ComboValidatorTest {
 	}
 
 	@Test
+	void isValid_TwoCardsBothNotCat_ReturnsFalse() {
+		List<Card> cards = List.of(
+				card(CardType.SEE_THE_FUTURE, CardName.NOPE),
+				card(CardType.SKIP, CardName.SKIP)
+		);
+		assertFalse(validator().isValid(cards));
+	}
+
+	@Test
 	void isValid_ThreeMatchingCatCards_ReturnsTrue() {
 		List<Card> cards = List.of(
 				card(CardType.CAT_CARD, CardName.TACO_CAT),
@@ -113,7 +121,6 @@ public class ComboValidatorTest {
 		assertFalse(validator().isValid(cards));
 	}
 
-	// --- resolveAction ---
 
 	@Test
 	void resolveAction_OneSkip_ReturnsSkipAction() {
@@ -135,7 +142,9 @@ public class ComboValidatorTest {
 
 	@Test
 	void resolveAction_OneSeeFuture_ReturnsSeeTheFutureAction() {
-		CardAction action = validator().resolveAction(List.of(card(CardType.SEE_THE_FUTURE, CardName.SEE_THE_FUTURE)));
+		CardAction action = validator().resolveAction(
+				List.of(card(CardType.SEE_THE_FUTURE, CardName.SEE_THE_FUTURE))
+		);
 		assertInstanceOf(SeeTheFutureAction.class, action);
 	}
 

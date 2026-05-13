@@ -203,32 +203,22 @@ public class DeckFactoryTest {
 		List<Card> cards = deckFactory.generateCatCards();
 		assertEquals(EXPECTED_TOTAL_CAT_CARDS, cards.size());
 
-		int numBeard_Cat_Cards = 0;
-		int numTaco_Cat_Cards = 0;
-		int numHairy_Potato_Cat_Cards = 0;
-		int numCattermelon_Cat_Cards = 0;
-		int numRainbow_Ralphing_Cat_Cards = 0;
-
 		for (Card card : cards) {
 			assertTrue(card.isType(CardType.CAT_CARD));
+		};
 
-			if (card.isName(CardName.BEARD_CAT)) {
-				numBeard_Cat_Cards++;
-			} else if (card.isName(CardName.TACO_CAT)) {
-				numTaco_Cat_Cards++;
-			} else if (card.isName(CardName.RAINBOW_RALPHING_CAT)) {
-				numRainbow_Ralphing_Cat_Cards++;
-			} else if (card.isName(CardName.HAIRY_POTATO_CAT)) {
-				numHairy_Potato_Cat_Cards++;
-			} else if (card.isName(CardName.CATTERMELON)) {
-				numCattermelon_Cat_Cards++;
-			}
+		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, countByName(cards, CardName.BEARD_CAT));
+		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, countByName(cards, CardName.TACO_CAT));
+		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, countByName(cards, CardName.RAINBOW_RALPHING_CAT));
+		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, countByName(cards, CardName.HAIRY_POTATO_CAT));
+		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, countByName(cards, CardName.CATTERMELON));
+	}
+
+	private int countByName(List<Card> cards, CardName name) {
+		int count = 0;
+		for (Card card : cards) {
+			if (card.isName(name)) count++;
 		}
-
-		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, numBeard_Cat_Cards);
-		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, numRainbow_Ralphing_Cat_Cards);
-		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, numCattermelon_Cat_Cards);
-		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, numHairy_Potato_Cat_Cards);
-		assertEquals(EXPECTED_CAT_CARD_TYPE_COUNT, numTaco_Cat_Cards);
+		return count;
 	}
 }

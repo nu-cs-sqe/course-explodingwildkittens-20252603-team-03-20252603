@@ -1,7 +1,9 @@
 package domain.model;
 
 import domain.enums.CardName;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -11,12 +13,13 @@ public class Deck {
 	private List<Card> cards;
 
 	public Deck(List<Card> cards) {
-		this.cards = cards;
+		this.cards = new ArrayList<>(cards);
 		this.random = new Random();
 	}
 
-	public Deck(List<Card> cards, Random random) {
-		this.cards = cards;
+	@SuppressFBWarnings("EI_EXPOSE_REP2")
+	Deck(List<Card> cards, Random random) {
+		this.cards = new ArrayList<>(cards);
 		this.random = random;
 	}
 

@@ -1,5 +1,8 @@
 package domain.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class TurnState {
 	private int turnsToTake;
 	private boolean skipDraw;

@@ -17,6 +17,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerInteractionHelperTest {
+	private final long RANDOM_SEED_GENERATOR_NUMBER = 42L;
 
 	private static Card skipCard() {
 		return new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
@@ -175,4 +176,39 @@ public class PlayerInteractionHelperTest {
 		assertTrue(to.getHand().isEmpty());
 		EasyMock.verify(mockInput);
 	}
+
+	@Test
+	void pickTarget_ReturnsCandidateFromInput() {
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		Random mockRandom = EasyMock.createMock(Random.class);
+		List<Player> candidates = List.of(mockPlayer);
+
+		EasyMock.expect(mockRandom.nextLong()).andReturn(RANDOM_SEED_GENERATOR_NUMBER);
+		EasyMock.expect(mockInput.promptTargetSelection(candidates)).andReturn(mockPlayer);
+		EasyMock.replay(mockInput, mockPlayer, mockRandom);
+
+		PlayerInteractionHelper helper = new PlayerInteractionHelper(mockInput, mockRandom);
+		assertEquals(mockPlayer, helper.pickTarget(candidates));
+
+		EasyMock.verify(mockInput, mockPlayer);
+	}
+
+	@Test
+	void pickCardType_ReturnsCardFromInput() {
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		CardType mockCardType = CardType.SKIP;
+		Random mockRandom = EasyMock.createMock(Random.class);
+
+		EasyMock.expect(mockRandom.nextLong()).andReturn(RANDOM_SEED_GENERATOR_NUMBER);
+		EasyMock.expect(mockInput.promptCardType()).andReturn(mockCardType);
+		EasyMock.replay(mockInput, mockRandom);
+
+		PlayerInteractionHelper helper = new PlayerInteractionHelper(mockInput, mockRandom);
+		assertEquals(mockCardType, helper.pickCardType());
+
+		EasyMock.verify(mockInput, mockRandom);
+	}
+
+
 }

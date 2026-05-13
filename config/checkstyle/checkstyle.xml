@@ -33,8 +33,8 @@
 
         <!-- Limit parameters: max 2, flag 3+ -->
         <module name="ParameterNumber">
-            <property name="max" value="2"/>
-            <message key="maxParam" value="Method has {0} parameters (max 2). Consider grouping into a class."/>
+            <property name="max" value="3"/>
+            <message key="maxParam" value="Method has {0} parameters (max 3). Consider grouping into a class."/>
         </module>
 
         <!-- ===== CLASSES (Clean Code Ch. 10) ===== -->

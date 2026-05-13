@@ -9,7 +9,7 @@ import java.util.List;
 public class ComboValidator {
 
 	private final PlayerInteractionHelper helper;
-	private static final int DECK_SIZE = 3;
+	private static final int MAX_COMBO_SIZE = 3;
 
 	public ComboValidator(PlayerInteractionHelper helper) {
 		this.helper = helper;
@@ -19,25 +19,28 @@ public class ComboValidator {
 		if (cards == null || cards.isEmpty()) {
 			return false;
 		}
-		if (cards.size() == 1) {
-			Card card = cards.get(0);
-			return !card.isType(CardType.CAT_CARD)
-					&& !card.isType(CardType.EXPLODING_KITTEN)
-					&& !card.isType(CardType.DEFUSE);
+		if (cards.size() == 1) return isValidSingle(cards.get(0));
+		if (cards.size() == 2 || cards.size() == MAX_COMBO_SIZE) return isValidCatCombo(cards);
+		return false;
+	}
+
+	private boolean isValidSingle(Card card) {
+		return !card.isType(CardType.CAT_CARD)
+				&& !card.isType(CardType.EXPLODING_KITTEN)
+				&& !card.isType(CardType.DEFUSE);
+	}
+
+	private boolean isValidCatCombo(List<Card> cards) {
+		Card first = cards.get(0);
+		if (!first.isType(CardType.CAT_CARD)) {
+			return false;
 		}
-		if (cards.size() == 2 || cards.size() == DECK_SIZE) {
-			Card first = cards.get(0);
-			if (!first.isType(CardType.CAT_CARD)) {
+		for (Card card : cards) {
+			if (!card.isType(CardType.CAT_CARD) || !first.isSameName(card)) {
 				return false;
 			}
-			for (Card card : cards) {
-				if (!card.isType(CardType.CAT_CARD) || !first.isSameName(card)) {
-					return false;
-				}
-			}
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 	public CardAction resolveAction(List<Card> cards) {
@@ -54,7 +57,8 @@ public class ComboValidator {
 			if (card.isType(CardType.NOPE)) { return new NopeAction(); }
 		}
 		if (cards.size() == 2) { return new TwoCatAction(helper); }
-		if (cards.size() == DECK_SIZE) { return new ThreeCatAction(helper); }
-		throw new IllegalArgumentException("Invalid combo");
+
+		return new ThreeCatAction(helper);
+
 	}
 }

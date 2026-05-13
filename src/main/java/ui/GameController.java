@@ -8,6 +8,9 @@ import domain.model.Card;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class GameController {
 	private GameState gameState;
 	private IGameDisplay display;

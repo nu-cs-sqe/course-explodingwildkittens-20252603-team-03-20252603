@@ -15,7 +15,8 @@ public class PlayerInteractionHelper {
 
 	public PlayerInteractionHelper(IPlayerInput input, Random random) {
 		this.input = input;
-		this.random = random;
+		long randomSeed = random.nextLong();
+		this.random = new Random(randomSeed);
 	}
 
 	public void stealRandomCard(Player from, Player to) {

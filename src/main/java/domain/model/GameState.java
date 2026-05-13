@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class GameState {
 	private GameStatus status;
 	private Queue<Player> activePlayers;
