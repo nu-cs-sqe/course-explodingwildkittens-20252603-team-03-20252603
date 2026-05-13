@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
 
+	private static final int THREE_CARD_DECK_SIZE = 3;
+	private static final int FOUR_CARD_DECK_SIZE = 4;
+
 	// --- shuffle() ---
 
 	@Test
@@ -103,7 +106,7 @@ public class DeckTest {
 		cards.add(mockCard3);
 		Deck deck = new Deck(cards);
 
-		assertEquals(3, deck.size());
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
 		Card drawnCard = deck.drawTop();
 		EasyMock.replay(mockCard1, mockCard2, mockCard3);
 
@@ -200,9 +203,9 @@ public class DeckTest {
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3, mockCard4);
 
-		assertEquals(3, deck.size());
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
 		deck.insertAt(mockCard4, 1);
-		assertEquals(4, deck.size());
+		assertEquals(FOUR_CARD_DECK_SIZE, deck.size());
 
 		Card drawnCard2 = deck.drawTop();
 		assertEquals(mockCard4, drawnCard2);
@@ -222,8 +225,8 @@ public class DeckTest {
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3, mockCard4);
 
-		assertEquals(3, deck.size());
-		assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(mockCard4, 4));
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
+		assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(mockCard4, FOUR_CARD_DECK_SIZE));
 	}
 
 	@Test
@@ -240,7 +243,7 @@ public class DeckTest {
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3, mockCard4);
 
-		assertEquals(3, deck.size());
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
 		assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(mockCard4, -1));
 	}
 
@@ -258,9 +261,9 @@ public class DeckTest {
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3, mockCard4);
 
-		assertEquals(3, deck.size());
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
 		deck.insertAt(mockCard4, 0);
-		assertEquals(4, deck.size());
+		assertEquals(FOUR_CARD_DECK_SIZE, deck.size());
 		Card drawnCard = deck.drawTop();
 		assertEquals(mockCard4, drawnCard);
 	}
@@ -282,7 +285,7 @@ public class DeckTest {
 
 		int largestValidIndex = deck.size();
 		deck.insertAt(mockCard4, largestValidIndex);
-		assertEquals(4, deck.size());
+		assertEquals(FOUR_CARD_DECK_SIZE, deck.size());
 		Card drawnCard4 = deck.drawTop();
 		assertEquals(mockCard4, drawnCard4);
 	}
@@ -338,7 +341,7 @@ public class DeckTest {
 
 		EasyMock.replay(mockCard1, mockCard2, mockCard3);
 
-		assertEquals(3, deck.size());
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
 	}
 
 	@Test

@@ -9,6 +9,7 @@ import java.util.List;
 public class ComboValidator {
 
 	private final PlayerInteractionHelper helper;
+	private static final int DECK_SIZE = 3;
 
 	public ComboValidator(PlayerInteractionHelper helper) {
 		this.helper = helper;
@@ -24,7 +25,7 @@ public class ComboValidator {
 					&& !card.isType(CardType.EXPLODING_KITTEN)
 					&& !card.isType(CardType.DEFUSE);
 		}
-		if (cards.size() == 2 || cards.size() == 3) {
+		if (cards.size() == 2 || cards.size() == DECK_SIZE) {
 			Card first = cards.get(0);
 			if (!first.isType(CardType.CAT_CARD)) {
 				return false;
@@ -53,7 +54,7 @@ public class ComboValidator {
 			if (card.isType(CardType.NOPE)) { return new NopeAction(); }
 		}
 		if (cards.size() == 2) { return new TwoCatAction(helper); }
-		if (cards.size() == 3) { return new ThreeCatAction(helper); }
+		if (cards.size() == DECK_SIZE) { return new ThreeCatAction(helper); }
 		throw new IllegalArgumentException("Invalid combo");
 	}
 }

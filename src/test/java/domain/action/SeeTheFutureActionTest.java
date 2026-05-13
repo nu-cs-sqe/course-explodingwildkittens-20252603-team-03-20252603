@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SeeTheFutureActionTest {
 
+	private static final int NUM_CARDS_TO_PEEK = 3;
 	private static Card card() {
 		return new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 	}
@@ -25,7 +26,7 @@ public class SeeTheFutureActionTest {
 
 	private static GameState mockReturning(Player player, List<Card> peeked) {
 		GameState mock = EasyMock.createMock(GameState.class);
-		EasyMock.expect(mock.peekTopOfDeck(3)).andReturn(peeked);
+		EasyMock.expect(mock.peekTopOfDeck(NUM_CARDS_TO_PEEK)).andReturn(peeked);
 		EasyMock.expect(mock.getCurrentPlayer()).andReturn(player);
 		EasyMock.replay(mock);
 		return mock;
