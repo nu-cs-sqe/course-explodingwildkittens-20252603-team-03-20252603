@@ -11,53 +11,53 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTest {
 
-    @Test
-    void isType_SameType_ReturnsTrue() {
-        NoAction defuseAction = new NoAction();
-        Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
-        assertTrue(card.isType(CardType.DEFUSE));
-    }
+	@Test
+	void isType_SameType_ReturnsTrue() {
+		NoAction defuseAction = new NoAction();
+		Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
+		assertTrue(card.isType(CardType.DEFUSE));
+	}
 
-    @Test
-    void isType_DifferentType_ReturnsFalse() {
-        NoAction defuseAction = new NoAction();
-        Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
-        assertFalse(card.isType(CardType.ATTACK));
-    }
+	@Test
+	void isType_DifferentType_ReturnsFalse() {
+		NoAction defuseAction = new NoAction();
+		Card card = new Card(CardType.DEFUSE, CardName.DEFUSE, defuseAction);
+		assertFalse(card.isType(CardType.ATTACK));
+	}
 
-    @Test
-    void execute_CallsCardAction() {
+	@Test
+	void execute_CallsCardAction() {
 
-        GameState mockGameState = EasyMock.createMock(GameState.class);
-        CardAction mockCardAction = EasyMock.createMock(CardAction.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		CardAction mockCardAction = EasyMock.createMock(CardAction.class);
 
-        mockCardAction.execute(mockGameState);
-        EasyMock.expectLastCall().once();
+		mockCardAction.execute(mockGameState);
+		EasyMock.expectLastCall().once();
 
-        EasyMock.replay(mockCardAction, mockGameState);
+		EasyMock.replay(mockCardAction, mockGameState);
 
-        Card card = new Card(CardType.SKIP, CardName.SKIP, mockCardAction);
-        card.execute(mockGameState);
+		Card card = new Card(CardType.SKIP, CardName.SKIP, mockCardAction);
+		card.execute(mockGameState);
 
-        EasyMock.verify(mockCardAction, mockGameState);
-    }
+		EasyMock.verify(mockCardAction, mockGameState);
+	}
 
-    @Test
-    void setAction_setsCardAction() {
+	@Test
+	void setAction_setsCardAction() {
 
-        CardAction mockCardAction1 = EasyMock.createMock(CardAction.class);
-        CardAction mockCardAction2 = EasyMock.createMock(CardAction.class);
-        GameState mockGameState = EasyMock.createMock(GameState.class);
+		CardAction mockCardAction1 = EasyMock.createMock(CardAction.class);
+		CardAction mockCardAction2 = EasyMock.createMock(CardAction.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
 
-        mockCardAction2.execute(mockGameState);
-        EasyMock.expectLastCall().once();
+		mockCardAction2.execute(mockGameState);
+		EasyMock.expectLastCall().once();
 
-        EasyMock.replay(mockCardAction1, mockCardAction2, mockGameState);
+		EasyMock.replay(mockCardAction1, mockCardAction2, mockGameState);
 
-        Card card = new Card(CardType.SKIP, CardName.SKIP, mockCardAction1);
-        card.setAction(mockCardAction2);
-        card.execute(mockGameState);
+		Card card = new Card(CardType.SKIP, CardName.SKIP, mockCardAction1);
+		card.setAction(mockCardAction2);
+		card.execute(mockGameState);
 
-        EasyMock.verify(mockCardAction1, mockCardAction2, mockGameState);
-    }
+		EasyMock.verify(mockCardAction1, mockCardAction2, mockGameState);
+	}
 }

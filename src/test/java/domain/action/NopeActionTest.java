@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 
 public class NopeActionTest {
 
-    @Test
-    void execute_ValidGameState_IncrementsNopeCount() {
-        GameState mockGameState = EasyMock.createMock(GameState.class);
-        TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+	@Test
+	void execute_ValidGameState_IncrementsNopeCount() {
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
 
-        EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
-        mockTurnState.incrementNopeCount();
-        EasyMock.expectLastCall().once();
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
+		mockTurnState.incrementNopeCount();
+		EasyMock.expectLastCall().once();
 
-        EasyMock.replay(mockGameState, mockTurnState);
+		EasyMock.replay(mockGameState, mockTurnState);
 
-        new NopeAction().execute(mockGameState);
+		new NopeAction().execute(mockGameState);
 
-        EasyMock.verify(mockGameState, mockTurnState);
-    }
+		EasyMock.verify(mockGameState, mockTurnState);
+	}
 }

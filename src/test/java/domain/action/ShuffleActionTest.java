@@ -6,17 +6,17 @@ import org.junit.jupiter.api.Test;
 
 public class ShuffleActionTest {
 
-    @Test
-    void execute_ValidGameState_ShufflesDeck() {
-        GameState mockGameState = EasyMock.createMock(GameState.class);
+	@Test
+	void execute_ValidGameState_ShufflesDeck() {
+		GameState mockGameState = EasyMock.createMock(GameState.class);
 
-        mockGameState.shuffleDeck();
-        EasyMock.expectLastCall().once();
+		mockGameState.shuffleDeck();
+		EasyMock.expectLastCall().once();
 
-        EasyMock.replay(mockGameState);
+		EasyMock.replay(mockGameState);
 
-        new ShuffleAction().execute(mockGameState);
+		new ShuffleAction().execute(mockGameState);
 
-        EasyMock.verify(mockGameState);
-    }
+		EasyMock.verify(mockGameState);
+	}
 }
