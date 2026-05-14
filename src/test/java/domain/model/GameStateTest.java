@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameStateTest {
 
@@ -63,5 +62,11 @@ public class GameStateTest {
 	public void isDeckEmpty_NonEmptyDeck_ReturnsFalse() {
 		GameState gs = new GameState(twoPlayers(), nonEmptyDeck());
 		assertFalse(gs.isDeckEmpty());
+	}
+
+	@Test
+	public void getDeckSize_EmptyDeck_ReturnsZero() {
+		GameState gs = new GameState(twoPlayers(), emptyDeck());
+		assertEquals(0, gs.getDeckSize());
 	}
 }
