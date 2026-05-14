@@ -125,4 +125,12 @@ public class GameStateTest {
 		GameState gs = new GameState(twoPlayers(), multiCardDeck());
 		assertNotNull(gs.drawFromDeck());
 	}
+
+	@Test
+	public void drawFromDeck_MultipleCards_DeckSizeDecrementsBy1() {
+		GameState gs = new GameState(twoPlayers(), multiCardDeck());
+		gs.drawFromDeck();
+		assertEquals(1, gs.getDeckSize());
+	}
+
 }

@@ -166,13 +166,13 @@ cases:
 - one card → returns a card; deck becomes empty
 - more than one card → returns top card; deck size decrements by 1
 
-| test_Name                                           | State of the System | Expected output                     | Implemented?       |
-|-----------------------------------------------------|---------------------|-------------------------------------|--------------------|
-| drawFromDeck_EmptyDeck_ThrowsIllegalStateException  | empty deck          | IllegalStateException               | :white_check_mark: |
-| drawFromDeck_OneCard_ReturnsCard                    | deck with 1 card    | non-null card                       | :white_check_mark: |
-| drawFromDeck_OneCard_EmptiesDeck                    | deck with 1 card    | deck is empty after draw            | :white_check_mark: |
-| drawFromDeck_MultipleCards_ReturnsTopCard           | deck with 2+ cards  | non-null card                       | :white_check_mark: |
-| drawFromDeck_MultipleCards_DeckSizeDecrementsBy1    | deck with 2+ cards  | getDeckSize() decrements by 1       | :cross_mark:       |
+| test_Name                                          | State of the System | Expected output               | Implemented?       |
+|----------------------------------------------------|---------------------|-------------------------------|--------------------|
+| drawFromDeck_EmptyDeck_ThrowsIllegalStateException | empty deck          | IllegalStateException         | :white_check_mark: |
+| drawFromDeck_OneCard_ReturnsCard                   | deck with 1 card    | non-null card                 | :white_check_mark: |
+| drawFromDeck_OneCard_EmptiesDeck                   | deck with 1 card    | deck is empty after draw      | :white_check_mark: |
+| drawFromDeck_MultipleCards_ReturnsTopCard          | deck with 2+ cards  | non-null card                 | :white_check_mark: |
+| drawFromDeck_MultipleCards_DeckSizeDecrementsBy1   | deck with 2+ cards  | getDeckSize() decrements by 1 | :white_check_mark: |
 
 
 
