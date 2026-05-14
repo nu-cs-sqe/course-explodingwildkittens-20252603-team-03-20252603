@@ -9,74 +9,76 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DefuseActionTest {
 
-    private static GameState mockGameStateWithDeckSize(int deckSize) {
-        GameState mock = EasyMock.createMock(GameState.class);
-        EasyMock.expect(mock.getDeckSize()).andReturn(deckSize);
-        return mock;
-    }
+	private static final int DECK_SIZE = 3;
 
-    @Test
-    void execute_NoPendingKitten_ThrowsIllegalStateException() {
-        GameState mockGameState = mockGameStateWithDeckSize(3);
-        IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+	private static GameState mockGameStateWithDeckSize(int deckSize) {
+		GameState mock = EasyMock.createMock(GameState.class);
+		EasyMock.expect(mock.getDeckSize()).andReturn(deckSize);
+		return mock;
+	}
 
-        EasyMock.expect(mockInput.promptInsertPosition(3)).andReturn(0);
-        mockGameState.insertPendingCardAt(0);
-        EasyMock.expectLastCall().andThrow(new IllegalStateException());
+	@Test
+	void execute_NoPendingKitten_ThrowsIllegalStateException() {
+		GameState mockGameState = mockGameStateWithDeckSize(DECK_SIZE);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
 
-        EasyMock.replay(mockGameState, mockInput);
+		EasyMock.expect(mockInput.promptInsertPosition(DECK_SIZE)).andReturn(0);
+		mockGameState.insertPendingCardAt(0);
+		EasyMock.expectLastCall().andThrow(new IllegalStateException());
 
-        assertThrows(IllegalStateException.class,
-                () -> new DefuseAction(mockInput).execute(mockGameState));
+		EasyMock.replay(mockGameState, mockInput);
 
-        EasyMock.verify(mockGameState, mockInput);
-    }
+		assertThrows(IllegalStateException.class,
+				() -> new DefuseAction(mockInput).execute(mockGameState));
 
-    @Test
-    void execute_KittenPending_PositionZero_InsertsAtTop() {
-        GameState mockGameState = mockGameStateWithDeckSize(3);
-        IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.verify(mockGameState, mockInput);
+	}
 
-        EasyMock.expect(mockInput.promptInsertPosition(3)).andReturn(0);
-        mockGameState.insertPendingCardAt(0);
-        EasyMock.expectLastCall().once();
+	@Test
+	void execute_KittenPending_PositionZero_InsertsAtTop() {
+		GameState mockGameState = mockGameStateWithDeckSize(DECK_SIZE);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
 
-        EasyMock.replay(mockGameState, mockInput);
+		EasyMock.expect(mockInput.promptInsertPosition(DECK_SIZE)).andReturn(0);
+		mockGameState.insertPendingCardAt(0);
+		EasyMock.expectLastCall().once();
 
-        new DefuseAction(mockInput).execute(mockGameState);
+		EasyMock.replay(mockGameState, mockInput);
 
-        EasyMock.verify(mockGameState, mockInput);
-    }
+		new DefuseAction(mockInput).execute(mockGameState);
 
-    @Test
-    void execute_KittenPending_PositionDeckSize_InsertsAtBottom() {
-        GameState mockGameState = mockGameStateWithDeckSize(3);
-        IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.verify(mockGameState, mockInput);
+	}
 
-        EasyMock.expect(mockInput.promptInsertPosition(3)).andReturn(3);
-        mockGameState.insertPendingCardAt(3);
-        EasyMock.expectLastCall().once();
+	@Test
+	void execute_KittenPending_PositionDeckSize_InsertsAtBottom() {
+		GameState mockGameState = mockGameStateWithDeckSize(DECK_SIZE);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
 
-        EasyMock.replay(mockGameState, mockInput);
+		EasyMock.expect(mockInput.promptInsertPosition(DECK_SIZE)).andReturn(DECK_SIZE);
+		mockGameState.insertPendingCardAt(DECK_SIZE);
+		EasyMock.expectLastCall().once();
 
-        new DefuseAction(mockInput).execute(mockGameState);
+		EasyMock.replay(mockGameState, mockInput);
 
-        EasyMock.verify(mockGameState, mockInput);
-    }
+		new DefuseAction(mockInput).execute(mockGameState);
 
-    @Test
-    void execute_KittenPending_PositionMiddle_InsertsAtMiddle() {
-        GameState mockGameState = mockGameStateWithDeckSize(3);
-        IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.verify(mockGameState, mockInput);
+	}
 
-        EasyMock.expect(mockInput.promptInsertPosition(3)).andReturn(1);
-        mockGameState.insertPendingCardAt(1);
-        EasyMock.expectLastCall().once();
+	@Test
+	void execute_KittenPending_PositionMiddle_InsertsAtMiddle() {
+		GameState mockGameState = mockGameStateWithDeckSize(DECK_SIZE);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
 
-        EasyMock.replay(mockGameState, mockInput);
+		EasyMock.expect(mockInput.promptInsertPosition(DECK_SIZE)).andReturn(1);
+		mockGameState.insertPendingCardAt(1);
+		EasyMock.expectLastCall().once();
 
-        new DefuseAction(mockInput).execute(mockGameState);
+		EasyMock.replay(mockGameState, mockInput);
 
-        EasyMock.verify(mockGameState, mockInput);
-    }
+		new DefuseAction(mockInput).execute(mockGameState);
+
+		EasyMock.verify(mockGameState, mockInput);
+	}
 }

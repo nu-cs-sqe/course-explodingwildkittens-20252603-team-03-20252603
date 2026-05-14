@@ -15,4 +15,5 @@
 - Gradle 8.10
 
 ## Acknowledgements
-REFERENCES, SOURCE OF HELP ETC
+Claude AI Usage
+Claude was used as a development assistant throughout this project, following the guidelines of the syllabus

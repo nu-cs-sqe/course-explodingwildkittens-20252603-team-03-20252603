@@ -5,8 +5,8 @@ import domain.model.TurnState;
 
 public class NopeAction implements CardAction {
 
-    public void execute(GameState gameState) {
-        TurnState turnState = gameState.turnState();
-        turnState.incrementNopeCount();
-    }
+	public void execute(GameState gameState) {
+		TurnState turnState = gameState.turnState();
+		turnState.incrementNopeCount();
+	}
 }

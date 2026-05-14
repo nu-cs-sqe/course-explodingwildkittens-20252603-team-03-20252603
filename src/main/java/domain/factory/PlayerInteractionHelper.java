@@ -10,46 +10,47 @@ import java.util.Random;
 
 public class PlayerInteractionHelper {
 
-    private final IPlayerInput input;
-    private final Random random;
+	private final IPlayerInput input;
+	private final Random random;
 
-    public PlayerInteractionHelper(IPlayerInput input, Random random) {
-        this.input = input;
-        this.random = random;
-    }
+	public PlayerInteractionHelper(IPlayerInput input, Random random) {
+		this.input = input;
+		long randomSeed = random.nextLong();
+		this.random = new Random(randomSeed);
+	}
 
-    public void stealRandomCard(Player from, Player to) {
-        List<Card> hand = from.getHand();
-        if (hand.isEmpty()) {
-            return;
-        }
-        Card card = hand.get(random.nextInt(hand.size()));
-        from.removeCard(card);
-        to.addCard(card);
-    }
+	public void stealRandomCard(Player from, Player to) {
+		List<Card> hand = from.getHand();
+		if (hand.isEmpty()) {
+			return;
+		}
+		Card card = hand.get(random.nextInt(hand.size()));
+		from.removeCard(card);
+		to.addCard(card);
+	}
 
-    public void stealNamedCard(Player from, Player to, CardType type) {
-        from.removeCardOfType(type).ifPresent(to::addCard);
-    }
+	public void stealNamedCard(Player from, Player to, CardType type) {
+		from.removeCardOfType(type).ifPresent(to::addCard);
+	}
 
-    public Player pickTarget(List<Player> candidates) {
-        return input.promptTargetSelection(candidates);
-    }
+	public Player pickTarget(List<Player> candidates) {
+		return input.promptTargetSelection(candidates);
+	}
 
-    public CardType pickCardType() {
-        return input.promptCardType();
-    }
+	public CardType pickCardType() {
+		return input.promptCardType();
+	}
 
-    public void giveCard(Player from, Player to) {
-        List<Card> selection = input.promptCardSelection(from);
-        if (selection.isEmpty()) {
-            return;
-        }
-        Card card = selection.get(0);
-        if (!from.getHand().contains(card)) {
-            return;
-        }
-        from.removeCard(card);
-        to.addCard(card);
-    }
+	public void giveCard(Player from, Player to) {
+		List<Card> selection = input.promptCardSelection(from);
+		if (selection.isEmpty()) {
+			return;
+		}
+		Card card = selection.get(0);
+		if (!from.getHand().contains(card)) {
+			return;
+		}
+		from.removeCard(card);
+		to.addCard(card);
+	}
 }

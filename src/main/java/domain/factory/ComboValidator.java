@@ -8,52 +8,57 @@ import java.util.List;
 
 public class ComboValidator {
 
-    private final PlayerInteractionHelper helper;
+	private final PlayerInteractionHelper helper;
+	private static final int MAX_COMBO_SIZE = 3;
 
-    public ComboValidator(PlayerInteractionHelper helper) {
-        this.helper = helper;
-    }
+	public ComboValidator(PlayerInteractionHelper helper) {
+		this.helper = helper;
+	}
 
-    public boolean isValid(List<Card> cards) {
-        if (cards == null || cards.isEmpty()) {
-            return false;
-        }
-        if (cards.size() == 1) {
-            Card card = cards.get(0);
-            return !card.isType(CardType.CAT_CARD)
-                    && !card.isType(CardType.EXPLODING_KITTEN)
-                    && !card.isType(CardType.DEFUSE);
-        }
-        if (cards.size() == 2 || cards.size() == 3) {
-            Card first = cards.get(0);
-            if (!first.isType(CardType.CAT_CARD)) {
-                return false;
-            }
-            for (Card card : cards) {
-                if (!card.isType(CardType.CAT_CARD) || !first.isSameName(card)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
+	public boolean isValid(List<Card> cards) {
+		if (cards == null || cards.isEmpty()) {
+			return false;
+		}
+		if (cards.size() == 1) return isValidSingle(cards.get(0));
+		if (cards.size() == 2 || cards.size() == MAX_COMBO_SIZE) return isValidCatCombo(cards);
+		return false;
+	}
 
-    public CardAction resolveAction(List<Card> cards) {
-        if (!isValid(cards)) {
-            throw new IllegalArgumentException("Invalid combo");
-        }
-        if (cards.size() == 1) {
-            Card card = cards.get(0);
-            if (card.isType(CardType.SKIP)) return new SkipAction();
-            if (card.isType(CardType.ATTACK)) return new AttackAction();
-            if (card.isType(CardType.SHUFFLE)) return new ShuffleAction();
-            if (card.isType(CardType.SEE_THE_FUTURE)) return new SeeTheFutureAction();
-            if (card.isType(CardType.FAVOR)) return new FavorAction(helper);
-            if (card.isType(CardType.NOPE)) return new NopeAction();
-        }
-        if (cards.size() == 2) return new TwoCatAction(helper);
-        if (cards.size() == 3) return new ThreeCatAction(helper);
-        throw new IllegalArgumentException("Invalid combo");
-    }
+	private boolean isValidSingle(Card card) {
+		return !card.isType(CardType.CAT_CARD)
+				&& !card.isType(CardType.EXPLODING_KITTEN)
+				&& !card.isType(CardType.DEFUSE);
+	}
+
+	private boolean isValidCatCombo(List<Card> cards) {
+		Card first = cards.get(0);
+		if (!first.isType(CardType.CAT_CARD)) {
+			return false;
+		}
+		for (Card card : cards) {
+			if (!card.isType(CardType.CAT_CARD) || !first.isSameName(card)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public CardAction resolveAction(List<Card> cards) {
+		if (!isValid(cards)) {
+			throw new IllegalArgumentException("Invalid combo");
+		}
+		if (cards.size() == 1) {
+			Card card = cards.get(0);
+			if (card.isType(CardType.SKIP)) { return new SkipAction(); }
+			if (card.isType(CardType.ATTACK)) { return new AttackAction(); }
+			if (card.isType(CardType.SHUFFLE)) { return new ShuffleAction(); }
+			if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(); }
+			if (card.isType(CardType.FAVOR)) { return new FavorAction(helper); }
+			if (card.isType(CardType.NOPE)) { return new NopeAction(); }
+		}
+		if (cards.size() == 2) { return new TwoCatAction(helper); }
+
+		return new ThreeCatAction(helper);
+
+	}
 }
