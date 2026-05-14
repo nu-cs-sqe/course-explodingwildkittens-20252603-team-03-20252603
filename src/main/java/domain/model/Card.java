@@ -5,9 +5,9 @@ import domain.enums.CardName;
 import domain.enums.CardType;
 
 public class Card {
-	private CardType type;
-	private CardName name;
-	private CardAction action;
+	private final CardType type;
+	private final CardName name;
+	private final CardAction action;
 
 	public Card(CardType cardType, CardName cardName, CardAction cardAction) {
 		this.type = cardType;
@@ -29,9 +29,5 @@ public class Card {
 
 	public boolean isSameName(Card other) {
 		return this.name == other.name;
-	}
-
-	public void setAction(CardAction cardAction) {
-		this.action = cardAction;
 	}
 }

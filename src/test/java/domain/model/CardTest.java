@@ -41,23 +41,4 @@ public class CardTest {
 
 		EasyMock.verify(mockCardAction, mockGameState);
 	}
-
-	@Test
-	void setAction_setsCardAction() {
-
-		CardAction mockCardAction1 = EasyMock.createMock(CardAction.class);
-		CardAction mockCardAction2 = EasyMock.createMock(CardAction.class);
-		GameState mockGameState = EasyMock.createMock(GameState.class);
-
-		mockCardAction2.execute(mockGameState);
-		EasyMock.expectLastCall().once();
-
-		EasyMock.replay(mockCardAction1, mockCardAction2, mockGameState);
-
-		Card card = new Card(CardType.SKIP, CardName.SKIP, mockCardAction1);
-		card.setAction(mockCardAction2);
-		card.execute(mockGameState);
-
-		EasyMock.verify(mockCardAction1, mockCardAction2, mockGameState);
-	}
 }
