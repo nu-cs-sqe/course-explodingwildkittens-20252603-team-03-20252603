@@ -64,10 +64,10 @@ cases:
 - status is ACTIVE → true
 - status is ENDED → false
 
-| test_Name                         | State of the System            | Expected output | Implemented?       |
-|-----------------------------------|--------------------------------|-----------------|--------------------|
-| isActive_StatusActive_ReturnsTrue | status = ACTIVE                | true            | :cross_mark:       |
-| isActive_StatusEnded_ReturnsFalse | status = ENDED (after endGame) | false           | :white_check_mark: |
+| test_Name                         | State of the System            | Expected output | Implemented?        |
+|-----------------------------------|--------------------------------|-----------------|---------------------|
+| isActive_StatusActive_ReturnsTrue | status = ACTIVE                | true            | :white_check_mark:  |
+| isActive_StatusEnded_ReturnsFalse | status = ENDED (after endGame) | false           | :white_check_mark:  |
 
 
 

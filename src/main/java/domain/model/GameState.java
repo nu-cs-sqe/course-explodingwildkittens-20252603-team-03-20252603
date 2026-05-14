@@ -23,7 +23,7 @@ public class GameState {
 	}
 
 	public boolean isActive() {
-		return false;
+		return status == GameStatus.ACTIVE;
 	}
 
 	public void endGame() {
