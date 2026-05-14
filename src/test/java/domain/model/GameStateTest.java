@@ -24,6 +24,13 @@ public class GameStateTest {
 		return new Deck(List.of(new Card(CardType.SKIP, CardName.SKIP, new SkipAction())));
 	}
 
+	private Deck multiCardDeck() {
+		return new Deck(List.of(
+				new Card(CardType.SKIP, CardName.SKIP, new SkipAction()),
+				new Card(CardType.SKIP, CardName.SKIP, new SkipAction())
+		));
+	}
+
 	@Test
 	public void isActive_StatusActive_ReturnsTrue() {
 		GameState gs = new GameState(twoPlayers(), emptyDeck());
@@ -78,11 +85,7 @@ public class GameStateTest {
 
 	@Test
 	public void getDeckSize_MultipleCards_ReturnsCount() {
-		Deck deck = new Deck(List.of(
-				new Card(CardType.SKIP, CardName.SKIP, new SkipAction()),
-				new Card(CardType.SKIP, CardName.SKIP, new SkipAction())
-		));
-		GameState gs = new GameState(twoPlayers(), deck);
+		GameState gs = new GameState(twoPlayers(), multiCardDeck());
 		assertEquals(2, gs.getDeckSize());
 	}
 
@@ -90,5 +93,11 @@ public class GameStateTest {
 	public void turnState_ReturnsNonNullTurnState() {
 		GameState gs = new GameState(twoPlayers(), emptyDeck());
 		assertNotNull(gs.turnState());
+	}
+
+	@Test
+	public void shuffleDeck_DelegatesShuffleToDeck() {
+		GameState gs = new GameState(twoPlayers(), multiCardDeck());
+		assertDoesNotThrow(gs::shuffleDeck);
 	}
 }

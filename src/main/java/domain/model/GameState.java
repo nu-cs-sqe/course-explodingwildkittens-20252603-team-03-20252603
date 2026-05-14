@@ -58,6 +58,7 @@ public class GameState {
 	}
 
 	public void shuffleDeck() {
+		deck.shuffle();
 	}
 
 	public void discardCard(Card card) {

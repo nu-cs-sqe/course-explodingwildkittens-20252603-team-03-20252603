@@ -199,13 +199,13 @@ cases:
 - index within bounds → inserts at position
 - index one past last valid position → throw IndexOutOfBoundsException
 
-| test_Name                                                          | State of the System        | Expected output           | Implemented? |
-|--------------------------------------------------------------------|----------------------------|---------------------------|--------------|
-| insertIntoDeck_InvalidIndex_ThrowsIndexOutOfBoundsException        | any deck, index -1         | IndexOutOfBoundsException | :cross_mark: |
-| insertIntoDeck_EmptyDeckIndexZero_InsertsCard                      | empty deck, index 0        | deck size = 1             | :cross_mark: |
-| insertIntoDeck_EmptyDeckIndexOne_ThrowsIndexOutOfBoundsException   | empty deck, index 1        | IndexOutOfBoundsException | :cross_mark: |
-| insertIntoDeck_NonEmptyDeckValidIndex_InsertsCard                  | deck with 2+ cards, valid index | deck size increments | :cross_mark: |
-| insertIntoDeck_NonEmptyDeckIndexPastBounds_ThrowsIndexOutOfBoundsException | deck with 2+ cards, index past end | IndexOutOfBoundsException | :cross_mark: |
+| test_Name                                                                  | State of the System                | Expected output           | Implemented ? |
+|----------------------------------------------------------------------------|------------------------------------|---------------------------|---------------|
+| insertIntoDeck_InvalidIndex_ThrowsIndexOutOfBoundsException                | any deck, index -1                 | IndexOutOfBoundsException | :cross_mark:  |
+| insertIntoDeck_EmptyDeckIndexZero_InsertsCard                              | empty deck, index 0                | deck size = 1             | :cross_mark:  |
+| insertIntoDeck_EmptyDeckIndexOne_ThrowsIndexOutOfBoundsException           | empty deck, index 1                | IndexOutOfBoundsException | :cross_mark:  |
+| insertIntoDeck_NonEmptyDeckValidIndex_InsertsCard                          | deck with 2+ cards, valid index    | deck size increments      | :cross_mark:  |
+| insertIntoDeck_NonEmptyDeckIndexPastBounds_ThrowsIndexOutOfBoundsException | deck with 2+ cards, index past end | IndexOutOfBoundsException | :cross_mark:  |
 
 
 
@@ -216,9 +216,9 @@ spaces: delegates to deck (not in BVA catalog — boundary cases covered by Deck
 cases:
 - delegates shuffle to the deck
 
-| test_Name                        | State of the System | Expected output | Implemented? |
-|----------------------------------|---------------------|-----------------|--------------|
-| shuffleDeck_DelegatesShuffleToDeck | deck with 2+ cards | void            | :cross_mark: |
+| test_Name                          | State of the System | Expected output | Implemented?       |
+|------------------------------------|---------------------|-----------------|--------------------|
+| shuffleDeck_DelegatesShuffleToDeck | deck with 2+ cards  | void            | :white_check_mark: |
 
 
 
@@ -262,10 +262,10 @@ cases:
 - card is in hand → removed; hand size decrements by 1
 - card is not in hand → hand unchanged
 
-| test_Name                                                 | State of the System           | Expected output       | Implemented? |
-|-----------------------------------------------------------|-------------------------------|-----------------------|--------------|
-| removeCardFromCurrentPlayer_CardInHand_RemovesCard        | card is in current player hand | hand no longer has card | :cross_mark: |
-| removeCardFromCurrentPlayer_CardNotInHand_HandUnchanged   | card not in hand              | hand unchanged        | :cross_mark: |
+| test_Name                                               | State of the System            | Expected output         | Implemented? |
+|---------------------------------------------------------|--------------------------------|-------------------------|--------------|
+| removeCardFromCurrentPlayer_CardInHand_RemovesCard      | card is in current player hand | hand no longer has card | :cross_mark: |
+| removeCardFromCurrentPlayer_CardNotInHand_HandUnchanged | card not in hand               | hand unchanged          | :cross_mark: |
 
 
 
