@@ -119,4 +119,10 @@ public class GameStateTest {
 		gs.drawFromDeck();
 		assertTrue(gs.isDeckEmpty());
 	}
+
+	@Test
+	public void drawFromDeck_MultipleCards_ReturnsTopCard() {
+		GameState gs = new GameState(twoPlayers(), multiCardDeck());
+		assertNotNull(gs.drawFromDeck());
+	}
 }
