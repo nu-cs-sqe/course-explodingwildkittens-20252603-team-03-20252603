@@ -85,4 +85,10 @@ public class GameStateTest {
 		GameState gs = new GameState(twoPlayers(), deck);
 		assertEquals(2, gs.getDeckSize());
 	}
+
+	@Test
+	public void turnState_ReturnsNonNullTurnState() {
+		GameState gs = new GameState(twoPlayers(), emptyDeck());
+		assertNotNull(gs.turnState());
+	}
 }

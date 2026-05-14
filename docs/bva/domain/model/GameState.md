@@ -359,6 +359,6 @@ spaces: returns field (not in BVA catalog)
 cases:
 - returns the TurnState owned by this GameState
 
-| test_Name                             | State of the System | Expected output              | Implemented? |
-|---------------------------------------|---------------------|------------------------------|--------------|
-| turnState_ReturnsNonNullTurnState     | any GameState       | non-null TurnState instance  | :cross_mark: |
+| test_Name                         | State of the System | Expected output             | Implemented?       |
+|-----------------------------------|---------------------|-----------------------------|--------------------|
+| turnState_ReturnsNonNullTurnState | any GameState       | non-null TurnState instance | :white_check_mark: |

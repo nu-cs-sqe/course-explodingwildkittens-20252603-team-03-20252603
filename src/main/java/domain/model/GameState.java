@@ -21,6 +21,7 @@ public class GameState {
 	public GameState(List<Player> players, Deck deck) {
 		this.status = GameStatus.ACTIVE;
 		this.deck = new Deck(deck);
+		this.turnState = new TurnState();
 	}
 
 	public boolean isActive() {
@@ -87,7 +88,8 @@ public class GameState {
 	public void insertPendingCardAt(int position) {
 	}
 
+	@SuppressFBWarnings("EI_EXPOSE_REP")
 	public TurnState turnState() {
-		return null;
+		return turnState;
 	}
 }
