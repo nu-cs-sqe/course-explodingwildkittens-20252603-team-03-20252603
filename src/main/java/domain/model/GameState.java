@@ -81,7 +81,7 @@ public class GameState {
 	}
 
 	public int getDeckSize() {
-		return 0;
+		return deck.size();
 	}
 
 	public void insertPendingCardAt(int position) {

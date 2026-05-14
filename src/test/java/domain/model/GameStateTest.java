@@ -69,4 +69,10 @@ public class GameStateTest {
 		GameState gs = new GameState(twoPlayers(), emptyDeck());
 		assertEquals(0, gs.getDeckSize());
 	}
+
+	@Test
+	public void getDeckSize_OneCard_ReturnsOne() {
+		GameState gs = new GameState(twoPlayers(), nonEmptyDeck());
+		assertEquals(1, gs.getDeckSize());
+	}
 }

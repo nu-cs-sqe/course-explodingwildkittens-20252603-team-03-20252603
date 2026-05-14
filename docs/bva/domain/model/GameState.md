@@ -327,11 +327,11 @@ cases:
 - 1 → 1
 - 2+ → exact count
 
-| test_Name                               | State of the System | Expected output | Implemented?       |
-|-----------------------------------------|---------------------|-----------------|--------------------|
-| getDeckSize_EmptyDeck_ReturnsZero       | empty deck          | 0               | :white_check_mark: |
-| getDeckSize_OneCard_ReturnsOne          | deck with 1 card    | 1               | :cross_mark:       |
-| getDeckSize_MultipleCards_ReturnsCount  | deck with 2+ cards  | count           | :cross_mark:       |
+| test_Name                              | State of the System | Expected output | Implemented?       |
+|----------------------------------------|---------------------|-----------------|--------------------|
+| getDeckSize_EmptyDeck_ReturnsZero      | empty deck          | 0               | :white_check_mark: |
+| getDeckSize_OneCard_ReturnsOne         | deck with 1 card    | 1               | :white_check_mark: |
+| getDeckSize_MultipleCards_ReturnsCount | deck with 2+ cards  | count           | :cross_mark:       |
 
 
 
