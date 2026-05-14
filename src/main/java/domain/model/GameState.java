@@ -20,6 +20,7 @@ public class GameState {
 
 	public GameState(GameStatus status) {
 		this.status = status;
+
 	}
 
 	public boolean isActive() {
@@ -27,6 +28,7 @@ public class GameState {
 	}
 
 	public void endGame() {
+		status = GameStatus.ENDED;
 	}
 
 	public Player getCurrentPlayer() {

@@ -19,4 +19,11 @@ public class GameStateTest {
 		GameState gameState = new GameState(GameStatus.ACTIVE);
 		assertTrue(gameState.isActive());
 	}
+
+	@Test
+	public void endGame_ActiveGame_SetsStatusEnded() {
+		GameState gs = new GameState(GameStatus.ACTIVE);
+		gs.endGame();
+		assertFalse(gs.isActive());
+	}
 }
