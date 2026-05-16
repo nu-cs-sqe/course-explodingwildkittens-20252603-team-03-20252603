@@ -241,4 +241,13 @@ public class GameStateTest {
 		gs.advancePlayer();
 		assertEquals(first, gs.getCurrentPlayer());
 	}
+
+	@Test
+	public void addCardToCurrentPlayer_EmptyHand_AddsCard() {
+		GameState gs = new GameState(twoPlayers(), emptyDeck());
+		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
+		gs.addCardToCurrentPlayer(skipCard);
+		int numCardsPlayerHas = gs.getCurrentPlayer().getHand().size();
+		assertEquals(1, numCardsPlayerHas);
+	}
 }

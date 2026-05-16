@@ -249,10 +249,10 @@ cases:
 - empty hand → card added; hand size = 1
 - non-empty hand → card appended; hand size increments by 1
 
-| test_Name                                          | State of the System          | Expected output    | Implemented? |
-|----------------------------------------------------|------------------------------|--------------------|--------------|
-| addCardToCurrentPlayer_EmptyHand_AddsCard          | current player has empty hand | hand size = 1     | :cross_mark: |
-| addCardToCurrentPlayer_NonEmptyHand_AppendsCard    | current player has 1+ cards  | hand size increments | :cross_mark: |
+| test_Name                                       | State of the System           | Expected output      | Implemented?       |
+|-------------------------------------------------|-------------------------------|----------------------|--------------------|
+| addCardToCurrentPlayer_EmptyHand_AddsCard       | current player has empty hand | hand size = 1        | :white_check_mark: |
+| addCardToCurrentPlayer_NonEmptyHand_AppendsCard | current player has 1+ cards   | hand size increments | :cross_mark:       |
 
 
 

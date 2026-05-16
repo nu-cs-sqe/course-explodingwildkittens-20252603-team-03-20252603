@@ -84,6 +84,7 @@ public class GameState {
 	}
 
 	public void addCardToCurrentPlayer(Card card) {
+		getCurrentPlayer().addCard(card);
 	}
 
 	public void removeCardFromCurrentPlayer(Card card) {
