@@ -99,7 +99,7 @@ cases:
 |---------------------------------------------------------|---------------------|---------------------------|--------------------|
 | getCurrentPlayer_EmptyQueue_ThrowsIllegalStateException | 0 active players    | IllegalStateException     | :white_check_mark: |
 | getCurrentPlayer_OnePlayer_ReturnsThatPlayer            | 1 active player     | that player               | :white_check_mark: |
-| getCurrentPlayer_MultiplePlayer_ReturnsFrontPlayer      | 2+ active players   | front player (not second) | :cross_mark:       |
+| getCurrentPlayer_MultiplePlayer_ReturnsFrontPlayer      | 2+ active players   | front player (not second) | :white_check_mark: |
 
 
 

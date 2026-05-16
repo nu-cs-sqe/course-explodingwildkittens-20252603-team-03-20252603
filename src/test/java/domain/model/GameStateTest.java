@@ -207,4 +207,11 @@ public class GameStateTest {
 		assertEquals(player, gs.getCurrentPlayer());
 	}
 
+	@Test
+	public void getCurrentPlayer_MultiplePlayer_ReturnsFrontPlayer() {
+		Player front = new Player("p1", "Chibu");
+		Player second = new Player("p2", "Austin");
+		GameState gs = new GameState(List.of(front, second), emptyDeck());
+		assertEquals(front, gs.getCurrentPlayer());
+	}
 }
