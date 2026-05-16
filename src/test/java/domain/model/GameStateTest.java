@@ -194,4 +194,10 @@ public class GameStateTest {
 		assertEquals(2, gs.getDiscardPileSize());
 	}
 
+	@Test
+	public void getCurrentPlayer_EmptyQueue_ThrowsIllegalStateException() {
+		GameState gs = new GameState(List.of(), emptyDeck());
+		assertThrows(IllegalStateException.class, gs::getCurrentPlayer);
+	}
+
 }

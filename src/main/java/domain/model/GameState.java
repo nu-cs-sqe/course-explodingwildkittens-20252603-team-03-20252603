@@ -3,10 +3,7 @@ package domain.model;
 import domain.enums.CardType;
 import domain.enums.GameStatus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -23,6 +20,7 @@ public class GameState {
 		this.status = GameStatus.ACTIVE;
 		this.deck = new Deck(deck);
 		this.discardPile = new ArrayList<>();
+		this.activePlayers = new LinkedList<>(players);
 		this.turnState = new TurnState();
 	}
 
@@ -35,7 +33,10 @@ public class GameState {
 	}
 
 	public Player getCurrentPlayer() {
-		return null;
+		if (activePlayers.isEmpty()) {
+			throw new IllegalStateException("Error: no players left");
+		}
+		return activePlayers.peek();
 	}
 
 	public void advancePlayer() {

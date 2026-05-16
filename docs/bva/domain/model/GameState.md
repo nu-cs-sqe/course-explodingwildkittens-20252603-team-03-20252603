@@ -95,11 +95,11 @@ cases:
 - one player → returns that player
 - two or more players → returns the front player, not the second
 
-| test_Name                                                   | State of the System      | Expected output              | Implemented?  |
-|-------------------------------------------------------------|--------------------------|------------------------------|---------------|
-| getCurrentPlayer_EmptyQueue_ThrowsIllegalStateException     | 0 active players         | IllegalStateException        | :cross_mark:  |
-| getCurrentPlayer_OnePlayer_ReturnsThatPlayer                | 1 active player          | that player                  | :cross_mark:  |
-| getCurrentPlayer_MultiplePlayer_ReturnsFrontPlayer          | 2+ active players        | front player (not second)    | :cross_mark:  |
+| test_Name                                                   | State of the System      | Expected output              | Implemented?       |
+|-------------------------------------------------------------|--------------------------|------------------------------|--------------------|
+| getCurrentPlayer_EmptyQueue_ThrowsIllegalStateException     | 0 active players         | IllegalStateException        | :white_check_mark: |
+| getCurrentPlayer_OnePlayer_ReturnsThatPlayer                | 1 active player          | that player                  | :cross_mark:       |
+| getCurrentPlayer_MultiplePlayer_ReturnsFrontPlayer          | 2+ active players        | front player (not second)    | :cross_mark:       |
 
 
 
