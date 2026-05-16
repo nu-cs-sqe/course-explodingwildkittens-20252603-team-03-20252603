@@ -61,6 +61,7 @@ public class GameState {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException("Error: index is less than 0");
 		}
+		deck.insertAt(card, index);
 	}
 
 	public void shuffleDeck() {

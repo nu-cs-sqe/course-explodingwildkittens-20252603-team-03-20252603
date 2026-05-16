@@ -204,7 +204,7 @@ cases:
 | test_Name                                                                  | State of the System                | Expected output           | Implemented ?      |
 |----------------------------------------------------------------------------|------------------------------------|---------------------------|--------------------|
 | insertIntoDeck_InvalidIndex_ThrowsIndexOutOfBoundsException                | any deck, index -1                 | IndexOutOfBoundsException | :white_check_mark: |
-| insertIntoDeck_EmptyDeckIndexZero_InsertsCard                              | empty deck, index 0                | deck size = 1             | :cross_mark:       |
+| insertIntoDeck_EmptyDeckIndexZero_InsertsCard                              | empty deck, index 0                | deck size = 1             | :white_check_mark: |
 | insertIntoDeck_EmptyDeckIndexOne_ThrowsIndexOutOfBoundsException           | empty deck, index 1                | IndexOutOfBoundsException | :cross_mark:       |
 | insertIntoDeck_NonEmptyDeckValidIndex_InsertsCard                          | deck with 2+ cards, valid index    | deck size increments      | :cross_mark:       |
 | insertIntoDeck_NonEmptyDeckIndexPastBounds_ThrowsIndexOutOfBoundsException | deck with 2+ cards, index past end | IndexOutOfBoundsException | :cross_mark:       |
