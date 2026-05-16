@@ -23,6 +23,12 @@ public class Deck {
 		this.random = random;
 	}
 
+	// Defensive copy constructor: prevents external mutation of internal deck state
+	Deck(Deck other) {
+		this.cards = new ArrayList<>(other.cards);
+		this.random = new Random();
+	}
+
 	public void shuffle() {
 		Collections.shuffle(this.cards, this.random);
 	}
@@ -47,6 +53,13 @@ public class Deck {
 
 	public boolean isEmpty() {
 		return cards.isEmpty();
+	}
+
+	public List<Card> peekTop(int n) {
+		if (n > cards.size()) {
+			throw new IllegalArgumentException("Error: card number requested exceeds size of deck");
+		}
+		return Collections.unmodifiableList(cards.subList(0, n));
 	}
 
 	public int countCardsByName(CardName cardName) {
