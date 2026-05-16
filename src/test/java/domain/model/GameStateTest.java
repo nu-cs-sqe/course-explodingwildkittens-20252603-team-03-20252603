@@ -226,9 +226,19 @@ public class GameStateTest {
 	@Test
 	public void advancePlayer_MultiplePlayers_NextPlayerBecomesCurrentPlayer() {
 		Player first = new Player("p1", "Caroline");
-		Player second = new Player("p2", "Mercy");
+		Player second = new Player("p2", "Chibu");
 		GameState gs = new GameState(List.of(first, second), emptyDeck());
 		gs.advancePlayer();
 		assertEquals(second, gs.getCurrentPlayer());
+	}
+
+	@Test
+	public void advancePlayer_MultiplePlayers_PreviousCurrentMovesToBack() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		GameState gs = new GameState(List.of(first, second), emptyDeck());
+		gs.advancePlayer();
+		gs.advancePlayer();
+		assertEquals(first, gs.getCurrentPlayer());
 	}
 }
