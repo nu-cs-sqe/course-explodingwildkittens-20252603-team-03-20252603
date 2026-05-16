@@ -33,3 +33,14 @@ cases:
 | hasToPlayATurn_isAttackingIsFalse_turnsRemainingIsIntMax_ReturnsTrue         | isAttacking=false, turnsRemaining=INT_MAX | true            | :white_check_mark: |
 
 
+### Method under test: `handleDrawingCards()`
+spaces: boolean
+
+cases:
+- skipDraw is true
+- skipDraw is false
+
+| test_Name                                        | State of the System | Expected output    |    Implemented?    |
+|--------------------------------------------------|---------------------|--------------------|:------------------:|
+| handleDrawingCards_skipDrawIsTrue_SkipsDraw      | skipDraw=true       | drawCard not called | :white_check_mark: |
+| handleDrawingCards_skipDrawIsFalse_DrawsCard     | skipDraw=false      | drawCard called     |        :x:         |

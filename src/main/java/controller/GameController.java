@@ -29,9 +29,16 @@ public class GameController {
 		ComboValidator comboValidator = new ComboValidator(playerInteractionHelper);
 
 		this.comboValidator = comboValidator;
-		// gamestate is initialised by start game
-		//deck factorty is also initialised by start game
 	}
+
+	// for testing only
+	GameController(IGameDisplay display, IPlayerInput input, GameState gameState) {
+		this.display = display;
+		this.input = input;
+		this.gameState = gameState;
+	}
+
+
 
 	public void startGame(int numPlayers) {
 	}
@@ -72,7 +79,7 @@ public class GameController {
 		}
 	}
 
-	private void handleDrawingCards() {
+	void handleDrawingCards() {
 		boolean shouldSkipDraw = gameState.turnState().shouldSkipDraw();
 		if (!shouldSkipDraw) {
 			drawCard();
