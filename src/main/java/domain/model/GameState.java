@@ -69,7 +69,9 @@ public class GameState {
 	}
 
 	public void discardCard(Card card) {
-
+		if (card == null) {
+			throw new IllegalArgumentException("Card cannot be null");
+		}
 	}
 
 	public void addCardToCurrentPlayer(Card card) {

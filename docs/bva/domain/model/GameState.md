@@ -233,10 +233,11 @@ cases:
 - empty discard pile → card added; discard size = 1
 - non-empty discard pile → card appended; discard size increments by 1
 
-| test_Name                            | State of the System        | Expected output              | Implemented? |
-|--------------------------------------|----------------------------|------------------------------|--------------|
-| discardCard_EmptyPile_AddsCard       | empty discard pile         | discard pile size = 1        | :cross_mark: |
-| discardCard_NonEmptyPile_AppendsCard | discard pile with 1+ cards | discard pile size increments | :cross_mark: |
+| test_Name                                           | State of the System        | Expected output              | Implemented?       |
+|-----------------------------------------------------|----------------------------|------------------------------|--------------------|
+| discardCard_NullCard_ThrowsIllegalArgumentException | any state, null card       | IllegalArgumentException     | :white_check_mark: |
+| discardCard_EmptyPile_AddsCard                      | empty discard pile         | discard pile size = 1        | :cross_mark:       |
+| discardCard_NonEmptyPile_AppendsCard                | discard pile with 1+ cards | discard pile size increments | :cross_mark:       |
 
 
 

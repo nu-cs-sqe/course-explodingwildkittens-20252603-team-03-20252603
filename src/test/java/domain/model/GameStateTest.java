@@ -172,4 +172,9 @@ public class GameStateTest {
 		assertThrows(IndexOutOfBoundsException.class, () -> gs.insertIntoDeck(skipCard, CARD_INDEX_IN_DECK));
 	}
 
+	@Test
+	public void discardCard_NullCard_ThrowsIllegalArgumentException() {
+		GameState gs = new GameState(twoPlayers(), emptyDeck());
+		assertThrows(IllegalArgumentException.class, () -> gs.discardCard(null));
+	}
 }
