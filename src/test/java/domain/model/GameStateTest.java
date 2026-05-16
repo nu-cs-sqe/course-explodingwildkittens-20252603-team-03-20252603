@@ -316,4 +316,11 @@ public class GameStateTest {
 		GameState gs = new GameState(List.of(first, second, third), emptyDeck());
 		assertEquals(List.of(second, third), gs.getOtherActivePlayers());
 	}
+
+	@Test
+	public void eliminateCurrentPlayer_OnePlayer_ThrowsIllegalStateException() {
+		Player player = new Player("p1", "Caroline");
+		GameState gs = new GameState(List.of(player), emptyDeck());
+		assertThrows(IllegalStateException.class, gs::eliminateCurrentPlayer);
+	}
 }

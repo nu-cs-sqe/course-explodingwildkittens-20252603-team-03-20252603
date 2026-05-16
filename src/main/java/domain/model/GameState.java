@@ -20,6 +20,7 @@ public class GameState {
 		this.status = GameStatus.ACTIVE;
 		this.deck = new Deck(deck);
 		this.discardPile = new ArrayList<>();
+		this.eliminatedPlayers = new ArrayList<>();
 		this.activePlayers = new LinkedList<>(players);
 		this.turnState = new TurnState();
 	}
@@ -44,6 +45,9 @@ public class GameState {
 	}
 
 	public void eliminateCurrentPlayer() {
+		if (activePlayers.size() == 1) {
+			throw new IllegalStateException("Error: cannot eliminate the last remaining player");
+		}
 	}
 
 	public int activePlayerCount() {
