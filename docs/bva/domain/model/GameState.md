@@ -135,7 +135,7 @@ cases:
 | eliminateCurrentPlayer_TwoPlayers_NextPlayerBecomesCurrentPlayer      | 2 active players    | getCurrentPlayer() returns second player   | :white_check_mark: |
 | eliminateCurrentPlayer_TwoPlayers_PlayerMovesToEliminatedList         | 2 active players    | eliminated list contains eliminated player | :white_check_mark: |
 | eliminateCurrentPlayer_MultiplePlayers_ActiveCountDecremented         | 3+ active players   | activePlayerCount() decrements by 1        | :white_check_mark: |
-| eliminateCurrentPlayer_MultiplePlayers_NextPlayerBecomesCurrentPlayer | 3+ active players   | getCurrentPlayer() returns next player     | :cross_mark:       |
+| eliminateCurrentPlayer_MultiplePlayers_NextPlayerBecomesCurrentPlayer | 3+ active players   | getCurrentPlayer() returns next player     | :white_check_mark: |
 | eliminateCurrentPlayer_MultiplePlayers_PlayerMovesToEliminatedList    | 3+ active players   | eliminated list contains eliminated player | :cross_mark:       |
 
 
