@@ -59,10 +59,9 @@ public class GameController {
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
 				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
 				playCard(chosenCards);
-			} else if (playerChoice == PlayerChoice.DONE_PLAYING_CARDS) {
+			} else {
 				handleDrawingCards();
-				turnsForNextPlayer = handleTurnTaking();
-			}
+				turnsForNextPlayer = handleTurnTaking();}
 		}
 		resetCurrentPlayerWasAttacked();
 		resetGameState(turnsForNextPlayer);

@@ -119,6 +119,26 @@ cases:
 
 
 
+### Method under test: `getNextPlayer()`
+
+spaces: activePlayers size = {0, 1, 2, 3+}
+
+cases:
+- size = 0 (N/A — eliminateCurrentPlayer guards against dropping below 1 active player)
+- size = 1 → throws IllegalStateException (lower boundary: only one player, no next exists)
+- size = 2 → returns second player (lower boundary of valid range; exactly one other player)
+- size = 3+ → returns the second player in queue, not the third
+
+note: getNextPlayer reads the queue without modifying it; getCurrentPlayer() is unchanged after the call
+
+| test_Name                                                            | State of the System | Expected output                         | Implemented?       |
+|----------------------------------------------------------------------|---------------------|-----------------------------------------|--------------------|
+| getNextPlayer_OnePlayer_ThrowsIllegalStateException                  | 1 active player     | IllegalStateException                   | :white_check_mark: |
+| getNextPlayer_TwoPlayers_ReturnsSecondPlayer                         | 2 active players    | second player returned                  | :white_check_mark: |
+| getNextPlayer_MultiplePlayers_ReturnsSecondNotThirdPlayer            | 3 active players    | second player returned, not third       | :white_check_mark: |
+
+
+
 ### Method under test: `eliminateCurrentPlayer()`
 
 spaces: activePlayers size = {1, 2, 3+}
