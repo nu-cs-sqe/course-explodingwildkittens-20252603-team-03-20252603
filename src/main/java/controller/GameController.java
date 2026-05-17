@@ -115,7 +115,9 @@ public class GameController {
 		currentPlayer.resetWasAttacked();
 	};
 
-	private void resetGameState(int turnsForNextPlayer) {}
+	void resetGameState(int turnsForNextPlayer) {
+		gameState.turnState().reset(turnsForNextPlayer);
+	}
 
 	private void advanceGameToNextPlayer() {}
 

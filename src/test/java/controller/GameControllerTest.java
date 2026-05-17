@@ -282,6 +282,60 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void resetGameState_turnsForNextPlayerIsOne_ResetsTurnState() {
+		TurnState turnState = new TurnState();
+		turnState.startAttack();
+		turnState.enableSkipDraw();
+
+		GameState mockGameState = createMockGameState(turnState);
+		EasyMock.replay(mockGameState);
+
+		GameController controller = createGameController(mockGameState);
+		controller.resetGameState(1);
+
+		assertEquals(1, turnState.turnsRemaining());
+		assertFalse(turnState.isAttacking());
+		assertFalse(turnState.shouldSkipDraw());
+		EasyMock.verify(mockGameState);
+	}
+
+	@Test
+	void resetGameState_turnsForNextPlayerIsTwo_ResetsTurnState() {
+		TurnState turnState = new TurnState();
+		turnState.startAttack();
+		turnState.enableSkipDraw();
+
+		GameState mockGameState = createMockGameState(turnState);
+		EasyMock.replay(mockGameState);
+
+		GameController controller = createGameController(mockGameState);
+		controller.resetGameState(2);
+
+		assertEquals(2, turnState.turnsRemaining());
+		assertFalse(turnState.isAttacking());
+		assertFalse(turnState.shouldSkipDraw());
+		EasyMock.verify(mockGameState);
+	}
+
+	@Test
+	void resetGameState_turnsForNextPlayerIsThree_ResetsTurnState() {
+		TurnState turnState = new TurnState();
+		turnState.startAttack();
+		turnState.enableSkipDraw();
+
+		GameState mockGameState = createMockGameState(turnState);
+		EasyMock.replay(mockGameState);
+
+		GameController controller = createGameController(mockGameState);
+		controller.resetGameState(THREE_TURNS);
+
+		assertEquals(THREE_TURNS, turnState.turnsRemaining());
+		assertFalse(turnState.isAttacking());
+		assertFalse(turnState.shouldSkipDraw());
+		EasyMock.verify(mockGameState);
+	}
+
+	@Test
 	void resetCurrentPlayerWasAttacked_wasAttackedIsTrue_ResetToFalse() {
 		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
 		GameState mockGameState = createMockGameState(mockTurnState);

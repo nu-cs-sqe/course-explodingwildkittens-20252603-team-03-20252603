@@ -83,3 +83,23 @@ cases:
 |---------------------------------------------------------------|---------------------|-----------------------------------------------------------|:------------------:|
 | resetCurrentPlayerWasAttacked_wasAttackedIsTrue_ResetToFalse  | wasAttacked = true  | reset wasAttacked to false for future rounds              | :white_check_mark: |
 | resetCurrentPlayerWasAttacked_wasAttackedIsFalse_ResetToFalse | wasAttacked = false | reset wasAttacked to false for future rounds              | :white_check_mark: |
+
+
+
+### Method under test: `resetGameState(int turnsForNextPlayer)`
+spaces: count (turnsForNextPlayer)
+
+cases:
+- turnsForNextPlayer = 1 (DEFAULT_NORMAL_TURNS — normal play, no attack)
+- turnsForNextPlayer = 2 (DEFAULT_ATTACKING_TURNS — next player was attacked)
+- turnsForNextPlayer > 2 (e.g., 3 — cascading attack scenario)
+- turnsForNextPlayer = 0 (N/A — handleTurnTaking never returns 0)
+- turnsForNextPlayer = INT_MAX (N/A — handleTurnTaking never returns INT_MAX)
+
+note: dirty state (isAttacking=true, skipDraw=true) set before each call to verify all flags are cleared by reset
+
+| test_Name                                                               | State of the System                                        | Expected output                                                        | Implemented?       |
+|-------------------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------------------|--------------------|
+| resetGameState_turnsForNextPlayerIsOne_ResetsTurnState                  | isAttacking=true, skipDraw=true, turnsForNextPlayer=1      | turnsRemaining=1, isAttacking=false, skipDraw=false                    | :white_check_mark: |
+| resetGameState_turnsForNextPlayerIsTwo_ResetsTurnState                  | isAttacking=true, skipDraw=true, turnsForNextPlayer=2      | turnsRemaining=2, isAttacking=false, skipDraw=false                    | :white_check_mark: |
+| resetGameState_turnsForNextPlayerIsThree_ResetsTurnState                | isAttacking=true, skipDraw=true, turnsForNextPlayer=3      | turnsRemaining=3, isAttacking=false, skipDraw=false                    | :white_check_mark: |
