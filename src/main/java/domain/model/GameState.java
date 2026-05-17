@@ -104,6 +104,15 @@ public class GameState {
 		return getCurrentPlayer().hasCard(type);
 	}
 
+	public Player getNextPlayer() {
+		if (activePlayers.size() < 2) {
+			throw new IllegalStateException("No next player: only one active player remains");
+		}
+		Iterator<Player> it = activePlayers.iterator();
+		it.next();
+		return it.next();
+	}
+
 	public List<Player> getOtherActivePlayers() {
 		List<Player> others = new ArrayList<>(activePlayers);
 		others.remove(getCurrentPlayer());

@@ -20,9 +20,8 @@ public class TurnState {
 		skipDraw = true;
 	}
 
-	public void startAttack(int turns) {
+	public void startAttack() {
 		isAttacking = true;
-		turnsToTake = turns;
 	}
 
 	public void setPendingAction(Card card) {
@@ -64,15 +63,17 @@ public class TurnState {
 		return Optional.ofNullable(pendingAction);
 	}
 
-	public void reset() {
-		turnsToTake = DEFAULT_TURNS;
+	public void reset(int turns) {
+		turnsToTake = turns;
 		skipDraw = false;
 		isAttacking = false;
 		pendingAction = null;
 		nopeCount = 0;
 	}
 
-	public int getDefaultTurns() {
-		return DEFAULT_TURNS;
+	// overloaded method to set default value in case turns is not passed in
+	public void reset() {
+		reset(DEFAULT_TURNS);
 	}
+
 }

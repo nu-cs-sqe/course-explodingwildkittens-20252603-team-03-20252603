@@ -15,9 +15,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressFBWarnings({"UUF_UNUSED_FIELD", "URF_UNREAD_FIELD", "UWF_UNWRITTEN_FIELD", "NP_UNWRITTEN_FIELD"})
 public class GameController {
+	private static final int DEFAULT_NORMAL_TURNS = 1;
+	private static final int DEFAULT_ATTACKING_TURNS = 2;
+
 	private GameState gameState;
-	private IGameDisplay display;
-	private IPlayerInput input;
+	private final IGameDisplay display;
+	private final IPlayerInput input;
 	private DeckFactory deckFactory;
 	private ComboValidator comboValidator;
 
@@ -45,11 +48,10 @@ public class GameController {
 
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
-			throw new IllegalStateException("Game state is not ready to play a turn");
-		}
+			throw new IllegalStateException("Game state is not ready to play a turn");}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
-		int turnsForNextPlayer = gameState.turnState().getDefaultTurns();
+		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
 		while (hasToPlayATurn()) {
 			PlayerChoice playerChoice = input.promptPlayerChoice();
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
@@ -60,6 +62,7 @@ public class GameController {
 				turnsForNextPlayer = handleTurnTaking();
 			}
 		}
+		resetCurrentPlayerWasAttacked();
 		resetGameState(turnsForNextPlayer);
 		advanceGameToNextPlayer();
 	}
@@ -83,14 +86,38 @@ public class GameController {
 		boolean shouldSkipDraw = gameState.turnState().shouldSkipDraw();
 		if (!shouldSkipDraw) {
 			drawCard();
-		};
+		}
 	}
 
-	private int handleTurnTaking() { return 0;}
+	int handleTurnTaking() {
+		boolean currentPlayerIsAttacking = gameState.turnState().isAttacking();
 
-	private void resetGameState(int turnsForNextPlayer) {};
+		if (!currentPlayerIsAttacking) {
+			gameState.turnState().decrementTurns();
+			return DEFAULT_NORMAL_TURNS;
+		} else {
+			Player currentPlayer = gameState.getCurrentPlayer();
+			if (currentPlayer.wasAttacked()){
+				int nextPlayerTurns = gameState.turnState().turnsRemaining() + DEFAULT_ATTACKING_TURNS;
+				gameState.turnState().decrementTurns();
+				return nextPlayerTurns;
+			} else {
+				int nextPlayerTurns = DEFAULT_ATTACKING_TURNS;
+				gameState.turnState().decrementTurns();
+				return nextPlayerTurns;
+			}
+		}
 
-	private void advanceGameToNextPlayer() {};
+	}
+
+	void resetCurrentPlayerWasAttacked() {
+		Player currentPlayer = gameState.getCurrentPlayer();
+		currentPlayer.resetWasAttacked();
+	};
+
+	private void resetGameState(int turnsForNextPlayer) {}
+
+	private void advanceGameToNextPlayer() {}
 
 
 
