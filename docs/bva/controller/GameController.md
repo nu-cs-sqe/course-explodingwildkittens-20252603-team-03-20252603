@@ -103,3 +103,15 @@ note: dirty state (isAttacking=true, skipDraw=true) set before each call to veri
 | resetGameState_turnsForNextPlayerIsOne_ResetsTurnState                  | isAttacking=true, skipDraw=true, turnsForNextPlayer=1      | turnsRemaining=1, isAttacking=false, skipDraw=false                    | :white_check_mark: |
 | resetGameState_turnsForNextPlayerIsTwo_ResetsTurnState                  | isAttacking=true, skipDraw=true, turnsForNextPlayer=2      | turnsRemaining=2, isAttacking=false, skipDraw=false                    | :white_check_mark: |
 | resetGameState_turnsForNextPlayerIsThree_ResetsTurnState                | isAttacking=true, skipDraw=true, turnsForNextPlayer=3      | turnsRemaining=3, isAttacking=false, skipDraw=false                    | :white_check_mark: |
+
+
+
+### Method under test: `advanceGameToNextPlayer()`
+spaces: none (no parameters — method purely delegates to gameState.advancePlayer())
+
+cases:
+- advancePlayer() is called on gameState
+
+| test_Name                                           | State of the System | Expected output                       | Implemented?       |
+|-----------------------------------------------------|---------------------|---------------------------------------|--------------------|
+| advanceGameToNextPlayer_CallsAdvancePlayerOnGameState | any valid gameState | gameState.advancePlayer() called once | :white_check_mark: |

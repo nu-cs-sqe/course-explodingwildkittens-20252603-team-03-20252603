@@ -119,7 +119,9 @@ public class GameController {
 		gameState.turnState().reset(turnsForNextPlayer);
 	}
 
-	private void advanceGameToNextPlayer() {}
+	void advanceGameToNextPlayer() {
+		gameState.advancePlayer();
+	}
 
 
 

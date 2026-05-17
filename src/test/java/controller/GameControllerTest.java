@@ -370,4 +370,17 @@ public class GameControllerTest {
 		assertFalse(player.wasAttacked());
 		EasyMock.verify(mockGameState);
 	}
+
+	@Test
+	void advanceGameToNextPlayer_CallsAdvancePlayerOnGameState() {
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		mockGameState.advancePlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState);
+
+		GameController controller = createGameController(mockGameState);
+		controller.advanceGameToNextPlayer();
+
+		EasyMock.verify(mockGameState);
+	}
 }
