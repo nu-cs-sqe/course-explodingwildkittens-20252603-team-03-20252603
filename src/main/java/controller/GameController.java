@@ -1,5 +1,7 @@
 package controller;
 
+import domain.action.DefuseAction;
+import domain.enums.CardType;
 import domain.enums.PlayerChoice;
 import domain.factory.PlayerInteractionHelper;
 import domain.model.GameState;
@@ -136,6 +138,17 @@ public class GameController {
 	}
 
 	public void drawCard() {
+		Card card = gameState.drawFromDeck();
+		if (card.isType(CardType.EXPLODING_KITTEN)) {
+			gameState.turnState().setPendingAction(card);
+			if (gameState.currentPlayerHasCard(CardType.DEFUSE)) {
+				new DefuseAction(input).execute(gameState);
+			} else {
+				gameState.eliminateCurrentPlayer();
+			}
+		} else {
+			gameState.addCardToCurrentPlayer(card);
+		}
 	}
 
 	public void endGame() {

@@ -1,5 +1,6 @@
 package controller;
 
+import domain.enums.CardType;
 import domain.enums.PlayerChoice;
 import domain.model.Card;
 import domain.model.GameState;
@@ -501,6 +502,72 @@ public class GameControllerTest {
 		EasyMock.replay(mockGameState, mockTurnState, mockPlayer, mockDisplay, mockInput);
 		new GameController(mockDisplay, mockInput, mockGameState).playATurn();
 		EasyMock.verify(mockGameState, mockTurnState, mockPlayer, mockDisplay, mockInput);
+	}
+
+	@Test
+	void handleDrawingCards_skipDrawIsFalse_DrawsCard() {
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		GameState mockGameState = createMockGameState(mockTurnState);
+		EasyMock.expect(mockTurnState.shouldSkipDraw()).andReturn(false);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(mockCard);
+		EasyMock.replay(mockGameState, mockTurnState, mockCard);
+		createGameController(mockGameState).handleDrawingCards();
+		EasyMock.verify(mockGameState, mockTurnState, mockCard);
+	}
+
+	@Test
+	void drawCard_drawnCardIsNotExplodingKitten_AddsCardToPlayerHand() {
+		IGameDisplay mockDisplay = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(mockCard);
+		EasyMock.replay(mockGameState, mockCard, mockInput, mockDisplay);
+		new GameController(mockDisplay, mockInput, mockGameState).drawCard();
+		EasyMock.verify(mockGameState, mockCard, mockInput, mockDisplay);
+	}
+
+	@Test
+	void drawCard_drawnCardIsExplodingKitten_playerHasDefuse_ExecutesDefuseAction() {
+		IGameDisplay mockDisplay = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(true);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
+		mockTurnState.setPendingAction(mockCard);
+		EasyMock.expect(mockGameState.currentPlayerHasCard(CardType.DEFUSE)).andReturn(true);
+		EasyMock.expect(mockGameState.getDeckSize()).andReturn(1);
+		EasyMock.expect(mockInput.promptInsertPosition(1)).andReturn(0);
+		mockGameState.insertPendingCardAt(0);
+		EasyMock.replay(mockGameState, mockTurnState, mockCard, mockInput, mockDisplay);
+		new GameController(mockDisplay, mockInput, mockGameState).drawCard();
+		EasyMock.verify(mockGameState, mockTurnState, mockCard, mockInput, mockDisplay);
+	}
+
+	@Test
+	void drawCard_drawnCardIsExplodingKitten_playerHasNoDefuse_EliminatesPlayer() {
+		IGameDisplay mockDisplay = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput mockInput = EasyMock.createMock(IPlayerInput.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(true);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
+		mockTurnState.setPendingAction(mockCard);
+		EasyMock.expect(mockGameState.currentPlayerHasCard(CardType.DEFUSE)).andReturn(false);
+		mockGameState.eliminateCurrentPlayer();
+		EasyMock.replay(mockGameState, mockTurnState, mockCard, mockInput, mockDisplay);
+		new GameController(mockDisplay, mockInput, mockGameState).drawCard();
+		EasyMock.verify(mockGameState, mockTurnState, mockCard, mockInput, mockDisplay);
 	}
 
 	@Test

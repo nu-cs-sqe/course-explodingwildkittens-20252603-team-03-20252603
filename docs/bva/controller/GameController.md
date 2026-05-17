@@ -151,3 +151,20 @@ cases:
 | playATurn_ReadyToPlayATurn_DoesNotHaveToPlayATurn_NoLoopRun                              | ready to play a turn; does not have to play a turn                 | no loop run      | :white_check_mark: |
 | playATurn_ReadyToPlayATurn_HasToPlayATurn_PlayACard_OneLoopRun_PlaysCards                | ready to play a turn; has to play a turn; plays cards              | one loop run     | :white_check_mark: |
 | playATurn_ReadyToPlayATurn_HasToPlayATurn_DonePlaying_OneLoopRun_DrawsCardsAndTurnTaking | ready to play a turn; has to play a turn; draws cards, turn taking | one loop run     | :white_check_mark: |
+
+
+
+### Method under test: `drawCard()`
+spaces: CardType (EXPLODING_KITTEN vs not), currentPlayerHasCard(DEFUSE) (only relevant when EXPLODING_KITTEN)
+
+cases:
+- drawn card is NOT EXPLODING_KITTEN → added to player's hand
+- drawn card IS EXPLODING_KITTEN, player HAS defuse → DefuseAction executed, player not eliminated
+- drawn card IS EXPLODING_KITTEN, player has NO defuse → player eliminated
+- hasDefuse when not EXPLODING_KITTEN (N/A — defuse check is inside the exploding-kitten branch)
+
+| test_Name                                                                   | State of the System                                        | Expected output                                      | Implemented?       |
+|-----------------------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------|--------------------|
+| drawCard_drawnCardIsNotExplodingKitten_AddsCardToPlayerHand                 | drawn card type ≠ EXPLODING_KITTEN                         | addCardToCurrentPlayer called with drawn card        | :white_check_mark: |
+| drawCard_drawnCardIsExplodingKitten_playerHasDefuse_ExecutesDefuseAction    | drawn card = EXPLODING_KITTEN, player has DEFUSE           | setPendingAction called; DefuseAction executes       | :white_check_mark: |
+| drawCard_drawnCardIsExplodingKitten_playerHasNoDefuse_EliminatesPlayer      | drawn card = EXPLODING_KITTEN, player has no DEFUSE        | eliminateCurrentPlayer called                        | :white_check_mark: |
