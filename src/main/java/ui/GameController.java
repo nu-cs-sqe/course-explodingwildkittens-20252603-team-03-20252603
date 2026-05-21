@@ -1,10 +1,13 @@
 package ui;
 
-import domain.model.GameState;
-import domain.factory.DeckFactory;
+import domain.action.CardAction;
 import domain.factory.ComboValidator;
+import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
+import domain.model.GameState;
+import domain.model.Player;
+import domain.model.TurnState;
 
 import java.util.List;
 
@@ -40,6 +43,29 @@ public class GameController {
 		if (!comboValidator.isValid(cards)) {
 			display.showMessage("Invalid card selection.");
 			return;
+		}
+		TurnState turnState = gameState.turnState();
+		turnState.setPendingAction(cards.get(0));
+		discardPlayedCards(cards);
+		applyNopeWindow(turnState);
+		if (turnState.nopeCount() % 2 == 0) {
+			CardAction action = comboValidator.resolveAction(cards);
+			action.execute(gameState);
+		}
+		turnState.clearPendingAction();
+	}
+
+	private void discardPlayedCards(List<Card> cards) {
+		for (Card card : cards) {
+			gameState.removeCardFromCurrentPlayer(card);
+			gameState.discardCard(card);
+		}
+	}
+
+	private void applyNopeWindow(TurnState turnState) {
+		List<Player> others = gameState.getOtherActivePlayers();
+		if (input.promptNope(others)) {
+			turnState.incrementNopeCount();
 		}
 	}
 
