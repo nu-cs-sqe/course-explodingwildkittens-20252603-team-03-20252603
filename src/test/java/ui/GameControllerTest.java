@@ -216,4 +216,19 @@ public class GameControllerTest {
         EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
         assertTrue(turnState.pendingAction().isEmpty());
     }
+
+    @Test
+    void playCard_TwoCatCombo_NotNoped_ExecutesActionAndDiscardsCards() {
+        Card cat1 = catCard();
+        Card cat2 = catCard();
+        List<Card> cards = List.of(cat1, cat2);
+        TurnState turnState = new TurnState();
+        CardAction mockAction = EasyMock.createMock(CardAction.class);
+        expectValidPlaySetup(cards, turnState, mockAction);
+        EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator, mockAction);
+
+        controller.playCard(cards);
+
+        EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator, mockAction);
+    }
 }
