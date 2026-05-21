@@ -1,14 +1,13 @@
 package ui;
 
 import domain.enums.CardType;
-import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
 
 import java.util.List;
 
-public class GameView implements IGameDisplay, IPlayerInput {
+public class GameView implements IGameUI {
 	public void showGameState(GameState gameState) {
 	}
 

@@ -2,8 +2,6 @@ package ui;
 
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
-import domain.factory.DeckFactory;
-import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
@@ -13,20 +11,15 @@ import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-@SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class GameController {
-	private GameState gameState;
-	private IGameDisplay display;
-	private IPlayerInput input;
-	private DeckFactory deckFactory;
-	private ComboValidator comboValidator;
+	private final GameState gameState;
+	private final IGameUI ui;
+	private final ComboValidator comboValidator;
 
-	public GameController(GameState gameState, IGameDisplay display, IPlayerInput input,
-			DeckFactory deckFactory, ComboValidator comboValidator) {
+	@SuppressFBWarnings("EI_EXPOSE_REP2")
+	public GameController(GameState gameState, IGameUI ui, ComboValidator comboValidator) {
 		this.gameState = gameState;
-		this.display = display;
-		this.input = input;
-		this.deckFactory = deckFactory;
+		this.ui = ui;
 		this.comboValidator = comboValidator;
 	}
 
@@ -41,7 +34,7 @@ public class GameController {
 			throw new IllegalArgumentException("cards must not be null");
 		}
 		if (!comboValidator.isValid(cards)) {
-			display.showMessage("Invalid card selection.");
+			ui.showMessage("Invalid card selection.");
 			return;
 		}
 		TurnState turnState = gameState.turnState();
@@ -64,7 +57,7 @@ public class GameController {
 
 	private void applyNopeWindow(TurnState turnState) {
 		List<Player> others = gameState.getOtherActivePlayers();
-		if (input.promptNope(others)) {
+		if (ui.promptNope(others)) {
 			turnState.incrementNopeCount();
 		}
 	}
