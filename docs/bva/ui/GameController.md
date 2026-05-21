@@ -33,10 +33,10 @@ cases:
 
 | test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
 |--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_NullList_ShowsErrorAndNoStateChange           | valid game, null passed                    | display.showMessage called; no cards discarded           | :x:          |
-| playCard_EmptyList_ShowsErrorAndNoStateChange          | valid game, empty list passed              | display.showMessage called; no cards discarded           | :x:          |
-| playCard_SingleDefuse_ShowsErrorAndNoStateChange       | player holds Defuse card                   | display.showMessage called; card stays in hand           | :x:          |
-| playCard_SingleCatCard_ShowsErrorAndNoStateChange      | player holds a cat card                    | display.showMessage called; card stays in hand           | :x:          |
+| playCard_NullList_ShowsErrorAndNoStateChange           | valid game, null passed                    | display.showMessage called; no cards discarded           | :white_check_mark: |
+| playCard_EmptyList_ShowsErrorAndNoStateChange          | valid game, empty list passed              | display.showMessage called; no cards discarded           | :white_check_mark: |
+| playCard_SingleDefuse_ShowsErrorAndNoStateChange       | player holds Defuse card                   | display.showMessage called; card stays in hand           | :white_check_mark: |
+| playCard_SingleCatCard_ShowsErrorAndNoStateChange      | player holds a cat card                    | display.showMessage called; card stays in hand           | :white_check_mark: |
 
 ---
 
@@ -47,9 +47,9 @@ cases:
 
 | test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
 |--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_ValidSingleCard_NotNoped_ExecutesAction       | player holds Skip; promptNope returns false | cards removed from hand, discarded; SkipAction executes | :x:          |
-| playCard_ValidSingleCard_NotNoped_ClearsPendingAction  | player holds Skip; promptNope returns false | pendingAction() = Optional.empty() after call            | :x:          |
-| playCard_ValidSingleCard_NotNoped_CardsAddedToDiscard  | player holds Skip; promptNope returns false | discard pile size increases by 1                         | :x:          |
+| playCard_ValidSingleCard_NotNoped_ExecutesAction       | player holds Skip; promptNope returns false | cards removed from hand, discarded; SkipAction executes | :white_check_mark: |
+| playCard_ValidSingleCard_NotNoped_ClearsPendingAction  | player holds Skip; promptNope returns false | pendingAction() = Optional.empty() after call            | :white_check_mark: |
+| playCard_ValidSingleCard_NotNoped_CardsAddedToDiscard  | player holds Skip; promptNope returns false | discard pile size increases by 1                         | :white_check_mark: |
 
 ---
 
@@ -60,10 +60,10 @@ cases:
 
 | test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
 |--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_ValidSingleCard_Noped_ActionNotExecuted       | player holds Skip; promptNope returns true  | SkipAction not executed (turnState unchanged by action)  | :x:          |
-| playCard_ValidSingleCard_Noped_IncrementsNopeCount     | player holds Skip; promptNope returns true  | turnState.nopeCount() = 1                                | :x:          |
-| playCard_ValidSingleCard_Noped_CardsStillDiscarded     | player holds Skip; promptNope returns true  | cards removed from hand and added to discard pile        | :x:          |
-| playCard_ValidSingleCard_Noped_ClearsPendingAction     | player holds Skip; promptNope returns true  | pendingAction() = Optional.empty() after call            | :x:          |
+| playCard_ValidSingleCard_Noped_ActionNotExecuted       | player holds Skip; promptNope returns true  | SkipAction not executed (turnState unchanged by action)  | :white_check_mark: |
+| playCard_ValidSingleCard_Noped_IncrementsNopeCount     | player holds Skip; promptNope returns true  | turnState.nopeCount() = 1                                | :white_check_mark: |
+| playCard_ValidSingleCard_Noped_CardsStillDiscarded     | player holds Skip; promptNope returns true  | cards removed from hand and added to discard pile        | :white_check_mark: |
+| playCard_ValidSingleCard_Noped_ClearsPendingAction     | player holds Skip; promptNope returns true  | pendingAction() = Optional.empty() after call            | :white_check_mark: |
 
 ---
 
@@ -74,7 +74,7 @@ cases:
 
 | test_Name                                              | State of the System                          | Expected output                                          | Implemented? |
 |--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_TwoCatCombo_NotNoped_ExecutesAction           | player holds 2 matching cats; promptNope=false | TwoCatAction executes; 2 cards discarded               | :x:          |
+| playCard_TwoCatCombo_NotNoped_ExecutesAction           | player holds 2 matching cats; promptNope=false | TwoCatAction executes; 2 cards discarded               | :white_check_mark: |
 
 ---
 
@@ -85,4 +85,4 @@ cases:
 
 | test_Name                                              | State of the System                          | Expected output                                          | Implemented? |
 |--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_ThreeCatCombo_NotNoped_ExecutesAction         | player holds 3 matching cats; promptNope=false | ThreeCatAction executes; 3 cards discarded             | :x:          |
+| playCard_ThreeCatCombo_NotNoped_ExecutesAction         | player holds 3 matching cats; promptNope=false | ThreeCatAction executes; 3 cards discarded             | :white_check_mark: |
