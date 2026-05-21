@@ -66,6 +66,19 @@ public class GameControllerTest {
         EasyMock.expectLastCall().once();
     }
 
+    private void expectNopedPlaySetup(List<Card> cards, TurnState turnState) {
+        EasyMock.expect(mockValidator.isValid(cards)).andReturn(true);
+        EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
+        for (Card card : cards) {
+            mockGameState.removeCardFromCurrentPlayer(card);
+            EasyMock.expectLastCall().once();
+            mockGameState.discardCard(card);
+            EasyMock.expectLastCall().once();
+        }
+        EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(Collections.emptyList());
+        EasyMock.expect(mockInput.promptNope(Collections.emptyList())).andReturn(true);
+    }
+
     @Test
     void playCard_NullList_ThrowsIllegalArgumentException() {
         EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
@@ -151,6 +164,56 @@ public class GameControllerTest {
         controller.playCard(cards);
 
         EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator, mockAction);
+        assertTrue(turnState.pendingAction().isEmpty());
+    }
+
+    @Test
+    void playCard_ValidSingleCard_Noped_ActionNotExecuted() {
+        List<Card> cards = List.of(skipCard());
+        TurnState turnState = new TurnState();
+        expectNopedPlaySetup(cards, turnState);
+        EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+
+        controller.playCard(cards);
+
+        EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+    }
+
+    @Test
+    void playCard_ValidSingleCard_Noped_IncrementsNopeCount() {
+        List<Card> cards = List.of(skipCard());
+        TurnState turnState = new TurnState();
+        expectNopedPlaySetup(cards, turnState);
+        EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+
+        controller.playCard(cards);
+
+        EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+        assertEquals(1, turnState.nopeCount());
+    }
+
+    @Test
+    void playCard_ValidSingleCard_Noped_CardsStillDiscarded() {
+        List<Card> cards = List.of(skipCard());
+        TurnState turnState = new TurnState();
+        expectNopedPlaySetup(cards, turnState);
+        EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+
+        controller.playCard(cards);
+
+        EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+    }
+
+    @Test
+    void playCard_ValidSingleCard_Noped_ClearsPendingAction() {
+        List<Card> cards = List.of(skipCard());
+        TurnState turnState = new TurnState();
+        expectNopedPlaySetup(cards, turnState);
+        EasyMock.replay(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
+
+        controller.playCard(cards);
+
+        EasyMock.verify(mockGameState, mockDisplay, mockInput, mockDeckFactory, mockValidator);
         assertTrue(turnState.pendingAction().isEmpty());
     }
 }
