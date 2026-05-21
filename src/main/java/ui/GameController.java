@@ -18,6 +18,15 @@ public class GameController {
 	private DeckFactory deckFactory;
 	private ComboValidator comboValidator;
 
+	public GameController(GameState gameState, IGameDisplay display, IPlayerInput input,
+			DeckFactory deckFactory, ComboValidator comboValidator) {
+		this.gameState = gameState;
+		this.display = display;
+		this.input = input;
+		this.deckFactory = deckFactory;
+		this.comboValidator = comboValidator;
+	}
+
 	public void startGame(int numPlayers) {
 	}
 
@@ -25,6 +34,13 @@ public class GameController {
 	}
 
 	public void playCard(List<Card> cards) {
+		if (cards == null) {
+			throw new IllegalArgumentException("cards must not be null");
+		}
+		if (!comboValidator.isValid(cards)) {
+			display.showMessage("Invalid card selection.");
+			return;
+		}
 	}
 
 	public void drawCard() {
