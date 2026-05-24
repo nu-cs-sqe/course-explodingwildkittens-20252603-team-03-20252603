@@ -51,5 +51,5 @@ cases:
 | test_Name                                       | State of the System                                                    | Expected output                            | Implemented?       |
 |-------------------------------------------------|------------------------------------------------------------------------|--------------------------------------------|--------------------|
 | endGame_OneActivePlayer_DisplaysSurvivor        | game started with 2 players; 1 player eliminated; survivor is player 2 | showWinner called with player 2            | :white_check_mark: |
-| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                           | promptNumPlayers called a second time      | :cross_mark:       |
+| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                           | promptNumPlayers called a second time      | :white_check_mark: |
 | endGame_PromptRestartFalse_DoesNotCallStartGame | 1 player remains; promptRestart returns false                          | promptNumPlayers called exactly once total | :white_check_mark: |
