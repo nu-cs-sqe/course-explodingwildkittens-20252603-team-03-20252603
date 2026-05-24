@@ -37,4 +37,21 @@ public class GameControllerTest {
 
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void startGame_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(1).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(display, input);
+
+		GameController controller = new GameController(display, input);
+		controller.startGame();
+
+		EasyMock.verify(display, input);
+	}
 }

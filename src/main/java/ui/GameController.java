@@ -12,17 +12,26 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class GameController {
+	private static final int MIN_PLAYERS = 2;
+	private static final int MAX_PLAYERS = 5;
+
 	private GameState gameState;
+	private IGameDisplay display;
 	private IPlayerInput input;
 	private DeckFactory deckFactory;
 	private ComboValidator comboValidator;
 
 	public GameController(IGameDisplay display, IPlayerInput input) {
+		this.display = display;
 		this.input = input;
 	}
 
 	public void startGame() {
-		input.promptNumPlayers();
+		int numPlayers = input.promptNumPlayers();
+		while (numPlayers < MIN_PLAYERS) {
+			display.showMessage("Please enter a number of players above 2 or more");
+			numPlayers = input.promptNumPlayers();
+		}
 	}
 
 	public void playATurn() {
