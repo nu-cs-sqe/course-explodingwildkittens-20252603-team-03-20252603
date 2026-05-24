@@ -28,8 +28,8 @@ public class GameController {
 
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
-		while (numPlayers < MIN_PLAYERS) {
-			display.showMessage("Please enter a number of players above 2 or more");
+		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
+			display.showMessage("Please enter a number of players between 2 and 5.");
 			numPlayers = input.promptNumPlayers();
 		}
 	}

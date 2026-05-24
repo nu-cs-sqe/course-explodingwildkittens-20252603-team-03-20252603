@@ -31,7 +31,7 @@ cases:
 | test_Name                                                            | State of the System                                                         | Expected output                                        | Implemented?       |
 |----------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------|--------------------|
 | startGame_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 1 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :white_check_mark: |
-| startGame_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :cross_mark:       |
+| startGame_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :white_check_mark: |
 | startGame_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 | startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 
