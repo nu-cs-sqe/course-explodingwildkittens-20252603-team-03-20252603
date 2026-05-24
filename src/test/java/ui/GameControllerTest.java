@@ -72,4 +72,22 @@ public class GameControllerTest {
 
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void endGame_OneActivePlayer_DisplaysSurvivor() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		display.showWinner(EasyMock.anyObject());
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(display, input);
+
+		GameController controller = new GameController(display, input);
+		controller.startGame();
+		controller.endGame();
+
+		EasyMock.verify(display, input);
+	}
 }

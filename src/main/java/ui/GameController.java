@@ -4,8 +4,11 @@ import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
+import domain.model.Deck;
 import domain.model.GameState;
+import domain.model.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -32,6 +35,13 @@ public class GameController {
 			display.showMessage("Please enter a number of players between 2 and 5.");
 			numPlayers = input.promptNumPlayers();
 		}
+		List<Player> players = buildPlayers(numPlayers);
+		this.gameState = new GameState(players, new Deck(new ArrayList<>()));
+	}
+
+	public void endGame() {
+		gameState.endGame();
+		display.showWinner(gameState.getCurrentPlayer());
 	}
 
 	public void playATurn() {
@@ -43,6 +53,11 @@ public class GameController {
 	public void drawCard() {
 	}
 
-	public void endGame() {
+	private List<Player> buildPlayers(int numPlayers) {
+		List<Player> players = new ArrayList<>();
+		for (int i = 0; i < numPlayers; i++) {
+			players.add(new Player("p" + (i + 1), "Player " + (i + 1)));
+		}
+		return players;
 	}
 }
