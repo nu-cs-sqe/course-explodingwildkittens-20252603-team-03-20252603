@@ -28,12 +28,12 @@ cases:
 - numPlayers = 2 (minimum valid): no error shown, game initializes
 - numPlayers = 5 (maximum valid): no error shown, game initializes
 
-| test_Name                                                             | State of the System                                                          | Expected output                                        | Implemented?   |
-|-----------------------------------------------------------------------|------------------------------------------------------------------------------|--------------------------------------------------------|----------------|
-| startGame_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 1 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :cross_mark:   |
-| startGame_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :cross_mark:   |
-| startGame_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                 | showMessage never called; promptNumPlayers called once | :cross_mark:   |
-| startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                 | showMessage never called; promptNumPlayers called once | :cross_mark:   |
+| test_Name                                                            | State of the System                                                         | Expected output                                        | Implemented?       |
+|----------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------|--------------------|
+| startGame_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 1 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :white_check_mark: |
+| startGame_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice | :cross_mark:       |
+| startGame_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
+| startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 
 
 
