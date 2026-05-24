@@ -42,6 +42,7 @@ public class GameController {
 	public void endGame() {
 		gameState.endGame();
 		display.showWinner(gameState.getCurrentPlayer());
+		input.promptRestart();
 	}
 
 	public void playATurn() {

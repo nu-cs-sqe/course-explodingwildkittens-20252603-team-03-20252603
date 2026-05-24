@@ -18,4 +18,6 @@ public interface IPlayerInput {
 	Player promptTargetSelection(List<Player> candidates);
 
 	CardType promptCardType();
+
+	boolean promptRestart();
 }
