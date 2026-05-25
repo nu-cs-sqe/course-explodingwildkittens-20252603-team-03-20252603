@@ -44,3 +44,23 @@
 11. [not started] Chibu: GameController, UI implementation with bva and testing
 12. [not started] Caroline: GameController, startGame() & endGame() with bva and testing
 13. [not started] Chibu: I18 and concatenation fixes
+
+## Week 8 (05/18/2026-05/24/2026)
+**Planning and Progress Tracking**:
+1. [done] Austin: GameController playCard() & Nope integration with BVA and testing
+2. [done] Caroline: GameController startGame() & endGame() with BVA and testing
+3. [done] Mercy: Set up Jacoco & Pitest
+4. [bug fix] Austin: Checkstyle and SpotBugs violations in GameController
+5. [bug fix] Caroline: startGame() deck creation fixed to use DeckFactory
+6. [bug fix] Caroline: Missing restart-prompt logic in GameController
+7. [bug fix] Caroline: BVA doc synced with implemented startGame() / endGame() tests
+8. [bug fix] Austin: Split IGameUI back into IGameDisplay and IPlayerInput to match design UML
+9. [bug fix] Austin: Expanded Nope window so each player is prompted individually for Nope chaining
+10. [upcoming] Team: Meeting with Professor Yiji Zhang to go over progress, design, and project questions
+11. [in progress] Mercy: GameController playATurn() & drawCard() with BVA and testing
+12. [not started] Chibu: GameView — Full Terminal Implementation
+13. [not started] Chibu + Austin: Refactor — Internationalize Hardcoded Strings and Numbers
+14. [not started] Caroline: Integration Tests — startGame() Flow
+15. [not started] Mercy: Integration Tests — playATurn() Normal Flow
+16. [not started] Chibu: Integration Tests — Exploding Kitten, Defuse, Remove Player & End Game
+17. [not started] Austin: Integration Tests — Card Action & Combo
