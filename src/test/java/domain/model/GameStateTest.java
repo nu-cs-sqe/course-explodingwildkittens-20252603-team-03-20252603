@@ -403,6 +403,30 @@ public class GameStateTest {
 	}
 
 	@Test
+	public void getNextPlayer_OnePlayer_ThrowsIllegalStateException() {
+		GameState gs = new GameState(List.of(new Player("p1", "Alice")), emptyDeck());
+		assertThrows(IllegalStateException.class, gs::getNextPlayer);
+	}
+
+	@Test
+	public void getNextPlayer_TwoPlayers_ReturnsSecondPlayer() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		GameState gs = new GameState(List.of(first, second), emptyDeck());
+		assertEquals(second, gs.getNextPlayer());
+	}
+
+	@Test
+	public void getNextPlayer_MultiplePlayers_ReturnsSecondNotThirdPlayer() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		Player third = new Player("p3", "Alex");
+		GameState gs = new GameState(List.of(first, second, third), emptyDeck());
+		assertEquals(second, gs.getNextPlayer());
+		assertNotEquals(third, gs.getNextPlayer());
+	}
+
+	@Test
 	public void peekTopOfDeck_ZeroCards_ReturnsEmptyList() {
 		GameState gs = new GameState(twoPlayers(), multiCardDeck());
 		assertEquals(List.of(), gs.peekTopOfDeck(0));

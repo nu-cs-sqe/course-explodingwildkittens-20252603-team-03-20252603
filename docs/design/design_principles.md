@@ -17,7 +17,7 @@ Bundle data and the methods that operate on it together in a class.
 ### 2. Delegation
 One object passes work to another instead of doing it itself.
 
-- `GameController` delegates all display logic to `IGameDisplay` and all input collection to `IPlayerInput`.
+- `GameController` delegates all display logic to `IGameDisplay` and all input collection to `domain.input.IPlayerInput`.
 - `GameController` delegates deck construction to `DeckFactory` — it never builds the deck itself.
 - `GameController` delegates card execution to `Card.execute()`, which in turn delegates to the card's `CardAction`.
 - `FavorAction`, `TwoCatAction`, and `ThreeCatAction` delegate the actual card stealing logic to `PlayerInteractionHelper` rather than implementing it themselves.
@@ -58,9 +58,9 @@ Use "has-a" relationships instead of "is-a" / `extends`.
 ### 6. Program to Interface, Not Implementation
 Depend on abstract types, not concrete classes.
 
-- `GameController` depends on `IGameDisplay` and `IPlayerInput`, not `GameView` directly. A GUI or web view can be swapped in without touching the controller.
+- `GameController` depends on `IGameDisplay` and `domain.input.IPlayerInput`, not `GameView` directly. A GUI or web view can be swapped in without touching the controller.
 - All card behaviors are referenced via `CardAction`. `GameController` calls `card.execute(gameState)` without knowing which concrete action runs.
-- `GameView` implements both `IGameDisplay` and `IPlayerInput` — the controller never knows these are the same concrete class.
+- `GameView` implements both `IGameDisplay` and `domain.input.IPlayerInput` — the controller never knows these are the same concrete class.
 
 ---
 
@@ -80,7 +80,7 @@ Classes should depend on each other as little as possible.
 Classes should be open for extension but closed for modification.
 
 - New card types can be added by creating a new `CardAction` implementation and a new `Card` instance — `GameController` and all existing classes are untouched.
-- New display modes (CLI, GUI, web) can be added by implementing `IGameDisplay` and `IPlayerInput` without touching existing code.
+- New display modes (CLI, GUI, web) can be added by implementing `IGameDisplay` and `domain.input.IPlayerInput` without touching existing code.
 - New stealing behaviors can be added by extending `PlayerInteractionHelper` or composing a new helper — existing actions are unaffected.
 
 ---
@@ -89,7 +89,7 @@ Classes should be open for extension but closed for modification.
 High-level components control low-level ones — not the other way around.
 
 - `GameController` drives the entire game loop. It tells `IGameDisplay` when to display, `GameState` when to advance, and `DeckFactory` when to build the deck.
-- `IGameDisplay` and `IPlayerInput` are passive — they wait to be called by `GameController` and never initiate game flow themselves.
+- `IGameDisplay` and `domain.input.IPlayerInput` are passive — they wait to be called by `GameController` and never initiate game flow themselves.
 - `CardAction` implementations are passive workers — they are called by `Card.execute()`, which is called by `GameController`. They never call back up into the controller.
 
 ---
@@ -119,17 +119,17 @@ Each class has exactly one reason to change:
 Already covered in principle #8 above.
 
 **Liskov Substitution Principle**
-Any concrete implementation of `IGameDisplay` or `IPlayerInput` can be substituted without breaking `GameController`. Any `CardAction` implementation can be substituted for another — `GameController` behaves identically regardless of which card is played.
+Any concrete implementation of `IGameDisplay` or `domain.input.IPlayerInput` can be substituted without breaking `GameController`. Any `CardAction` implementation can be substituted for another — `GameController` behaves identically regardless of which card is played.
 
 **Interface Segregation Principle**
 Interfaces are kept small and specific:
 - `IGameDisplay` — only display methods.
-- `IPlayerInput` — only `promptCardSelection()`.
+- `domain.input.IPlayerInput` — only `promptCardSelection()`.
 - `CardAction` — only `execute(GameState)`.
   `GameView` implements both display and input interfaces by choice, not by force — a test stub that only needs display implements `IGameDisplay` alone without being forced to implement `promptCardSelection`.
 
 **Dependency Inversion Principle**
-- `GameController` depends on `IGameDisplay` and `IPlayerInput` abstractions, not `GameView` directly.
+- `GameController` depends on `IGameDisplay` and `domain.input.IPlayerInput` abstractions, not `GameView` directly.
 - Both high-level (`GameController`) and low-level (`GameView`) depend on the same abstractions — neither depends directly on the other.
 
 ---
@@ -143,7 +143,7 @@ Interfaces are kept small and specific:
 - `TurnState` depends only on `Card`.
 - `PlayerInteractionHelper` depends only on `Player` and `Card`.
 - `GameState` depends on `Deck`, `Player`, `Card`, `TurnState`, and `GameStatus`.
-- `GameController` depends on `GameState`, `IGameDisplay`, `IPlayerInput`, and `DeckFactory`.
+- `GameController` depends on `GameState`, `IGameDisplay`, `domain.input.IPlayerInput`, and `DeckFactory`.
 
 **High cohesion:** Everything inside a class relates to its single purpose.
 - `Deck` only contains deck operations — nothing about players or game flow.

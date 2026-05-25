@@ -197,4 +197,61 @@ public class PlayerTest {
 		Player player = new Player("p1", "Alice");
 		assertThrows(UnsupportedOperationException.class, () -> player.getPeekCards().add(defuseCard()));
 	}
+
+	@Test
+	void wasAttacked_InitialState_ReturnsFalse() {
+		Player player = new Player("p1", "Alice");
+		assertFalse(player.wasAttacked());
+	}
+
+	@Test
+	void setWasAttacked_WhenFalse_SetsToTrue() {
+		Player player = new Player("p1", "Alice");
+		player.setWasAttacked();
+		assertTrue(player.wasAttacked());
+	}
+
+	@Test
+	void setWasAttacked_WhenAlreadyTrue_RemainsTrue() {
+		Player player = new Player("p1", "Alice");
+		player.setWasAttacked();
+		player.setWasAttacked();
+		assertTrue(player.wasAttacked());
+	}
+
+	@Test
+	void resetWasAttacked_WhenTrue_SetsToFalse() {
+		Player player = new Player("p1", "Alice");
+		player.setWasAttacked();
+		player.resetWasAttacked();
+		assertFalse(player.wasAttacked());
+	}
+
+	@Test
+	void resetWasAttacked_WhenAlreadyFalse_RemainsAlreadyFalse() {
+		Player player = new Player("p1", "Alice");
+		player.resetWasAttacked();
+		assertFalse(player.wasAttacked());
+	}
+
+	@Test
+	void isActive_InitialState_ReturnsTrue() {
+		Player player = new Player("p1", "Alice");
+		assertTrue(player.isActive());
+	}
+
+	@Test
+	void eliminatePlayer_WhenActive_SetsToFalse() {
+		Player player = new Player("p1", "Alice");
+		player.eliminatePlayer();
+		assertFalse(player.isActive());
+	}
+
+	@Test
+	void eliminatePlayer_WhenAlreadyEliminated_RemainsInactive() {
+		Player player = new Player("p1", "Alice");
+		player.eliminatePlayer();
+		player.eliminatePlayer();
+		assertFalse(player.isActive());
+	}
 }

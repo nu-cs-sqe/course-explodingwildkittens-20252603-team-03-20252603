@@ -5,7 +5,7 @@
 
 ## Assumptions and notes
 - The exploding kitten card is stored in TurnState.pendingAction before execute() is called by GameController.
-- IPlayerInput.promptInsertPosition(deckSize) returns the player's chosen position.
+- domain.input.IPlayerInput.promptInsertPosition(deckSize) returns the player's chosen position.
 - After insertion, pendingAction is cleared.
 - Invalid positions (negative or beyond deckSize) are rejected by Deck.insertAt() and are not re-validated here.
 

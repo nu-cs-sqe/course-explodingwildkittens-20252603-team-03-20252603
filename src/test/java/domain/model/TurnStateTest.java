@@ -62,27 +62,10 @@ public class TurnStateTest {
 	}
 
 	@Test
-	void startAttack_TwoTurns_SetsIsAttackingAndTurns() {
+	void startAttack_SetsIsAttacking() {
 		TurnState turnState = new TurnState();
-		turnState.startAttack(2);
+		turnState.startAttack();
 		assertTrue(turnState.isAttacking());
-		assertEquals(2, turnState.turnsRemaining());
-	}
-
-	@Test
-	void startAttack_OneTurn_SetsIsAttackingAndOneTurn() {
-		TurnState turnState = new TurnState();
-		turnState.startAttack(1);
-		assertTrue(turnState.isAttacking());
-		assertEquals(1, turnState.turnsRemaining());
-	}
-
-	@Test
-	void startAttack_ZeroTurns_SetsIsAttackingZeroTurns() {
-		TurnState turnState = new TurnState();
-		turnState.startAttack(0);
-		assertTrue(turnState.isAttacking());
-		assertEquals(0, turnState.turnsRemaining());
 	}
 
 	@Test
@@ -146,26 +129,10 @@ public class TurnStateTest {
 	}
 
 	@Test
-	void decrementTurns_FromTwo_BecomesOne() {
-		TurnState turnState = new TurnState();
-		turnState.startAttack(2);
-		turnState.decrementTurns();
-		assertEquals(1, turnState.turnsRemaining());
-	}
-
-	@Test
-	void decrementTurns_FromZero_StaysZero() {
-		TurnState turnState = new TurnState();
-		turnState.startAttack(0);
-		turnState.decrementTurns();
-		assertEquals(0, turnState.turnsRemaining());
-	}
-
-	@Test
 	void reset_FromDirtyState_RestoresDefaults() {
 		TurnState turnState = new TurnState();
 		turnState.enableSkipDraw();
-		turnState.startAttack(NUM_TURNS_PER_PLAYER);
+		turnState.startAttack();
 		turnState.incrementNopeCount();
 		turnState.setPendingAction(anyCard());
 		turnState.reset();

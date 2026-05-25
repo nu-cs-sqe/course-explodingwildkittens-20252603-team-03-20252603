@@ -96,3 +96,39 @@ spaces: mutating returned view
 |------------------------------|---------------------|------------------------------|--------------------|
 | getHand_IsUnmodifiable       | any player          | add on view throws           | :white_check_mark: |
 | getPeekCards_IsUnmodifiable  | any player          | add on view throws           | :white_check_mark: |
+
+
+
+### Method under test: `wasAttacked()` / `setWasAttacked()` / `resetWasAttacked()`
+spaces: wasAttacked boolean = {false, true}
+
+cases:
+- initial state → wasAttacked is false
+- after setWasAttacked() → wasAttacked is true
+- setWasAttacked() when already true → wasAttacked stays true (idempotent)
+- after resetWasAttacked() when true → wasAttacked is false
+- resetWasAttacked() when already false → wasAttacked stays false (idempotent)
+
+| test_Name                                                | State of the System              | Expected output          | Implemented?       |
+|----------------------------------------------------------|----------------------------------|--------------------------|--------------------|
+| wasAttacked_InitialState_ReturnsFalse                    | freshly constructed player       | wasAttacked() = false    | :white_check_mark: |
+| setWasAttacked_WhenFalse_SetsToTrue                      | wasAttacked = false              | wasAttacked() = true     | :white_check_mark: |
+| setWasAttacked_WhenAlreadyTrue_RemainsTrue                | wasAttacked = true               | wasAttacked() = true     | :white_check_mark: |
+| resetWasAttacked_WhenTrue_SetsToFalse                    | wasAttacked = true               | wasAttacked() = false    | :white_check_mark: |
+| resetWasAttacked_WhenAlreadyFalse_RemainsAlreadyFalse    | wasAttacked = false              | wasAttacked() = false    | :white_check_mark: |
+
+
+
+### Method under test: `isActive()` / `eliminatePlayer()`
+spaces: isActive boolean = {true, false}
+
+cases:
+- initial state → isActive is true
+- after eliminatePlayer() → isActive is false
+- eliminatePlayer() when already false → isActive stays false (idempotent; no reactivation method exists)
+
+| test_Name                                              | State of the System              | Expected output        | Implemented?       |
+|--------------------------------------------------------|----------------------------------|------------------------|--------------------|
+| isActive_InitialState_ReturnsTrue                      | freshly constructed player       | isActive() = true      | :white_check_mark: |
+| eliminatePlayer_WhenActive_SetsToFalse                 | isActive = true                  | isActive() = false     | :white_check_mark: |
+| eliminatePlayer_WhenAlreadyEliminated_RemainsInactive  | isActive = false                 | isActive() = false     | :white_check_mark: |

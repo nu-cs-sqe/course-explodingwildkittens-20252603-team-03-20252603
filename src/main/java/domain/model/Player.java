@@ -12,12 +12,16 @@ public class Player {
 	private final String name;
 	private final List<Card> hand;
 	private final List<Card> peekCards;
+	private boolean wasAttacked;
+	private boolean isActive;
 
 	public Player(String id, String name) {
 		this.id = id;
 		this.name = name;
 		this.hand = new ArrayList<>();
 		this.peekCards = new ArrayList<>();
+		this.wasAttacked = false;
+		this.isActive = true;
 	}
 
 	public String getId() {
@@ -72,5 +76,25 @@ public class Player {
 
 	public void clearPeek() {
 		peekCards.clear();
+	}
+
+	public boolean wasAttacked() {
+		return wasAttacked;
+	}
+
+	public void setWasAttacked() {
+		this.wasAttacked = true;
+	}
+
+	public void resetWasAttacked() {
+		this.wasAttacked = false;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void eliminatePlayer() {
+		this.isActive = false;
 	}
 }

@@ -48,6 +48,8 @@ public class GameState {
 		if (activePlayers.size() == 1) {
 			throw new IllegalStateException("Error: cannot eliminate the last remaining player");
 		}
+		Player currentPlayer = getCurrentPlayer();
+		currentPlayer.eliminatePlayer();
 		eliminatedPlayers.add(activePlayers.poll());
 	}
 
@@ -102,6 +104,15 @@ public class GameState {
 
 	public boolean currentPlayerHasCard(CardType type) {
 		return getCurrentPlayer().hasCard(type);
+	}
+
+	public Player getNextPlayer() {
+		if (activePlayers.size() < 2) {
+			throw new IllegalStateException("No next player: only one active player remains");
+		}
+		Iterator<Player> it = activePlayers.iterator();
+		it.next();
+		return it.next();
 	}
 
 	public List<Player> getOtherActivePlayers() {

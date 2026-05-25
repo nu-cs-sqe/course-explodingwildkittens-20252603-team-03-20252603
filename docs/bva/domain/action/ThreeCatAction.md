@@ -5,7 +5,7 @@
 
 ## Assumptions and notes
 - PlayerInteractionHelper.stealNamedCard handles the named card theft.
-- Current player names a card type via PlayerInteractionHelper.pickCardType (delegates to IPlayerInput).
+- Current player names a card type via PlayerInteractionHelper.pickCardType (delegates to domain.input.IPlayerInput).
 - If the target does not have the named type, no card is transferred (no exception).
 - If no other active players exist, an IllegalStateException is thrown.
 

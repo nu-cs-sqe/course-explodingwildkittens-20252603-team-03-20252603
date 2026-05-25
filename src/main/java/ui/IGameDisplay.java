@@ -11,4 +11,6 @@ public interface IGameDisplay {
 	void showMessage(String message);
 
 	void showWinner(Player player);
+
+	void showCurrentPlayer(Player player);
 }
