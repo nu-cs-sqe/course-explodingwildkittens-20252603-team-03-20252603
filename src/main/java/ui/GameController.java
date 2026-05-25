@@ -2,6 +2,7 @@ package ui;
 
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
@@ -13,13 +14,16 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class GameController {
 	private final GameState gameState;
-	private final IGameUI ui;
+	private final IGameDisplay display;
+	private final IPlayerInput input;
 	private final ComboValidator comboValidator;
 
+	// 4 parameters: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
-	public GameController(GameState gameState, IGameUI ui, ComboValidator comboValidator) {
+	public GameController(GameState gameState, IGameDisplay display, IPlayerInput input, ComboValidator comboValidator) {
 		this.gameState = gameState;
-		this.ui = ui;
+		this.display = display;
+		this.input = input;
 		this.comboValidator = comboValidator;
 	}
 
@@ -34,7 +38,7 @@ public class GameController {
 			throw new IllegalArgumentException("cards must not be null");
 		}
 		if (!comboValidator.isValid(cards)) {
-			ui.showMessage("Invalid card selection.");
+			display.showMessage("Invalid card selection.");
 			return;
 		}
 		TurnState turnState = gameState.turnState();
@@ -58,7 +62,7 @@ public class GameController {
 	private void applyNopeWindow(TurnState turnState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		for (Player player : others) {
-			if (ui.promptNope(List.of(player))) {
+			if (input.promptNope(List.of(player))) {
 				turnState.incrementNopeCount();
 			}
 		}

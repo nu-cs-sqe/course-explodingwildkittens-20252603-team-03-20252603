@@ -5,6 +5,7 @@ import domain.action.NoAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
 import domain.factory.ComboValidator;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
@@ -21,16 +22,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameControllerTest {
 
 	private GameState mockGameState;
-	private IGameUI mockUI;
+	private IGameDisplay mockDisplay;
+	private IPlayerInput mockInput;
 	private ComboValidator mockValidator;
 	private GameController controller;
 
 	@BeforeEach
 	void setUp() {
 		mockGameState = EasyMock.createMock(GameState.class);
-		mockUI = EasyMock.createMock(IGameUI.class);
+		mockDisplay = EasyMock.createMock(IGameDisplay.class);
+		mockInput = EasyMock.createMock(IPlayerInput.class);
 		mockValidator = EasyMock.createMock(ComboValidator.class);
-		controller = new GameController(mockGameState, mockUI, mockValidator);
+		controller = new GameController(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	private Card defuseCard() {
@@ -72,55 +75,55 @@ public class GameControllerTest {
 		Player other = otherPlayer();
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(other));
-		EasyMock.expect(mockUI.promptNope(List.of(other))).andReturn(true);
+		EasyMock.expect(mockInput.promptNope(List.of(other))).andReturn(true);
 	}
 
 	@Test
 	void playCard_NullList_ThrowsIllegalArgumentException() {
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		assertThrows(IllegalArgumentException.class, () -> controller.playCard(null));
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
 	void playCard_EmptyList_ShowsErrorMessage() {
 		List<Card> cards = Collections.emptyList();
 		EasyMock.expect(mockValidator.isValid(cards)).andReturn(false);
-		mockUI.showMessage(EasyMock.anyString());
+		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
 	void playCard_SingleDefuse_ShowsErrorMessage() {
 		List<Card> cards = List.of(defuseCard());
 		EasyMock.expect(mockValidator.isValid(cards)).andReturn(false);
-		mockUI.showMessage(EasyMock.anyString());
+		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
 	void playCard_SingleCatCard_ShowsErrorMessage() {
 		List<Card> cards = List.of(catCard());
 		EasyMock.expect(mockValidator.isValid(cards)).andReturn(false);
-		mockUI.showMessage(EasyMock.anyString());
+		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
@@ -129,11 +132,11 @@ public class GameControllerTest {
 		TurnState turnState = new TurnState();
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectValidPlaySetup(cards, turnState, mockAction);
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 	}
 
 	@Test
@@ -142,11 +145,11 @@ public class GameControllerTest {
 		TurnState turnState = new TurnState();
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectValidPlaySetup(cards, turnState, mockAction);
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 	}
 
 	@Test
@@ -155,11 +158,11 @@ public class GameControllerTest {
 		TurnState turnState = new TurnState();
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectValidPlaySetup(cards, turnState, mockAction);
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 		assertTrue(turnState.pendingAction().isEmpty());
 	}
 
@@ -168,11 +171,11 @@ public class GameControllerTest {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
 		expectNopedPlaySetup(cards, turnState);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
@@ -180,11 +183,11 @@ public class GameControllerTest {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
 		expectNopedPlaySetup(cards, turnState);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertEquals(1, turnState.nopeCount());
 	}
 
@@ -193,11 +196,11 @@ public class GameControllerTest {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
 		expectNopedPlaySetup(cards, turnState);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
@@ -205,11 +208,11 @@ public class GameControllerTest {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
 		expectNopedPlaySetup(cards, turnState);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertTrue(turnState.pendingAction().isEmpty());
 	}
 
@@ -219,11 +222,11 @@ public class GameControllerTest {
 		TurnState turnState = new TurnState();
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectValidPlaySetup(cards, turnState, mockAction);
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 	}
 
 	@Test
@@ -232,11 +235,11 @@ public class GameControllerTest {
 		TurnState turnState = new TurnState();
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectValidPlaySetup(cards, turnState, mockAction);
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 	}
 
 	@Test
@@ -247,15 +250,15 @@ public class GameControllerTest {
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(other));
-		EasyMock.expect(mockUI.promptNope(List.of(other))).andReturn(false);
+		EasyMock.expect(mockInput.promptNope(List.of(other))).andReturn(false);
 		EasyMock.expect(mockValidator.resolveAction(cards)).andReturn(mockAction);
 		mockAction.execute(mockGameState);
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 		assertEquals(0, turnState.nopeCount());
 	}
 
@@ -269,17 +272,17 @@ public class GameControllerTest {
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
-		EasyMock.expect(mockUI.promptNope(List.of(p1))).andReturn(false);
-		EasyMock.expect(mockUI.promptNope(List.of(p2))).andReturn(false);
-		EasyMock.expect(mockUI.promptNope(List.of(p3))).andReturn(false);
+		EasyMock.expect(mockInput.promptNope(List.of(p1))).andReturn(false);
+		EasyMock.expect(mockInput.promptNope(List.of(p2))).andReturn(false);
+		EasyMock.expect(mockInput.promptNope(List.of(p3))).andReturn(false);
 		EasyMock.expect(mockValidator.resolveAction(cards)).andReturn(mockAction);
 		mockAction.execute(mockGameState);
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator, mockAction);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, mockAction);
 		assertEquals(0, turnState.nopeCount());
 	}
 
@@ -292,14 +295,14 @@ public class GameControllerTest {
 		Player p3 = new Player("p3", "Player 3");
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
-		EasyMock.expect(mockUI.promptNope(List.of(p1))).andReturn(false);
-		EasyMock.expect(mockUI.promptNope(List.of(p2))).andReturn(true);
-		EasyMock.expect(mockUI.promptNope(List.of(p3))).andReturn(false);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.expect(mockInput.promptNope(List.of(p1))).andReturn(false);
+		EasyMock.expect(mockInput.promptNope(List.of(p2))).andReturn(true);
+		EasyMock.expect(mockInput.promptNope(List.of(p3))).andReturn(false);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertEquals(1, turnState.nopeCount());
 	}
 
@@ -312,14 +315,14 @@ public class GameControllerTest {
 		Player p3 = new Player("p3", "Player 3");
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
-		EasyMock.expect(mockUI.promptNope(List.of(p1))).andReturn(true);
-		EasyMock.expect(mockUI.promptNope(List.of(p2))).andReturn(true);
-		EasyMock.expect(mockUI.promptNope(List.of(p3))).andReturn(true);
-		EasyMock.replay(mockGameState, mockUI, mockValidator);
+		EasyMock.expect(mockInput.promptNope(List.of(p1))).andReturn(true);
+		EasyMock.expect(mockInput.promptNope(List.of(p2))).andReturn(true);
+		EasyMock.expect(mockInput.promptNope(List.of(p3))).andReturn(true);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
 
-		EasyMock.verify(mockGameState, mockUI, mockValidator);
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertEquals(3, turnState.nopeCount());
 	}
 }
