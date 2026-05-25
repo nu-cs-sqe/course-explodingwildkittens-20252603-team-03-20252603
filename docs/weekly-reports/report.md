@@ -19,5 +19,14 @@
 4. [upcoming] Meet with Professor Yiji to go over design and ask questions on project.
 5. [not started] Coding Task assignments
 
+# Week 6 (05/04/2026-05/11/2026)
+**Planning and Progress Tracking**:
+[done] Met with Prof Yiji last week to discuss design.
+1. [done] Mercy: deck, deckfactory, card
+2. [done] Caroline: project structure, enums, class interfaces
+2. [in progress] Chibueze: player class
+3. [in progress] Austin: CardAction Implementations and Validator
+4. [in progress] Caroline: TurnState and GameState
+
 
 
