@@ -44,4 +44,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 	public CardType promptCardType() {
 		throw new UnsupportedOperationException();
 	}
+
+	public boolean promptRestart() {
+		return false;
+	}
 }
