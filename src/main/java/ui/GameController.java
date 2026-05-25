@@ -1,5 +1,6 @@
 package ui;
 
+import controller.IGameDisplay;
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
