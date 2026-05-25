@@ -4,7 +4,6 @@ import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
-import domain.model.Deck;
 import domain.model.GameState;
 import domain.model.Player;
 
@@ -35,8 +34,9 @@ public class GameController {
 			display.showMessage("Please enter a number of players between 2 and 5.");
 			numPlayers = input.promptNumPlayers();
 		}
+		this.deckFactory = new DeckFactory(numPlayers, input);
 		List<Player> players = buildPlayers(numPlayers);
-		this.gameState = new GameState(players, new Deck(new ArrayList<>()));
+		this.gameState = new GameState(players, deckFactory.buildDeck());
 	}
 
 	public void endGame() {
@@ -45,6 +45,10 @@ public class GameController {
 		if (input.promptRestart()) {
 			startGame();
 		}
+	}
+
+	public boolean isGameActive() {
+		return gameState.isActive();
 	}
 
 	public void playATurn() {

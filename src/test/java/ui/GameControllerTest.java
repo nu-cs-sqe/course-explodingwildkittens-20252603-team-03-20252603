@@ -4,6 +4,8 @@ import domain.input.IPlayerInput;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 public class GameControllerTest {
 
 	private static final int FIVE_PLAYERS_IN_GAME = 5;
@@ -70,6 +72,26 @@ public class GameControllerTest {
 		GameController controller = new GameController(display, input);
 		controller.startGame();
 
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void endGame_OneActivePlayer_SetsGameInactive() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		display.showWinner(EasyMock.anyObject());
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(input.promptRestart()).andReturn(false);
+
+		EasyMock.replay(display, input);
+
+		GameController controller = new GameController(display, input);
+		controller.startGame();
+		controller.endGame();
+
+		assertFalse(controller.isGameActive());
 		EasyMock.verify(display, input);
 	}
 

@@ -5,6 +5,7 @@
 - `GameController(display: IGameDisplay, input: IPlayerInput)` (constructor) → new GameController
 - `startGame()` → void
 - `endGame()` → void
+- `isGameActive()` → boolean
 
 ## Assumptions and notes
 
@@ -14,6 +15,7 @@
 - `startGame()` initializes `GameState` with the resulting deck and player list, then calls `playATurn()` to begin the first turn.
 - `endGame()` calls `gameState.endGame()`, then `display.showWinner()` with the sole surviving player (the only player left in the active queue), then delegates the restart/close decision to `input.promptRestart()`. If `promptRestart()` returns `true`, `startGame()` is called again from the top.
 - `endGame()` must only be called after `startGame()` has successfully initialized a `GameState`; calling it beforehand is undefined.
+- `isGameActive()` delegates to `gameState.isActive()`; added to kill the PITest mutant that removes the `gameState.endGame()` call.
 - Tests for this class verify observable mock interactions on `IGameDisplay` and `IPlayerInput`. Internal postconditions (player hand size, deck composition, discard pile state) are delegated to `DeckFactory` and `GameState` and are tested in their own BVA docs.
 
 
@@ -44,12 +46,13 @@ spaces: promptRestart = {true, false}
 Precondition: exactly 1 active player remains in `GameState` (the survivor); this is guaranteed by the Remove Player flow before `endGame()` is ever called.
 
 cases:
-- 1 active player → `showWinner` called with the sole surviving player
+- 1 active player → `gameState.endGame()` called, game becomes inactive; `showWinner` called with survivor
 - promptRestart = true: `startGame()` is called again (promptNumPlayers invoked once more)
 - promptRestart = false: game ends, `startGame()` is not called again
 
-| test_Name                                       | State of the System                                                    | Expected output                            | Implemented?       |
-|-------------------------------------------------|------------------------------------------------------------------------|--------------------------------------------|--------------------|
+| test_Name                                       | State of the System                                                     | Expected output                            | Implemented?       |
+|-------------------------------------------------|-------------------------------------------------------------------------|--------------------------------------------|---------------------|
+| endGame_OneActivePlayer_SetsGameInactive        | game started with 2 players; promptRestart returns false                | isGameActive() = false                     | :white_check_mark: |
 | endGame_OneActivePlayer_DisplaysSurvivor        | game started with 2 players; 1 player eliminated; survivor is player 2 | showWinner called with player 2            | :white_check_mark: |
-| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                           | promptNumPlayers called a second time      | :white_check_mark: |
-| endGame_PromptRestartFalse_DoesNotCallStartGame | 1 player remains; promptRestart returns false                          | promptNumPlayers called exactly once total | :white_check_mark: |
+| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                            | promptNumPlayers called a second time      | :white_check_mark: |
+| endGame_PromptRestartFalse_DoesNotCallStartGame | 1 player remains; promptRestart returns false                           | promptNumPlayers called exactly once total | :white_check_mark: |
