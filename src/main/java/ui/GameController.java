@@ -18,9 +18,10 @@ public class GameController {
 	private final IPlayerInput input;
 	private final ComboValidator comboValidator;
 
-	// 4 parameters: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
+	// 4 params: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
-	public GameController(GameState gameState, IGameDisplay display, IPlayerInput input, ComboValidator comboValidator) {
+	public GameController(GameState gameState, IGameDisplay display,
+			IPlayerInput input, ComboValidator comboValidator) {
 		this.gameState = gameState;
 		this.display = display;
 		this.input = input;

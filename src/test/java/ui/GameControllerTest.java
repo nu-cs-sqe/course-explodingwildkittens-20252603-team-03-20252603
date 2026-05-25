@@ -308,6 +308,7 @@ public class GameControllerTest {
 
 	@Test
 	void applyNopeWindow_MultiplePlayers_AllNope_NopeCountIsThree() {
+		final int expectedNopeCount = 3;
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
 		Player p1 = new Player("p1", "Player 1");
@@ -323,6 +324,6 @@ public class GameControllerTest {
 		controller.playCard(cards);
 
 		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
-		assertEquals(3, turnState.nopeCount());
+		assertEquals(expectedNopeCount, turnState.nopeCount());
 	}
 }
