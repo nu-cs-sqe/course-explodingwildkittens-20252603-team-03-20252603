@@ -20,7 +20,7 @@ package ui{
     class GameController {
       - gameState: GameState
       - display: IGameDisplay
-      - input: IPlayerInput
+      - input: domain.input.IPlayerInput
       - deckFactory: DeckFactory
       - comboValidator: ComboValidator
       + startGame(numPlayers: int): void
@@ -41,7 +41,7 @@ package ui{
 
 package domain{
 
-    interface IPlayerInput {
+    interface domain.input.IPlayerInput {
       + promptCardSelection(player: Player): List<Card>
       + promptNumPlayers(): int
       + promptNope(players: List<Player>): boolean
@@ -74,12 +74,12 @@ package domain{
     class AttackAction implements CardAction
     class ShuffleAction implements CardAction
     class SeeTheFutureAction implements CardAction
-    'nopeAction may not be needed if only prompted via promptNope in IPlayerInput'
+    'nopeAction may not be needed if only prompted via promptNope in domain.input.IPlayerInput'
     class NopeAction implements CardAction
     class DefuseAction implements CardAction
 
     class PlayerInteractionHelper {
-      - input: IPlayerInput
+      - input: domain.input.IPlayerInput
       + stealRandomCard(from: Player, to: Player): void
       + stealNamedCard(from: Player, to: Player, type: CardType): void
     }
@@ -191,7 +191,7 @@ Main ..> GameController
 Main ..> DeckFactory
 
 GameView ..|> IGameDisplay
-GameView ..|> IPlayerInput
+GameView ..|> domain.input.IPlayerInput
 
 Card --> CardType
 Card --> CardAction
@@ -212,12 +212,12 @@ ThreeCatAction --> PlayerInteractionHelper
 
 GameController --> GameState
 GameController --> IGameDisplay
-GameController --> IPlayerInput
+GameController --> domain.input.IPlayerInput
 GameController --> DeckFactory
 GameController --> ComboValidator
 
 ComboValidator --> CardAction
-PlayerInteractionHelper --> IPlayerInput
+PlayerInteractionHelper --> domain.input.IPlayerInput
 
 DeckFactory ..> Deck
 

@@ -1,4 +1,4 @@
-package controller;
+package ui;
 
 import domain.model.GameState;
 import domain.model.Player;

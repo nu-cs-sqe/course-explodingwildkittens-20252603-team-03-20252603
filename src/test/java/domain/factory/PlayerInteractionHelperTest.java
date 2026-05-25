@@ -4,7 +4,7 @@ import domain.action.AttackAction;
 import domain.action.SkipAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
-import controller.IPlayerInput;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.Player;
 import org.easymock.EasyMock;

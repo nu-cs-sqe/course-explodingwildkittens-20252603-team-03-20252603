@@ -10,8 +10,8 @@
 ## Assumptions and notes
 - stealRandomCard does nothing if `from`'s hand is empty; no exception is thrown.
 - stealNamedCard does nothing if `from` does not have the named type; no exception is thrown.
-- pickTarget and pickCardType delegate entirely to IPlayerInput — no additional BVA needed beyond the delegation itself.
-- giveCard prompts `from` to choose a card via IPlayerInput.promptCardSelection and transfers the first chosen card.
+- pickTarget and pickCardType delegate entirely to domain.input.IPlayerInput — no additional BVA needed beyond the delegation itself.
+- giveCard prompts `from` to choose a card via domain.input.IPlayerInput.promptCardSelection and transfers the first chosen card.
 - giveCard does nothing if the prompted selection is empty.
 - giveCard does nothing if the selected card is not in `from`'s hand.
 

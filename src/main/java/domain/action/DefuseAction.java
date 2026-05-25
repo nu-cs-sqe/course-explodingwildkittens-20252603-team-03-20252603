@@ -1,6 +1,6 @@
 package domain.action;
 
-import controller.IPlayerInput;
+import domain.input.IPlayerInput;
 import domain.model.GameState;
 
 public class DefuseAction implements CardAction {

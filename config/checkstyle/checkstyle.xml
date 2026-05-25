@@ -7,6 +7,8 @@
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="error"/>
 
+    <module name="SuppressWarningsFilter"/>
+
     <!-- Max line length: 120 characters (URLs and imports are exempt) -->
     <module name="LineLength">
         <property name="max" value="120"/>
@@ -14,6 +16,8 @@
     </module>
 
     <module name="TreeWalker">
+
+        <module name="SuppressWarningsHolder"/>
 
         <!-- Indent must use tab characters -->
         <module name="RegexpSinglelineJava">

@@ -1,12 +1,14 @@
 package ui;
 
-import controller.IGameDisplay;
+import domain.action.DefuseAction;
+import domain.enums.CardType;
+import domain.enums.PlayerChoice;
+import domain.model.GameState;
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
-import domain.model.GameState;
 import domain.model.Player;
 import domain.model.TurnState;
 
@@ -15,9 +17,12 @@ import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+@SuppressFBWarnings({"UUF_UNUSED_FIELD", "URF_UNREAD_FIELD", "UWF_UNWRITTEN_FIELD", "NP_UNWRITTEN_FIELD"})
 public class GameController {
 	private static final int MIN_PLAYERS = 2;
 	private static final int MAX_PLAYERS = 5;
+	private static final int DEFAULT_NORMAL_TURNS = 1;
+	private static final int DEFAULT_ATTACKING_TURNS = 2;
 
 	private GameState gameState;
 	private final IGameDisplay display;
@@ -34,7 +39,7 @@ public class GameController {
 	// 4 params: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
 	public GameController(GameState gameState, IGameDisplay display,
-			IPlayerInput input, ComboValidator comboValidator) {
+		IPlayerInput input, ComboValidator comboValidator){
 		this.gameState = gameState;
 		this.display = display;
 		this.input = input;
@@ -65,6 +70,89 @@ public class GameController {
 	}
 
 	public void playATurn() {
+		if (!readyToPlayATurn()) {
+			throw new IllegalStateException("Game state is not ready to play a turn");}
+		Player currentPlayer = gameState.getCurrentPlayer();
+		display.showCurrentPlayer(currentPlayer);
+		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
+		while (hasToPlayATurn()) {
+			PlayerChoice playerChoice = input.promptPlayerChoice();
+			if (playerChoice == PlayerChoice.PLAY_CARD) {
+				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
+				playCard(chosenCards);
+			} else {
+				handleDrawingCards();
+				}
+			turnsForNextPlayer = handleTurnTaking();
+		}
+		resetCurrentPlayerWasAttacked();
+		resetGameState(turnsForNextPlayer);
+		advanceGameToNextPlayer();
+	}
+
+
+	boolean readyToPlayATurn() {
+		if (!gameState.isActive()) {
+			return false;
+		}
+
+		Player currentPlayer = gameState.getCurrentPlayer();
+		if (!currentPlayer.isActive()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	boolean hasToPlayATurn() {
+		if (gameState.turnState().isAttacking()){
+			return false;
+		}
+		else {
+			int turnsLeft = gameState.turnState().turnsRemaining();
+			return turnsLeft != 0;
+		}
+	}
+
+	void handleDrawingCards() {
+		boolean shouldSkipDraw = gameState.turnState().shouldSkipDraw();
+		if (!shouldSkipDraw) {
+			drawCard();
+		}
+	}
+
+	int handleTurnTaking() {
+		boolean currentPlayerIsAttacking = gameState.turnState().isAttacking();
+
+		if (!currentPlayerIsAttacking) {
+			gameState.turnState().decrementTurns();
+			return DEFAULT_NORMAL_TURNS;
+		} else {
+			Player currentPlayer = gameState.getCurrentPlayer();
+			if (currentPlayer.wasAttacked()){
+				int nextPlayerTurns = gameState.turnState().turnsRemaining() + DEFAULT_ATTACKING_TURNS;
+				gameState.turnState().decrementTurns();
+				return nextPlayerTurns;
+			} else {
+				int nextPlayerTurns = DEFAULT_ATTACKING_TURNS;
+				gameState.turnState().decrementTurns();
+				return nextPlayerTurns;
+			}
+		}
+
+	}
+
+	void resetCurrentPlayerWasAttacked() {
+		Player currentPlayer = gameState.getCurrentPlayer();
+		currentPlayer.resetWasAttacked();
+	};
+
+	void resetGameState(int turnsForNextPlayer) {
+		gameState.turnState().reset(turnsForNextPlayer);
+	}
+
+	void advanceGameToNextPlayer() {
+		gameState.advancePlayer();
 	}
 
 	public void playCard(List<Card> cards) {
@@ -103,6 +191,17 @@ public class GameController {
 	}
 
 	public void drawCard() {
+		Card card = gameState.drawFromDeck();
+		if (card.isType(CardType.EXPLODING_KITTEN)) {
+			gameState.turnState().setPendingAction(card);
+			if (gameState.currentPlayerHasCard(CardType.DEFUSE)) {
+				new DefuseAction(input).execute(gameState);
+			} else {
+				gameState.eliminateCurrentPlayer();
+			}
+		} else {
+			gameState.addCardToCurrentPlayer(card);
+		}
 	}
 
 	private List<Player> buildPlayers(int numPlayers) {

@@ -1,6 +1,6 @@
 package domain.action;
 
-import controller.IPlayerInput;
+import domain.input.IPlayerInput;
 import domain.model.GameState;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;

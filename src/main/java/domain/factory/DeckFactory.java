@@ -3,7 +3,7 @@ package domain.factory;
 import domain.action.*;
 import domain.enums.CardName;
 import domain.enums.CardType;
-import controller.IPlayerInput;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.Deck;
 
