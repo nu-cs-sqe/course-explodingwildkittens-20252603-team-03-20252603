@@ -1,21 +1,74 @@
 package domain.model;
 
-public class TurnState {
-    private int turnsToTake;
-    private boolean skipDraw;
-    private boolean isAttacking;
-    private Card pendingAction;
-    private int nopeCount;
+import java.util.Optional;
 
-    public void enableSkipDraw() {}
-    public void startAttack(int turns) {}
-    public void setPendingAction(Card card) {}
-    public void clearPendingAction() {}
-    public void incrementNopeCount() {}
-    public void decrementTurns() {}
-    public boolean shouldSkipDraw() { return false; }
-    public boolean isAttacking() { return false; }
-    public int nopeCount() { return 0; }
-    public int turnsRemaining() { return 0; }
-    public void reset() {}
+public class TurnState {
+
+	private static final int DEFAULT_TURNS = 1;
+
+	private int turnsToTake;
+	private boolean skipDraw;
+	private boolean isAttacking;
+	private Card pendingAction;
+	private int nopeCount;
+
+	public TurnState() {
+		reset();
+	}
+
+	public void enableSkipDraw() {
+		skipDraw = true;
+	}
+
+	public void startAttack(int turns) {
+		isAttacking = true;
+		turnsToTake = turns;
+	}
+
+	public void setPendingAction(Card card) {
+		if (card == null) {
+			throw new IllegalArgumentException("card must not be null");
+		}
+		pendingAction = card;
+	}
+
+	public void clearPendingAction() {
+		pendingAction = null;
+	}
+
+	public void incrementNopeCount() {
+		nopeCount++;
+	}
+
+	public void decrementTurns() {
+		turnsToTake = Math.max(0, turnsToTake - 1);
+	}
+
+	public boolean shouldSkipDraw() {
+		return skipDraw;
+	}
+
+	public boolean isAttacking() {
+		return isAttacking;
+	}
+
+	public int nopeCount() {
+		return nopeCount;
+	}
+
+	public int turnsRemaining() {
+		return turnsToTake;
+	}
+
+	public Optional<Card> pendingAction() {
+		return Optional.ofNullable(pendingAction);
+	}
+
+	public void reset() {
+		turnsToTake = DEFAULT_TURNS;
+		skipDraw = false;
+		isAttacking = false;
+		pendingAction = null;
+		nopeCount = 0;
+	}
 }

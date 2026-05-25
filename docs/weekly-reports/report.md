@@ -11,6 +11,14 @@
 4.[Done] all of team 3: Decided to use GUI Java swift for our project
 
 
+# Week 5 (04/27/2026-05/03/2026) 
+**Planning and Progress Tracking**:
+1. [done] Mercy, Chibueze: Drafting user stories
+2. [done] Caroline, Austin: Writing Design UML
+3. [done] Team meeting to approve the Class Design UML and user stories which is needed in order to build out BVA
+4. [upcoming] Meet with Professor Yiji to go over design and ask questions on project.
+5. [not started] Coding Task assignments
+
 # Week 6 (05/04/2026-05/11/2026)
 **Planning and Progress Tracking**:
 [done] Met with Prof Yiji last week to discuss design.
@@ -19,3 +27,6 @@
 2. [in progress] Chibueze: player class
 3. [in progress] Austin: CardAction Implementations and Validator
 4. [in progress] Caroline: TurnState and GameState
+
+
+
