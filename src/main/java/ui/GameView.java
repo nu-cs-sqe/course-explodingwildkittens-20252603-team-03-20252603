@@ -1,9 +1,7 @@
 package ui;
 
-import controller.IGameDisplay;
 import domain.enums.CardType;
-import controller.IPlayerInput;
-import domain.enums.PlayerChoice;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
@@ -21,9 +19,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 	}
 
 	public void showWinner(Player player) {
-	}
-
-	public void showCurrentPlayer(Player player) {
 	}
 
 	public List<Card> promptCardSelection(Player player) {
@@ -50,5 +45,7 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		throw new UnsupportedOperationException();
 	}
 
-	public PlayerChoice promptPlayerChoice() {return null;};
+	public boolean promptRestart() {
+		return false;
+	}
 }
