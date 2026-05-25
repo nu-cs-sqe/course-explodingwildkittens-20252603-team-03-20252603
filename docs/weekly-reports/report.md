@@ -24,9 +24,9 @@
 [done] Met with Prof Yiji last week to discuss design.
 1. [done] Mercy: deck, deckfactory, card
 2. [done] Caroline: project structure, enums, class interfaces
-2. [in progress] Chibueze: player class
-3. [in progress] Austin: CardAction Implementations and Validator
-4. [in progress] Caroline: TurnState and GameState
+3. [in progress] Chibueze: player class
+4. [in progress] Austin: CardAction Implementations and Validator
+5. [in progress] Caroline: TurnState and GameState
 
 # Week 7 (05/11/2026-05/18/2026)
 **Planning and Progress Tracking**:
