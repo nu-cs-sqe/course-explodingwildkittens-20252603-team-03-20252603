@@ -57,8 +57,10 @@ public class GameController {
 
 	private void applyNopeWindow(TurnState turnState) {
 		List<Player> others = gameState.getOtherActivePlayers();
-		if (ui.promptNope(others)) {
-			turnState.incrementNopeCount();
+		for (Player player : others) {
+			if (ui.promptNope(List.of(player))) {
+				turnState.incrementNopeCount();
+			}
 		}
 	}
 
