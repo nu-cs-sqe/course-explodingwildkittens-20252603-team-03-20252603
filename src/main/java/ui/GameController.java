@@ -12,8 +12,11 @@ import domain.model.Card;
 import domain.model.Player;
 import domain.model.TurnState;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -23,6 +26,8 @@ public class GameController {
 	private static final int MAX_PLAYERS = 5;
 	private static final int DEFAULT_NORMAL_TURNS = 1;
 	private static final int DEFAULT_ATTACKING_TURNS = 2;
+	private static final ResourceBundle BUNDLE =
+		ResourceBundle.getBundle("labels", Locale.getDefault());
 
 	private GameState gameState;
 	private final IGameDisplay display;
@@ -49,7 +54,7 @@ public class GameController {
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
 		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
-			display.showMessage("Please enter a number of players between 2 and 5.");
+			display.showMessage(BUNDLE.getString("error.num.players"));
 			numPlayers = input.promptNumPlayers();
 		}
 		this.deckFactory = new DeckFactory(numPlayers, input);
@@ -160,7 +165,7 @@ public class GameController {
 			throw new IllegalArgumentException("cards must not be null");
 		}
 		if (!comboValidator.isValid(cards)) {
-			display.showMessage("Invalid card selection.");
+			display.showMessage(BUNDLE.getString("error.invalid.card"));
 			return;
 		}
 		TurnState turnState = gameState.turnState();
@@ -207,7 +212,9 @@ public class GameController {
 	private List<Player> buildPlayers(int numPlayers) {
 		List<Player> players = new ArrayList<>();
 		for (int i = 0; i < numPlayers; i++) {
-			players.add(new Player("p" + (i + 1), "Player " + (i + 1)));
+			players.add(new Player(
+				MessageFormat.format(BUNDLE.getString("player.id"), i + 1),
+				MessageFormat.format(BUNDLE.getString("player.name"), i + 1)));
 		}
 		return players;
 	}
