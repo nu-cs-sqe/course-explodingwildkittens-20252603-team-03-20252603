@@ -76,7 +76,7 @@ public class GameController {
 
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
-			throw new IllegalStateException("Game state is not ready to play a turn");}
+			throw new IllegalStateException(BUNDLE.getString("error.not.ready.to.play"));}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
 		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
@@ -162,7 +162,7 @@ public class GameController {
 
 	public void playCard(List<Card> cards) {
 		if (cards == null) {
-			throw new IllegalArgumentException("cards must not be null");
+			throw new IllegalArgumentException(BUNDLE.getString("error.cards.arg.null"));
 		}
 		if (!comboValidator.isValid(cards)) {
 			display.showMessage(BUNDLE.getString("error.invalid.card"));

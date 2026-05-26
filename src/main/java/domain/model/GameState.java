@@ -4,11 +4,15 @@ import domain.enums.CardType;
 import domain.enums.GameStatus;
 
 import java.util.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressFBWarnings("UUF_UNUSED_FIELD")
 public class GameState {
+	private static final ResourceBundle BUNDLE =
+		ResourceBundle.getBundle("labels", Locale.getDefault());
 	private GameStatus status;
 	private Queue<Player> activePlayers;
 	private List<Player> eliminatedPlayers;
@@ -35,7 +39,7 @@ public class GameState {
 
 	public Player getCurrentPlayer() {
 		if (activePlayers.isEmpty()) {
-			throw new IllegalStateException("Error: no players left");
+			throw new IllegalStateException(BUNDLE.getString("error.no.players.left"));
 		}
 		return activePlayers.peek();
 	}
@@ -46,7 +50,7 @@ public class GameState {
 
 	public void eliminateCurrentPlayer() {
 		if (activePlayers.size() == 1) {
-			throw new IllegalStateException("Error: cannot eliminate the last remaining player");
+			throw new IllegalStateException(BUNDLE.getString("error.eliminate.last.player"));
 		}
 		Player currentPlayer = getCurrentPlayer();
 		currentPlayer.eliminatePlayer();
@@ -63,7 +67,7 @@ public class GameState {
 
 	public Card drawFromDeck() {
 		if (deck.isEmpty()) {
-			throw new IllegalStateException("Cannot draw from an empty deck");
+			throw new IllegalStateException(BUNDLE.getString("error.draw.empty.deck"));
 		}
 		return deck.drawTop();
 	}
@@ -74,7 +78,7 @@ public class GameState {
 
 	public void insertIntoDeck(Card card, int index) {
 		if (index < 0) {
-			throw new IndexOutOfBoundsException("Error: index is less than 0");
+			throw new IndexOutOfBoundsException(BUNDLE.getString("error.index.less.than.zero"));
 		}
 		deck.insertAt(card, index);
 	}
@@ -85,7 +89,7 @@ public class GameState {
 
 	public void discardCard(Card card) {
 		if (card == null) {
-			throw new IllegalArgumentException("Card cannot be null");
+			throw new IllegalArgumentException(BUNDLE.getString("error.card.null"));
 		}
 		discardPile.add(card);
 	}
@@ -108,7 +112,7 @@ public class GameState {
 
 	public Player getNextPlayer() {
 		if (activePlayers.size() < 2) {
-			throw new IllegalStateException("No next player: only one active player remains");
+			throw new IllegalStateException(BUNDLE.getString("error.no.next.player"));
 		}
 		Iterator<Player> it = activePlayers.iterator();
 		it.next();
@@ -131,7 +135,7 @@ public class GameState {
 
 	public void insertPendingCardAt(int position) {
 		if (turnState.pendingAction().isEmpty()) {
-			throw new IllegalStateException("No pending action");
+			throw new IllegalStateException(BUNDLE.getString("error.no.pending.action"));
 		}
 		insertIntoDeck(turnState.pendingAction().get(), position);
 	}

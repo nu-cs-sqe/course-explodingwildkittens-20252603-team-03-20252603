@@ -5,9 +5,13 @@ import domain.enums.CardType;
 import domain.model.Card;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ComboValidator {
 
+	private static final ResourceBundle BUNDLE =
+		ResourceBundle.getBundle("labels", Locale.getDefault());
 	private final PlayerInteractionHelper helper;
 	private static final int MAX_COMBO_SIZE = 3;
 
@@ -45,7 +49,7 @@ public class ComboValidator {
 
 	public CardAction resolveAction(List<Card> cards) {
 		if (!isValid(cards)) {
-			throw new IllegalArgumentException("Invalid combo");
+			throw new IllegalArgumentException(BUNDLE.getString("error.invalid.combo"));
 		}
 		if (cards.size() == 1) {
 			Card card = cards.get(0);
