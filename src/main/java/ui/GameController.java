@@ -54,7 +54,7 @@ public class GameController {
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
 		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
-			display.showMessage(BUNDLE.getString("error.num.players"));
+			display.showMessage(BUNDLE.getString("num.players"));
 			numPlayers = input.promptNumPlayers();
 		}
 		this.deckFactory = new DeckFactory(numPlayers, input);
