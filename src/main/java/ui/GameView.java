@@ -32,18 +32,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		this.output = output;
 	}
 
-	public void showPlayerHand(Player player) {
-		printHandHeader(player.getName());
-		printNumberedCards(player.getHand());
-		printPeekCards(player);
-	}
-
 	public void showWinner(Player player) {
 		output.println(player.getName() + " wins!");
-	}
-
-	public void showCurrentPlayer(Player player) {
-		output.println("--- " + player.getName() + "'s turn ---");
 	}
 
 	public void showGameState(GameState gameState) {
@@ -58,13 +48,39 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		output.println(message);
 	}
 
+	public void showPlayerHand(Player player) {
+		printHandHeader(player.getName());
+		printNumberedCards(player.getHand());
+		printPeekCards(player);
+	}
+
+	public void showCurrentPlayer(Player player) {
+		output.println("--- " + player.getName() + "'s turn ---");
+	}
+
+	public List<Card> promptCardSelection(Player player) {
+		showPlayerHand(player);
+		String line = readCardSelectionLine();
+		return cardsAtIndices(player.getHand(), parseIndices(line));
+	}
+
 	public int promptNumPlayers() {
 		output.print("Enter number of players (2-5): ");
 		return readInt();
 	}
 
-	private void printActivePlayerCount(int activePlayerCount) {
-		output.println("Active players: " + activePlayerCount);
+	private boolean isValidHandIndex(List<Card> hand, int index) {
+		return index >= 0 && index < hand.size();
+	}
+
+	private List<Card> cardsAtIndices(List<Card> hand, List<Integer> indices) {
+		List<Card> selected = new ArrayList<>();
+		for (int index : indices) {
+			if (isValidHandIndex(hand, index)) {
+				selected.add(hand.get(index));
+			}
+		}
+		return selected;
 	}
 
 	private int readInt() {
@@ -79,24 +95,43 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return 0;
 	}
 
-	private void printHandHeader(String playerName) {
-		output.println(playerName + "'s hand:");
+	private void printTurnsRemaining(int turnsRemaining) {
+		output.println("Turns remaining: " + turnsRemaining);
+	}
+
+	private void printDeckSize(int deckSize) {
+		output.println("Deck size: " + deckSize);
+	}
+
+	private void printNumberedCards(List<Card> cards) {
+		for (int index = 0; index < cards.size(); index++) {
+			int displayNumber = index + 1;
+			output.println(displayNumber + ". " + formatCard(cards.get(index)));
+		}
+	}
+
+	private void printGameStateHeader() {
+		output.println("--- Game State ---");
+	}
+
+	private void printActivePlayerCount(int activePlayerCount) {
+		output.println("Active players: " + activePlayerCount);
+	}
+
+	private void addParsedIndex(List<Integer> indices, String token) {
+		if (token.isEmpty()) {
+			return;
+		}
+		parseDisplayNumber(token).ifPresent(displayNumber -> indices.add(displayNumber - 1));
 	}
 
 	private String formatCardName(CardName cardName) {
 		return cardName.name().replace('_', ' ');
 	}
 
-	private OptionalInt parseIntegerLine(String line) {
-		try {
-			return OptionalInt.of(Integer.parseInt(line));
-		} catch (NumberFormatException e) {
-			return OptionalInt.empty();
-		}
-	}
-
-	private void printTurnsRemaining(int turnsRemaining) {
-		output.println("Turns remaining: " + turnsRemaining);
+	private String readCardSelectionLine() {
+		output.print("Enter card numbers to play (e.g. 1 or 1,2,3): ");
+		return scanner.nextLine().trim();
 	}
 
 	private String formatCard(Card card) {
@@ -108,19 +143,39 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return "Unknown card";
 	}
 
-	private void printDiscardPileSize(int discardPileSize) {
-		output.println("Discard pile: " + discardPileSize);
+	private List<Integer> parseIndices(String input) {
+		List<Integer> indices = new ArrayList<>();
+		if (input.isEmpty()) {
+			return indices;
+		}
+		for (String token : input.split("[,\\s]+")) {
+			addParsedIndex(indices, token);
+		}
+		return indices;
 	}
 
-	private void printNumberedCards(List<Card> cards) {
-		for (int index = 0; index < cards.size(); index++) {
-			int displayNumber = index + 1;
-			output.println(displayNumber + ". " + formatCard(cards.get(index)));
+	private OptionalInt parseDisplayNumber(String token) {
+		try {
+			return OptionalInt.of(Integer.parseInt(token));
+		} catch (NumberFormatException e) {
+			return OptionalInt.empty();
 		}
 	}
 
-	private void printDeckSize(int deckSize) {
-		output.println("Deck size: " + deckSize);
+	private OptionalInt parseIntegerLine(String line) {
+		try {
+			return OptionalInt.of(Integer.parseInt(line));
+		} catch (NumberFormatException e) {
+			return OptionalInt.empty();
+		}
+	}
+
+	private void printHandHeader(String playerName) {
+		output.println(playerName + "'s hand:");
+	}
+
+	private void printDiscardPileSize(int discardPileSize) {
+		output.println("Discard pile: " + discardPileSize);
 	}
 
 	private void printPeekCards(Player player) {
@@ -130,14 +185,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		}
 		output.println("Peek cards:");
 		printNumberedCards(peekCards);
-	}
-
-	private void printGameStateHeader() {
-		output.println("--- Game State ---");
-	}
-
-	public List<Card> promptCardSelection(Player player) {
-		throw new UnsupportedOperationException();
 	}
 
 	public boolean promptNope(List<Player> players) {
