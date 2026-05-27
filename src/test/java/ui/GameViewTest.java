@@ -221,4 +221,16 @@ public class GameViewTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	void promptInsertPosition_OutOfRangeThenValid_ReturnsValue() {
+		int position = createView("5\n1\n").promptInsertPosition(DECK_SIZE_TWO);
+		assertEquals(INSERT_POSITION_ONE, position);
+	}
+
+	@Test
+	void promptInsertPosition_MinBoundary_ReturnsZero() {
+		int position = createView("0\n").promptInsertPosition(DECK_SIZE_THREE);
+		assertEquals(0, position);
+	}
+
 }
