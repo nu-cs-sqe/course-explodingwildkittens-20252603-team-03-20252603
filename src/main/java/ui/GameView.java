@@ -32,6 +32,12 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		this.output = output;
 	}
 
+	public void showPlayerHand(Player player) {
+		printHandHeader(player.getName());
+		printNumberedCards(player.getHand());
+		printPeekCards(player);
+	}
+
 	public void showWinner(Player player) {
 		output.println(player.getName() + " wins!");
 	}
@@ -50,12 +56,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 
 	public void showMessage(String message) {
 		output.println(message);
-	}
-
-	public void showPlayerHand(Player player) {
-		printHandHeader(player.getName());
-		printNumberedCards(player.getHand());
-		printPeekCards(player);
 	}
 
 	public int promptNumPlayers() {
@@ -79,8 +79,20 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return 0;
 	}
 
+	private void printHandHeader(String playerName) {
+		output.println(playerName + "'s hand:");
+	}
+
 	private String formatCardName(CardName cardName) {
 		return cardName.name().replace('_', ' ');
+	}
+
+	private OptionalInt parseIntegerLine(String line) {
+		try {
+			return OptionalInt.of(Integer.parseInt(line));
+		} catch (NumberFormatException e) {
+			return OptionalInt.empty();
+		}
 	}
 
 	private void printTurnsRemaining(int turnsRemaining) {
@@ -96,22 +108,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return "Unknown card";
 	}
 
-	private void printDeckSize(int deckSize) {
-		output.println("Deck size: " + deckSize);
-	}
-
-	private OptionalInt parseIntegerLine(String line) {
-		try {
-			return OptionalInt.of(Integer.parseInt(line));
-		} catch (NumberFormatException e) {
-			return OptionalInt.empty();
-		}
-	}
-
-	private void printHandHeader(String playerName) {
-		output.println(playerName + "'s hand:");
-	}
-
 	private void printDiscardPileSize(int discardPileSize) {
 		output.println("Discard pile: " + discardPileSize);
 	}
@@ -121,6 +117,10 @@ public class GameView implements IGameDisplay, IPlayerInput {
 			int displayNumber = index + 1;
 			output.println(displayNumber + ". " + formatCard(cards.get(index)));
 		}
+	}
+
+	private void printDeckSize(int deckSize) {
+		output.println("Deck size: " + deckSize);
 	}
 
 	private void printPeekCards(Player player) {

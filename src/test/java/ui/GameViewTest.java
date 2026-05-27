@@ -168,4 +168,38 @@ public class GameViewTest {
 		assertEquals(FOUR_PLAYERS, count);
 	}
 
+	@Test
+	void promptCardSelection_EmptyInput_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_SingleIndex_ReturnsCard() {
+		Card card = skipCard();
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
+		List<Card> selected = createView("1\n").promptCardSelection(mockPlayer);
+		assertEquals(SINGLE_CARD, selected.size());
+		assertEquals(card, selected.get(0));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_MultipleIndices_ReturnsCards() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard(), skipCard()));
+		List<Card> selected = createView("1,2\n").promptCardSelection(mockPlayer);
+		assertEquals(TWO_CARDS, selected.size());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_OutOfRangeIndex_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("9\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
 }
