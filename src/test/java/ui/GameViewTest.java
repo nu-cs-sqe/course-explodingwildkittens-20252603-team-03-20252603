@@ -60,6 +60,18 @@ public class GameViewTest {
 		return mockPlayer;
 	}
 
+	private static GameState mockActiveGameState() {
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		EasyMock.expect(mockGameState.getDeckSize()).andReturn(DECK_SIZE);
+		EasyMock.expect(mockGameState.getDiscardPileSize()).andReturn(DISCARD_SIZE);
+		EasyMock.expect(mockGameState.activePlayerCount()).andReturn(ACTIVE_PLAYERS);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
+		EasyMock.expect(mockTurnState.turnsRemaining()).andReturn(TURNS_REMAINING);
+		EasyMock.replay(mockGameState, mockTurnState);
+		return mockGameState;
+	}
+
 	@Test
 	void showMessage_NonEmpty_PrintsMessage() {
 		createView("").showMessage("Hello");
@@ -86,6 +98,18 @@ public class GameViewTest {
 		createView("").showCurrentPlayer(mockPlayer);
 		assertTrue(capturedOutput().contains("Bob's turn"));
 		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showGameState_ActiveGame_PrintsSummary() {
+		GameState mockGameState = mockActiveGameState();
+		createView("").showGameState(mockGameState);
+		String output = capturedOutput();
+		assertTrue(output.contains("Deck size: " + DECK_SIZE));
+		assertTrue(output.contains("Discard pile: " + DISCARD_SIZE));
+		assertTrue(output.contains("Active players: " + ACTIVE_PLAYERS));
+		assertTrue(output.contains("Turns remaining: " + TURNS_REMAINING));
+		EasyMock.verify(mockGameState);
 	}
 
 }
