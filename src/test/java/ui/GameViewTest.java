@@ -60,18 +60,6 @@ public class GameViewTest {
 		return mockPlayer;
 	}
 
-	private static GameState mockActiveGameState() {
-		GameState mockGameState = EasyMock.createMock(GameState.class);
-		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
-		EasyMock.expect(mockGameState.getDeckSize()).andReturn(DECK_SIZE);
-		EasyMock.expect(mockGameState.getDiscardPileSize()).andReturn(DISCARD_SIZE);
-		EasyMock.expect(mockGameState.activePlayerCount()).andReturn(ACTIVE_PLAYERS);
-		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
-		EasyMock.expect(mockTurnState.turnsRemaining()).andReturn(TURNS_REMAINING);
-		EasyMock.replay(mockGameState, mockTurnState);
-		return mockGameState;
-	}
-
 	private static Player mockPlayerWithHand(String name, List<Card> hand) {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockPlayer.getName()).andReturn(name).anyTimes();
@@ -88,6 +76,18 @@ public class GameViewTest {
 		EasyMock.expect(mockPlayer.getPeekCards()).andReturn(peekCards).anyTimes();
 		EasyMock.replay(mockPlayer);
 		return mockPlayer;
+	}
+
+	private static GameState mockActiveGameState() {
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		EasyMock.expect(mockGameState.getDeckSize()).andReturn(DECK_SIZE);
+		EasyMock.expect(mockGameState.getDiscardPileSize()).andReturn(DISCARD_SIZE);
+		EasyMock.expect(mockGameState.activePlayerCount()).andReturn(ACTIVE_PLAYERS);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState);
+		EasyMock.expect(mockTurnState.turnsRemaining()).andReturn(TURNS_REMAINING);
+		EasyMock.replay(mockGameState, mockTurnState);
+		return mockGameState;
 	}
 
 	@Test
@@ -268,5 +268,4 @@ public class GameViewTest {
 		PlayerChoice choice = createView("2\n").promptPlayerChoice();
 		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
 	}
-
 }
