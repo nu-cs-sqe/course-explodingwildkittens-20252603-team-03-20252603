@@ -29,20 +29,44 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		this.output = output;
 	}
 
-	public void showMessage(String message) {
-		output.println(message);
+	public void showWinner(Player player) {
+		output.println(player.getName() + " wins!");
 	}
 
 	public void showCurrentPlayer(Player player) {
 		output.println("--- " + player.getName() + "'s turn ---");
 	}
 
-	public void showWinner(Player player) {
-		output.println(player.getName() + " wins!");
+	public void showGameState(GameState gameState) {
+		printGameStateHeader();
+		printDeckSize(gameState.getDeckSize());
+		printDiscardPileSize(gameState.getDiscardPileSize());
+		printActivePlayerCount(gameState.activePlayerCount());
+		printTurnsRemaining(gameState.turnState().turnsRemaining());
 	}
 
-	public void showGameState(GameState gameState) {
-		throw new UnsupportedOperationException();
+	public void showMessage(String message) {
+		output.println(message);
+	}
+
+	private void printActivePlayerCount(int activePlayerCount) {
+		output.println("Active players: " + activePlayerCount);
+	}
+
+	private void printTurnsRemaining(int turnsRemaining) {
+		output.println("Turns remaining: " + turnsRemaining);
+	}
+
+	private void printDiscardPileSize(int discardPileSize) {
+		output.println("Discard pile: " + discardPileSize);
+	}
+
+	private void printDeckSize(int deckSize) {
+		output.println("Deck size: " + deckSize);
+	}
+
+	private void printGameStateHeader() {
+		output.println("--- Game State ---");
 	}
 
 	public void showPlayerHand(Player player) {
