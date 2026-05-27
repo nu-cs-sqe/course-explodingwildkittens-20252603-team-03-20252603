@@ -72,6 +72,24 @@ public class GameViewTest {
 		return mockGameState;
 	}
 
+	private static Player mockPlayerWithHand(String name, List<Card> hand) {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getName()).andReturn(name).anyTimes();
+		EasyMock.expect(mockPlayer.getHand()).andReturn(hand).anyTimes();
+		EasyMock.expect(mockPlayer.getPeekCards()).andReturn(List.of()).anyTimes();
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
+	private static Player mockPlayerWithPeek(String name, List<Card> peekCards) {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getName()).andReturn(name).anyTimes();
+		EasyMock.expect(mockPlayer.getHand()).andReturn(List.of()).anyTimes();
+		EasyMock.expect(mockPlayer.getPeekCards()).andReturn(peekCards).anyTimes();
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
 	@Test
 	void showMessage_NonEmpty_PrintsMessage() {
 		createView("").showMessage("Hello");
@@ -110,6 +128,32 @@ public class GameViewTest {
 		assertTrue(output.contains("Active players: " + ACTIVE_PLAYERS));
 		assertTrue(output.contains("Turns remaining: " + TURNS_REMAINING));
 		EasyMock.verify(mockGameState);
+	}
+
+	@Test
+	void showPlayerHand_EmptyHand_PrintsHeaderOnly() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of());
+		createView("").showPlayerHand(mockPlayer);
+		String output = capturedOutput();
+		assertTrue(output.contains("Alice's hand:"));
+		assertFalse(output.contains("1. "));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showPlayerHand_WithCards_PrintsNumberedCards() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		createView("").showPlayerHand(mockPlayer);
+		assertTrue(capturedOutput().contains("1. SKIP"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showPlayerHand_WithPeekCards_PrintsPeekSection() {
+		Player mockPlayer = mockPlayerWithPeek("Alice", List.of(skipCard()));
+		createView("").showPlayerHand(mockPlayer);
+		assertTrue(capturedOutput().contains("Peek cards:"));
+		EasyMock.verify(mockPlayer);
 	}
 
 }
