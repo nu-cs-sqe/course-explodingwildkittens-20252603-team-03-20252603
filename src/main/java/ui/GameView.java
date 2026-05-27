@@ -19,6 +19,9 @@ import java.util.OptionalInt;
 
 public class GameView implements IGameDisplay, IPlayerInput {
 
+	private static final String YES_ANSWER = "y";
+	private static final String YES_ANSWER_FULL = "yes";
+
 	private final Scanner scanner;
 	private final PrintStream output;
 
@@ -42,6 +45,15 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		printDiscardPileSize(gameState.getDiscardPileSize());
 		printActivePlayerCount(gameState.activePlayerCount());
 		printTurnsRemaining(gameState.turnState().turnsRemaining());
+	}
+
+	public boolean promptNope(List<Player> players) {
+		if (players.isEmpty()) {
+			return false;
+		}
+		Player player = players.get(0);
+		output.print(player.getName() + ", play a Nope? (y/n): ");
+		return readYesNo();
 	}
 
 	public void showMessage(String message) {
@@ -154,6 +166,11 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return indices;
 	}
 
+	private boolean readYesNo() {
+		String answer = scanner.nextLine().trim().toLowerCase();
+		return YES_ANSWER.equals(answer) || YES_ANSWER_FULL.equals(answer);
+	}
+
 	private OptionalInt parseDisplayNumber(String token) {
 		try {
 			return OptionalInt.of(Integer.parseInt(token));
@@ -185,10 +202,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		}
 		output.println("Peek cards:");
 		printNumberedCards(peekCards);
-	}
-
-	public boolean promptNope(List<Player> players) {
-		throw new UnsupportedOperationException();
 	}
 
 	public int promptInsertPosition(int deckSize) {
