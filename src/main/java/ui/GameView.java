@@ -1,5 +1,6 @@
 package ui;
 
+import domain.enums.CardName;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
 import domain.input.IPlayerInput;
@@ -29,6 +30,12 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		this.output = output;
 	}
 
+	public void showPlayerHand(Player player) {
+		printHandHeader(player.getName());
+		printNumberedCards(player.getHand());
+		printPeekCards(player);
+	}
+
 	public void showWinner(Player player) {
 		output.println(player.getName() + " wins!");
 	}
@@ -53,24 +60,53 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		output.println("Active players: " + activePlayerCount);
 	}
 
+	private void printHandHeader(String playerName) {
+		output.println(playerName + "'s hand:");
+	}
+
+	private String formatCardName(CardName cardName) {
+		return cardName.name().replace('_', ' ');
+	}
+
 	private void printTurnsRemaining(int turnsRemaining) {
 		output.println("Turns remaining: " + turnsRemaining);
+	}
+
+	private String formatCard(Card card) {
+		for (CardName cardName : CardName.values()) {
+			if (card.isName(cardName)) {
+				return formatCardName(cardName);
+			}
+		}
+		return "Unknown card";
 	}
 
 	private void printDiscardPileSize(int discardPileSize) {
 		output.println("Discard pile: " + discardPileSize);
 	}
 
+	private void printNumberedCards(List<Card> cards) {
+		for (int index = 0; index < cards.size(); index++) {
+			int displayNumber = index + 1;
+			output.println(displayNumber + ". " + formatCard(cards.get(index)));
+		}
+	}
+
 	private void printDeckSize(int deckSize) {
 		output.println("Deck size: " + deckSize);
 	}
 
-	private void printGameStateHeader() {
-		output.println("--- Game State ---");
+	private void printPeekCards(Player player) {
+		List<Card> peekCards = player.getPeekCards();
+		if (peekCards.isEmpty()) {
+			return;
+		}
+		output.println("Peek cards:");
+		printNumberedCards(peekCards);
 	}
 
-	public void showPlayerHand(Player player) {
-		throw new UnsupportedOperationException();
+	private void printGameStateHeader() {
+		output.println("--- Game State ---");
 	}
 
 	public List<Card> promptCardSelection(Player player) {
