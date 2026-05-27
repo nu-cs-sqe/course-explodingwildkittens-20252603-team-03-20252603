@@ -53,6 +53,13 @@ public class GameViewTest {
 		return new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 	}
 
+	private static Player mockNamedPlayer(String name) {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getName()).andReturn(name).anyTimes();
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
 	@Test
 	void showMessage_NonEmpty_PrintsMessage() {
 		createView("").showMessage("Hello");
@@ -63,6 +70,22 @@ public class GameViewTest {
 	void showMessage_Empty_PrintsBlankLine() {
 		createView("").showMessage("");
 		assertTrue(capturedOutput().contains(System.lineSeparator()));
+	}
+
+	@Test
+	void showWinner_NamedPlayer_PrintsWinnerLine() {
+		Player mockPlayer = mockNamedPlayer("Alice");
+		createView("").showWinner(mockPlayer);
+		assertTrue(capturedOutput().contains("Alice wins!"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_NamedPlayer_PrintsTurnHeader() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer);
+		assertTrue(capturedOutput().contains("Bob's turn"));
+		EasyMock.verify(mockPlayer);
 	}
 
 }
