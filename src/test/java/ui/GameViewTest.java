@@ -156,4 +156,16 @@ public class GameViewTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	void promptNumPlayers_ValidInput_ReturnsValue() {
+		int count = createView("3\n").promptNumPlayers();
+		assertEquals(THREE_PLAYERS, count);
+	}
+
+	@Test
+	void promptNumPlayers_InvalidThenValid_ReturnsValue() {
+		int count = createView("x\n4\n").promptNumPlayers();
+		assertEquals(FOUR_PLAYERS, count);
+	}
+
 }
