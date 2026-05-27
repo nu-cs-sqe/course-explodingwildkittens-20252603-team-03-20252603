@@ -241,4 +241,32 @@ public class GameViewTest {
 		assertEquals(second, chosen);
 	}
 
+	@Test
+	void promptCardType_FirstOption_ReturnsFirstType() {
+		CardType type = createView("1\n").promptCardType();
+		assertEquals(CardType.EXPLODING_KITTEN, type);
+	}
+
+	@Test
+	void promptRestart_YesAnswer_ReturnsTrue() {
+		assertTrue(createView("yes\n").promptRestart());
+	}
+
+	@Test
+	void promptRestart_NoAnswer_ReturnsFalse() {
+		assertFalse(createView("n\n").promptRestart());
+	}
+
+	@Test
+	void promptPlayerChoice_PlayCardOption_ReturnsPlayCard() {
+		PlayerChoice choice = createView("1\n").promptPlayerChoice();
+		assertEquals(PlayerChoice.PLAY_CARD, choice);
+	}
+
+	@Test
+	void promptPlayerChoice_DoneOption_ReturnsDonePlaying() {
+		PlayerChoice choice = createView("2\n").promptPlayerChoice();
+		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
+	}
+
 }
