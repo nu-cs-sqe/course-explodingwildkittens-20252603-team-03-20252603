@@ -202,4 +202,23 @@ public class GameViewTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	void promptNope_EmptyList_ReturnsFalse() {
+		assertFalse(createView("y\n").promptNope(List.of()));
+	}
+
+	@Test
+	void promptNope_YesAnswer_ReturnsTrue() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		assertTrue(createView("y\n").promptNope(List.of(mockPlayer)));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptNope_NoAnswer_ReturnsFalse() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		assertFalse(createView("n\n").promptNope(List.of(mockPlayer)));
+		EasyMock.verify(mockPlayer);
+	}
+
 }
