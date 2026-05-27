@@ -33,19 +33,19 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		output.println(message);
 	}
 
+	public void showCurrentPlayer(Player player) {
+		output.println("--- " + player.getName() + "'s turn ---");
+	}
+
+	public void showWinner(Player player) {
+		output.println(player.getName() + " wins!");
+	}
+
 	public void showGameState(GameState gameState) {
 		throw new UnsupportedOperationException();
 	}
 
 	public void showPlayerHand(Player player) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void showWinner(Player player) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void showCurrentPlayer(Player player) {
 		throw new UnsupportedOperationException();
 	}
 
