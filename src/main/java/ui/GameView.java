@@ -86,6 +86,17 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return readInt();
 	}
 
+	public Player promptTargetSelection(List<Player> candidates) {
+		while (true) {
+			printNumberedPlayers(candidates);
+			int index = readPlayerIndex();
+			if (isValidIndex(index, candidates.size())) {
+				return candidates.get(index);
+			}
+			output.println("Invalid selection.");
+		}
+	}
+
 	private boolean isValidHandIndex(List<Card> hand, int index) {
 		return index >= 0 && index < hand.size();
 	}
@@ -112,12 +123,21 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return 0;
 	}
 
+	private boolean isValidIndex(int index, int size) {
+		return index >= 0 && index < size;
+	}
+
 	private void printTurnsRemaining(int turnsRemaining) {
 		output.println("Turns remaining: " + turnsRemaining);
 	}
 
 	private void printDeckSize(int deckSize) {
 		output.println("Deck size: " + deckSize);
+	}
+
+	private int readPlayerIndex() {
+		output.print("Select player number: ");
+		return readInt() - 1;
 	}
 
 	private boolean isWithinRange(int value, int min, int max) {
@@ -218,6 +238,13 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		output.println("Discard pile: " + discardPileSize);
 	}
 
+	private void printNumberedPlayers(List<Player> candidates) {
+		for (int index = 0; index < candidates.size(); index++) {
+			int displayNumber = index + 1;
+			output.println(displayNumber + ". " + candidates.get(index).getName());
+		}
+	}
+
 	private void printPeekCards(Player player) {
 		List<Card> peekCards = player.getPeekCards();
 		if (peekCards.isEmpty()) {
@@ -225,10 +252,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		}
 		output.println("Peek cards:");
 		printNumberedCards(peekCards);
-	}
-
-	public Player promptTargetSelection(List<Player> candidates) {
-		throw new UnsupportedOperationException();
 	}
 
 	public CardType promptCardType() {
