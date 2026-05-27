@@ -1,44 +1,68 @@
 package ui;
 
 import domain.enums.CardType;
-import domain.input.IPlayerInput;
 import domain.enums.PlayerChoice;
+import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameView implements IGameDisplay, IPlayerInput {
+
+	private final Scanner scanner;
+	private final PrintStream output;
+
+	public GameView() {
+		this(new Scanner(System.in, StandardCharsets.UTF_8), System.out);
+	}
+
+	@SuppressFBWarnings("EI_EXPOSE_REP2")
+	public GameView(Scanner scanner, PrintStream output) {
+		this.scanner = scanner;
+		this.output = output;
+	}
+
 	public void showGameState(GameState gameState) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void showPlayerHand(Player player) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void showMessage(String message) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void showWinner(Player player) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void showCurrentPlayer(Player player) {
+		throw new UnsupportedOperationException();
 	}
 
 	public List<Card> promptCardSelection(Player player) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public int promptNumPlayers() {
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 
 	public boolean promptNope(List<Player> players) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	public int promptInsertPosition(int deckSize) {
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 
 	public Player promptTargetSelection(List<Player> candidates) {
@@ -50,10 +74,10 @@ public class GameView implements IGameDisplay, IPlayerInput {
 	}
 
 	public boolean promptRestart() {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
-	public PlayerChoice promptPlayerChoice() {return null;}
-
-
+	public PlayerChoice promptPlayerChoice() {
+		throw new UnsupportedOperationException();
+	}
 }
