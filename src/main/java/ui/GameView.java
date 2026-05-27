@@ -29,15 +29,15 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		this.output = output;
 	}
 
+	public void showMessage(String message) {
+		output.println(message);
+	}
+
 	public void showGameState(GameState gameState) {
 		throw new UnsupportedOperationException();
 	}
 
 	public void showPlayerHand(Player player) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void showMessage(String message) {
 		throw new UnsupportedOperationException();
 	}
 
