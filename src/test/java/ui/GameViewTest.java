@@ -233,4 +233,12 @@ public class GameViewTest {
 		assertEquals(0, position);
 	}
 
+	@Test
+	void promptTargetSelection_InvalidThenValid_ReturnsPlayer() {
+		Player first = new Player("p1", "Alice");
+		Player second = new Player("p2", "Bob");
+		Player chosen = createView("9\n2\n").promptTargetSelection(List.of(first, second));
+		assertEquals(second, chosen);
+	}
+
 }
