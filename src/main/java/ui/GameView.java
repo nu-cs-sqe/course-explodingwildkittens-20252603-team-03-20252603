@@ -56,6 +56,11 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return readYesNo();
 	}
 
+	public int promptInsertPosition(int deckSize) {
+		output.print("Enter deck position (0-" + deckSize + "): ");
+		return readIntInRange(0, deckSize);
+	}
+
 	public void showMessage(String message) {
 		output.println(message);
 	}
@@ -113,6 +118,20 @@ public class GameView implements IGameDisplay, IPlayerInput {
 
 	private void printDeckSize(int deckSize) {
 		output.println("Deck size: " + deckSize);
+	}
+
+	private boolean isWithinRange(int value, int min, int max) {
+		return value >= min && value <= max;
+	}
+
+	private int readIntInRange(int min, int max) {
+		while (true) {
+			int value = readInt();
+			if (isWithinRange(value, min, max)) {
+				return value;
+			}
+			printRangePrompt(min, max);
+		}
 	}
 
 	private void printNumberedCards(List<Card> cards) {
@@ -191,6 +210,10 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		output.println(playerName + "'s hand:");
 	}
 
+	private void printRangePrompt(int min, int max) {
+		output.print("Enter a number between " + min + " and " + max + ": ");
+	}
+
 	private void printDiscardPileSize(int discardPileSize) {
 		output.println("Discard pile: " + discardPileSize);
 	}
@@ -202,10 +225,6 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		}
 		output.println("Peek cards:");
 		printNumberedCards(peekCards);
-	}
-
-	public int promptInsertPosition(int deckSize) {
-		throw new UnsupportedOperationException();
 	}
 
 	public Player promptTargetSelection(List<Player> candidates) {
