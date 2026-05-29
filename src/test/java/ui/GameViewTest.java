@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameViewTest {
@@ -28,10 +29,9 @@ public class GameViewTest {
 	private static final int TWO_CARDS = 2;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
-	private static final int DECK_SIZE_TWO = 2;
+	private static final int DECK_SIZE = 2;
 	private static final int DECK_SIZE_THREE = 3;
 	private static final int INSERT_POSITION_ONE = 1;
-	private static final int DECK_SIZE = 2;
 	private static final int DISCARD_SIZE = 1;
 	private static final int ACTIVE_PLAYERS = 2;
 	private static final int TURNS_REMAINING = 1;
@@ -203,27 +203,34 @@ public class GameViewTest {
 	}
 
 	@Test
-	void promptNope_EmptyList_ReturnsFalse() {
-		assertFalse(createView("y\n").promptNope(List.of()));
+	void promptNope_NullPlayer_ThrowsIllegalArgumentException() {
+		assertThrows(IllegalArgumentException.class, () -> createView("").promptNope(null));
 	}
 
 	@Test
 	void promptNope_YesAnswer_ReturnsTrue() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		assertTrue(createView("y\n").promptNope(List.of(mockPlayer)));
+		assertTrue(createView("yes\n").promptNope(mockPlayer));
 		EasyMock.verify(mockPlayer);
 	}
 
 	@Test
 	void promptNope_NoAnswer_ReturnsFalse() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		assertFalse(createView("n\n").promptNope(List.of(mockPlayer)));
+		assertFalse(createView("no\n").promptNope(mockPlayer));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptNope_InvalidThenYes_ReturnsTrue() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		assertTrue(createView("maybe\nyes\n").promptNope(mockPlayer));
 		EasyMock.verify(mockPlayer);
 	}
 
 	@Test
 	void promptInsertPosition_OutOfRangeThenValid_ReturnsValue() {
-		int position = createView("5\n1\n").promptInsertPosition(DECK_SIZE_TWO);
+		int position = createView("5\n1\n").promptInsertPosition(DECK_SIZE);
 		assertEquals(INSERT_POSITION_ONE, position);
 	}
 
@@ -254,7 +261,7 @@ public class GameViewTest {
 
 	@Test
 	void promptRestart_NoAnswer_ReturnsFalse() {
-		assertFalse(createView("n\n").promptRestart());
+		assertFalse(createView("no\n").promptRestart());
 	}
 
 	@Test
