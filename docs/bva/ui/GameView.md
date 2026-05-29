@@ -11,18 +11,32 @@
 - `showCurrentPlayer(player: Player)` → void
 - `promptCardSelection(player: Player)` → List<Card>
 - `promptNumPlayers()` → int
-- `promptNope(players: List<Player>)` → boolean
+- `promptNope(player: Player)` → boolean
 - `promptInsertPosition(deckSize: int)` → int
 - `promptTargetSelection(candidates: List<Player>)` → Player
 - `promptCardType()` → CardType
 - `promptRestart()` → boolean
 - `promptPlayerChoice()` → PlayerChoice
 
+## Class size and structure
+
+Clean Code recommends keeping classes under about 200 lines. `GameView` implements both `IGameDisplay` and `IPlayerInput`, so a single file would exceed that limit while still using small methods (repo checkstyle caps each method at 20 lines).
+
+We split responsibilities instead of treating one large class as an exception:
+
+- `GameView` (~105 lines) — coordinates the two interfaces and delegates work
+- `TerminalDisplayWriter` — all terminal output
+- `TerminalInputReader` — all terminal input parsing and validation
+
+User-facing text lives in `src/main/resources/labels.properties` and is formatted with `MessageFormat` (aligned with the project i18n approach; no string concatenation in view code).
+
 ## Assumptions and notes
 
-- Display methods write to the injected `PrintStream`; they do not mutate game state.
-- Input methods read from the injected `Scanner` and return parsed values without applying game rules.
-- `promptNope` only inspects the first player in the supplied list (controller passes one player at a time).
+- Display methods write to the injected `PrintStream` via `TerminalDisplayWriter`; they do not mutate game state.
+- Input methods read from the injected `Scanner` via `TerminalInputReader` and return parsed values without applying game rules.
+- User-facing strings use `ResourceBundle` (`labels.properties`) with `MessageFormat` (no string concatenation in view code).
+- `promptNope` prompts a single player (controller calls once per opponent during the Nope window).
+- `readYesNo` accepts only `yes` or `no`; other answers are reprompted.
 - `promptCardSelection` ignores out-of-range or non-numeric tokens and returns only valid hand cards.
 - `readIntInRange` reprompts until the value is within the inclusive `[min, max]` bounds.
 - `promptPlayerChoice` returns `DONE_PLAYING_CARDS` for any choice other than `1`.
@@ -92,13 +106,14 @@ spaces: empty input; single index; multiple indices; out-of-range index
 
 ### Method under test: `promptNope()`
 
-spaces: empty player list; yes answer; no answer
+spaces: null player; yes answer; no answer; invalid then yes
 
 | test_Name                              | State of the System     | Expected output | Implemented?       |
 |----------------------------------------|-------------------------|-----------------|--------------------|
-| promptNope_EmptyList_ReturnsFalse        | players list empty      | false           | :white_check_mark: |
-| promptNope_YesAnswer_ReturnsTrue         | one player, input "y"   | true            | :white_check_mark: |
-| promptNope_NoAnswer_ReturnsFalse         | one player, input "n"   | false           | :white_check_mark: |
+| promptNope_NullPlayer_ThrowsIllegalArgumentException | player is null | throws IllegalArgumentException | :white_check_mark: |
+| promptNope_YesAnswer_ReturnsTrue         | one player, input "yes" | true            | :white_check_mark: |
+| promptNope_NoAnswer_ReturnsFalse         | one player, input "no"  | false           | :white_check_mark: |
+| promptNope_InvalidThenYes_ReturnsTrue  | input "maybe" then "yes" | true           | :white_check_mark: |
 
 ### Method under test: `promptInsertPosition()`
 
