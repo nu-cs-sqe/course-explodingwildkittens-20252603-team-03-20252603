@@ -95,4 +95,8 @@ public class Deck {
 		}
 		return cards;
 	}
+
+	public void addToDeck(List<Card> cards) {
+		this.cards.addAll(cards);
+	}
 }

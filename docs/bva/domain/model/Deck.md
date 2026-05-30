@@ -10,7 +10,8 @@
 - size() --> return length of list
 - isEmpty() --> boolean if deck is empty
 - countCardsByType() --> returns number of cards of this type
-- - dealCards() --> returns a list of cards
+- dealCards() --> returns a list of cards
+- addToDeck() --> adds cards toteh deck
 
 
 
@@ -216,3 +217,27 @@ cases:
 | dealCards_deckWithMoreThanOneElementMoreThanCountCards_returnsCards       | Deck with more than one element more than count cards, count 7 | returns cards   | :white_check_mark: |
 | dealCards_deckWithMoreThanOneElementLessThanCountCards_throwsException    | Deck with more than one element less than count cards          | exception       | :white_check_mark: |
 | dealCards_deckWithMoreThanOneElementWithCountCardsSevenCount_returnsCards | Deck with more than one element with count cards, count 7      | returns cards   | :white_check_mark: |
+
+
+
+### Method under test: `addToDeck()`
+spaces: collection,
+
+cases:
+- empty()
+- one element
+- more than one cards
+- max size (N/A)
+- duplicate elements (N/A)
+- using first element (N/A)
+- using last element (N/A)
+- subset is empty (N/A)
+- subset has exactly one element (N/A)
+- subset has all but one element (N/A)
+- subset is same as original (N/A)
+
+| test_Name                           | State of the System | Expected output | Implemented?       |
+|-------------------------------------|--------------------|-----------------|--------------------|
+| addToDeck_emptyCards_addsNoCards    | empty cards        | adds no cards   | :white_check_mark: |
+| addToDeck_oneCard_addsCard          | one card           | adds one card   | :white_check_mark: |
+| addToDeck_moreThanOneCard_addsCards | more than one card | adds cards      | :white_check_mark: |
