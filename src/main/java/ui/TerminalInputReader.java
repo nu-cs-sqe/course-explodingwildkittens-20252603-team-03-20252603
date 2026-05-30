@@ -11,8 +11,6 @@ import java.util.Scanner;
 
 final class TerminalInputReader {
 
-	private static final String YES_ANSWER = "yes";
-	private static final String NO_ANSWER = "no";
 	private static final int MIN_PLAYERS = 2;
 	private static final int MAX_PLAYERS = 5;
 	private static final int DISPLAY_NUMBER_OFFSET = 1;
@@ -106,12 +104,14 @@ final class TerminalInputReader {
 	}
 
 	private boolean readYesNo() {
+		String yes = ViewMessages.format("input.yes");
+		String no = ViewMessages.format("input.no");
 		while (scanner.hasNextLine()) {
 			String answer = scanner.nextLine().trim().toLowerCase();
-			if (YES_ANSWER.equals(answer)) {
+			if (yes.equals(answer)) {
 				return true;
 			}
-			if (NO_ANSWER.equals(answer)) {
+			if (no.equals(answer)) {
 				return false;
 			}
 			output.print(ViewMessages.format("view.prompt.yes.no"));

@@ -71,7 +71,7 @@ final class TerminalDisplayWriter {
 	private String formatCard(Card card) {
 		for (CardName cardName : CardName.values()) {
 			if (card.isName(cardName)) {
-				return cardName.name().replace('_', ' ');
+				return ViewMessages.format("card.name." + cardName.name());
 			}
 		}
 		return ViewMessages.format("view.card.unknown");
@@ -100,7 +100,7 @@ final class TerminalDisplayWriter {
 	void printNumberedCardTypes(CardType[] types) {
 		for (int index = 0; index < types.length; index++) {
 			int displayNumber = index + 1;
-			String label = types[index].name().replace('_', ' ');
+			String label = ViewMessages.format("card.type." + types[index].name());
 			output.println(ViewMessages.format("view.card.list.item", displayNumber, label));
 		}
 	}

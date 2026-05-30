@@ -144,7 +144,7 @@ public class GameViewTest {
 	void showPlayerHand_WithCards_PrintsNumberedCards() {
 		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
 		createView("").showPlayerHand(mockPlayer);
-		assertTrue(capturedOutput().contains("1. SKIP"));
+		assertTrue(capturedOutput().contains("1. Skip"));
 		EasyMock.verify(mockPlayer);
 	}
 
