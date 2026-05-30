@@ -14,8 +14,9 @@ public class DeckTest {
 
 	private static final int THREE_CARD_DECK_SIZE = 3;
 	private static final int FOUR_CARD_DECK_SIZE = 4;
+	private static final int NUM_CARDS_PER_PLAYER = 7;
+	private static final int EIGHT_CARDS = 8;
 
-	// --- shuffle() ---
 
 	@Test
 	void shuffle_EmptyDeck_Shuffles() {
@@ -439,5 +440,62 @@ public class DeckTest {
 
 		assertEquals(0, deck.countCardsByName(CardName.NOPE));
 		EasyMock.verify(mockCard1, mockCard2, mockCard3);
+	}
+
+
+	@Test
+	void dealCards_emptyDeck_throwsException () {
+		List<Card> cards = new ArrayList<>();
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithOneElement_throwsException() {
+		List<Card> cards = new ArrayList<>();
+		Card mockCard1 = EasyMock.createMock(Card.class);
+		cards.add(mockCard1);
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementMoreThanCountCards_returnsCards() {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < EIGHT_CARDS; i++) {
+			cards.add(EasyMock.createMock(Card.class));
+		}
+		Deck deck = new Deck(cards);
+
+		List<Card> dealt = deck.dealCards(NUM_CARDS_PER_PLAYER);
+
+		assertEquals(NUM_CARDS_PER_PLAYER, dealt.size());
+		assertEquals(1, deck.size());
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementLessThanCountCards_throwsException() {
+		List<Card> cards = new ArrayList<>();
+		cards.add(EasyMock.createMock(Card.class));
+		cards.add(EasyMock.createMock(Card.class));
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementWithCountCardsSevenCount_returnsCards() {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
+			cards.add(EasyMock.createMock(Card.class));
+		}
+		Deck deck = new Deck(cards);
+
+		List<Card> dealt = deck.dealCards(NUM_CARDS_PER_PLAYER);
+
+		assertEquals(NUM_CARDS_PER_PLAYER, dealt.size());
+		assertEquals(0, deck.size());
 	}
 }
