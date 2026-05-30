@@ -16,4 +16,17 @@ public class MainTest {
 
 		EasyMock.verify(controller);
 	}
+
+	@Test
+	void runGame_gameActiveOneTurn_playsOneTurn() {
+		GameController controller = EasyMock.createMock(GameController.class);
+		controller.startGame();
+		EasyMock.expect(controller.isGameActive()).andReturn(true).andReturn(false);
+		controller.playATurn();
+		EasyMock.replay(controller);
+
+		Main.runGame(controller);
+
+		EasyMock.verify(controller);
+	}
 }
