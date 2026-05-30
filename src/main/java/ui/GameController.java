@@ -12,11 +12,8 @@ import domain.model.Card;
 import domain.model.Player;
 import domain.model.TurnState;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -26,8 +23,6 @@ public class GameController {
 	private static final int MAX_PLAYERS = 5;
 	private static final int DEFAULT_NORMAL_TURNS = 1;
 	private static final int DEFAULT_ATTACKING_TURNS = 2;
-	private static final ResourceBundle BUNDLE =
-		ResourceBundle.getBundle("labels", Locale.getDefault());
 
 	private GameState gameState;
 	private final IGameDisplay display;
@@ -54,7 +49,7 @@ public class GameController {
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
 		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
-			display.showMessage(BUNDLE.getString("num.players"));
+			display.showMessage(ViewMessages.format("num.players"));
 			numPlayers = input.promptNumPlayers();
 		}
 		this.deckFactory = new DeckFactory(numPlayers, input);
@@ -76,7 +71,7 @@ public class GameController {
 
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
-			throw new IllegalStateException(BUNDLE.getString("error.not.ready.to.play"));}
+			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
 		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
@@ -162,10 +157,10 @@ public class GameController {
 
 	public void playCard(List<Card> cards) {
 		if (cards == null) {
-			throw new IllegalArgumentException(BUNDLE.getString("error.cards.arg.null"));
+			throw new IllegalArgumentException(ViewMessages.format("error.cards.arg.null"));
 		}
 		if (!comboValidator.isValid(cards)) {
-			display.showMessage(BUNDLE.getString("error.invalid.card"));
+			display.showMessage(ViewMessages.format("error.invalid.card"));
 			return;
 		}
 		TurnState turnState = gameState.turnState();
@@ -213,8 +208,8 @@ public class GameController {
 		List<Player> players = new ArrayList<>();
 		for (int i = 0; i < numPlayers; i++) {
 			players.add(new Player(
-				MessageFormat.format(BUNDLE.getString("player.id"), i + 1),
-				MessageFormat.format(BUNDLE.getString("player.name"), i + 1)));
+				"p" + (i + 1),
+				ViewMessages.format("player.name", i + 1)));
 		}
 		return players;
 	}

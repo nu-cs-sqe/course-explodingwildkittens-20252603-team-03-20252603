@@ -12,8 +12,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Deck {
-	private static final ResourceBundle BUNDLE =
-		ResourceBundle.getBundle("labels", Locale.getDefault());
 	private Random random;
 	private List<Card> cards;
 
@@ -40,7 +38,7 @@ public class Deck {
 
 	public Card drawTop() throws IllegalStateException {
 		if (this.cards.isEmpty()) {
-			throw new IllegalStateException(BUNDLE.getString("error.draw.empty.deck"));
+			throw new IllegalStateException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.draw.empty.deck"));
 		}
 		return cards.remove(0);
 	}
@@ -48,7 +46,7 @@ public class Deck {
 	public void insertAt(Card card, int index) throws IndexOutOfBoundsException {
 		if (index < 0 || index > cards.size()) {
 			throw new IndexOutOfBoundsException(
-				MessageFormat.format(BUNDLE.getString("error.index.out.of.bounds"), index));
+				MessageFormat.format(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.index.out.of.bounds"), index));
 		}
 		cards.add(index, card);
 	}
@@ -63,7 +61,7 @@ public class Deck {
 
 	public List<Card> peekTop(int n) {
 		if (n > cards.size()) {
-			throw new IllegalArgumentException(BUNDLE.getString("error.peek.exceeds.deck"));
+			throw new IllegalArgumentException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.peek.exceeds.deck"));
 		}
 		return Collections.unmodifiableList(cards.subList(0, n));
 	}

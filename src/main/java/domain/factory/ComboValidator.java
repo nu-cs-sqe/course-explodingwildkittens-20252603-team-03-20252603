@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 
 public class ComboValidator {
 
-	private static final ResourceBundle BUNDLE =
-		ResourceBundle.getBundle("labels", Locale.getDefault());
 	private final PlayerInteractionHelper helper;
 	private static final int MAX_COMBO_SIZE = 3;
 
@@ -49,7 +47,7 @@ public class ComboValidator {
 
 	public CardAction resolveAction(List<Card> cards) {
 		if (!isValid(cards)) {
-			throw new IllegalArgumentException(BUNDLE.getString("error.invalid.combo"));
+			throw new IllegalArgumentException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.invalid.combo"));
 		}
 		if (cards.size() == 1) {
 			Card card = cards.get(0);

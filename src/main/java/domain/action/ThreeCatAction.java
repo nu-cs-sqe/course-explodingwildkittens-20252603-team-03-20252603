@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 
 public class ThreeCatAction implements CardAction {
 
-	private static final ResourceBundle BUNDLE =
-		ResourceBundle.getBundle("labels", Locale.getDefault());
 	private final PlayerInteractionHelper helper;
 
 	public ThreeCatAction(PlayerInteractionHelper helper) {
@@ -22,7 +20,7 @@ public class ThreeCatAction implements CardAction {
 	public void execute(GameState gameState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		if (others.isEmpty()) {
-			throw new IllegalStateException(BUNDLE.getString("error.no.other.players"));
+			throw new IllegalStateException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.no.other.players"));
 		}
 		Player target = helper.pickTarget(others);
 		Player current = gameState.getCurrentPlayer();
