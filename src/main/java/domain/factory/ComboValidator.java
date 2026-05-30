@@ -47,7 +47,8 @@ public class ComboValidator {
 
 	public CardAction resolveAction(List<Card> cards) {
 		if (!isValid(cards)) {
-			throw new IllegalArgumentException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.invalid.combo"));
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.invalid.combo"));
 		}
 		if (cards.size() == 1) {
 			Card card = cards.get(0);

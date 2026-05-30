@@ -38,15 +38,17 @@ public class Deck {
 
 	public Card drawTop() throws IllegalStateException {
 		if (this.cards.isEmpty()) {
-			throw new IllegalStateException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.draw.empty.deck"));
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.draw.empty.deck"));
 		}
 		return cards.remove(0);
 	}
 
 	public void insertAt(Card card, int index) throws IndexOutOfBoundsException {
 		if (index < 0 || index > cards.size()) {
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
 			throw new IndexOutOfBoundsException(
-				MessageFormat.format(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.index.out.of.bounds"), index));
+				MessageFormat.format(bundle.getString("error.index.out.of.bounds"), index));
 		}
 		cards.add(index, card);
 	}
@@ -61,7 +63,8 @@ public class Deck {
 
 	public List<Card> peekTop(int n) {
 		if (n > cards.size()) {
-			throw new IllegalArgumentException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.peek.exceeds.deck"));
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.peek.exceeds.deck"));
 		}
 		return Collections.unmodifiableList(cards.subList(0, n));
 	}

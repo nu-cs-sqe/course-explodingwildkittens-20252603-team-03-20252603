@@ -19,7 +19,8 @@ public class FavorAction implements CardAction {
 	public void execute(GameState gameState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		if (others.isEmpty()) {
-			throw new IllegalStateException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.no.other.players"));
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.no.other.players"));
 		}
 		Player target = helper.pickTarget(others);
 		Player current = gameState.getCurrentPlayer();

@@ -28,7 +28,8 @@ public class TurnState {
 
 	public void setPendingAction(Card card) {
 		if (card == null) {
-			throw new IllegalArgumentException(ResourceBundle.getBundle("labels", Locale.getDefault()).getString("error.card.arg.null"));
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.card.arg.null"));
 		}
 		pendingAction = card;
 	}
