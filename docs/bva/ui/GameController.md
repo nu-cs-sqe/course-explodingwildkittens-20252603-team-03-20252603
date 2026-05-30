@@ -47,6 +47,19 @@ cases:
 | startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 
 
+### Method under test: `dealCardsAndReturnDeck()`
+
+spaces: numPlayers = { 2, 5,}
+
+cases:
+- two players 
+- five players
+
+| test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
+|----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHandsAndReturnsDeck  | two players         | returns deck with one exploding kitten; each player's hand is updated   | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHandsAndReturnsDeck | five players        | returns deck with four exploding kittens; each player's hand is updated | :white_check_mark: |
+
 
 ### Method under test: `endGame()`
 

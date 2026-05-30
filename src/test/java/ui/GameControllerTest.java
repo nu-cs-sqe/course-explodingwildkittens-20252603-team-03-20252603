@@ -7,6 +7,7 @@ import domain.enums.CardType;
 import domain.factory.ComboValidator;
 import domain.input.IPlayerInput;
 import domain.model.Card;
+import domain.model.Deck;
 import domain.model.GameState;
 import domain.model.Player;
 import domain.model.TurnState;
@@ -346,6 +347,51 @@ public class GameControllerTest {
 
 		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertEquals(expectedNopeCount, turnState.nopeCount());
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_twoPlayers_updatesPlayersHandsAndReturnsDeck() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(new Player("p1", "Player 1"), new Player("p2", "Player 2"));
+		Deck deck = gc.dealCardsAndReturnDeck(players);
+
+		assertEquals(1, deck.countCardsByName(CardName.EXPLODING_KITTEN));
+		for (Player player : players) {
+			assertFalse(player.getHand().isEmpty());
+		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_fivePlayers_updatesPlayersHandsAndReturnsDeck() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(
+			new Player("p1", "Player 1"), new Player("p2", "Player 2"),
+			new Player("p3", "Player 3"), new Player("p4", "Player 4"),
+			new Player("p5", "Player 5"));
+		Deck deck = gc.dealCardsAndReturnDeck(players);
+
+		assertEquals(FIVE_PLAYERS_IN_GAME - 1, deck.countCardsByName(CardName.EXPLODING_KITTEN));
+		for (Player player : players) {
+			assertFalse(player.getHand().isEmpty());
+		}
+		EasyMock.verify(display, input);
 	}
 
 	@Test

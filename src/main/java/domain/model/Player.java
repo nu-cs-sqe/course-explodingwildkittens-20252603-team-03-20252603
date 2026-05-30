@@ -44,6 +44,10 @@ public class Player {
 		hand.add(card);
 	}
 
+	public void addCards(List<Card> cards) {
+		hand.addAll(cards);
+	}
+
 	public void removeCard(Card card) {
 		hand.remove(card);
 	}

@@ -10,6 +10,7 @@
 - size() --> return length of list
 - isEmpty() --> boolean if deck is empty
 - countCardsByType() --> returns number of cards of this type
+- dealCards() --> returns a list of cards
 
 
 
@@ -183,3 +184,61 @@ cases:
 | countCardsByName_DeckWithOneElementOfThatName_ReturnsOne                                 | deck with one                                      | 1               | :white_check_mark: |
 | countCardsByName_DeckWithMoreThanOneElementOfThatName_ReturnsNumberOfInstancesOfThatName | deck with more than one                            | number          | :white_check_mark: |
 | countCardsByName_DeckWithMoreThanOneElementButNoElementsOfThatName_ReturnsZero           | deck with more than one element; none of that name | 0               | :white_check_mark: |
+
+
+
+
+### Method under test: `dealCards()`
+spaces: collection, count
+
+cases:
+- empty()
+- one element
+- more than one element with more than 'count' cards
+- more than one element with less than 'count' cards
+- more than one element with 'count' cards
+- count -1 (N/A)
+- count 0 (N/A)
+- count 1 (N/A)
+- count >1
+- max size (N/A)
+- duplicate elements (N/A)
+- using first element (N/A)
+- using last element (N/A)
+- subset is empty (N/A)
+- subset has exactly one element (N/A)
+- subset has all but one element (N/A)
+- subset is same as original (N/A)
+
+| test_Name                                                                 | State of the System                                            | Expected output | Implemented?       |
+|---------------------------------------------------------------------------|----------------------------------------------------------------|-----------------|--------------------|
+| dealCards_emptyDeck_throwsException                                       | empty Deck                                                     | exception       | :white_check_mark: |
+| dealCards_deckWithOneElement_throwsException                              | Deck with one element                                          | exception       | :white_check_mark: |
+| dealCards_deckWithMoreThanOneElementMoreThanCountCards_returnsCards       | Deck with more than one element more than count cards, count 7 | returns cards   | :white_check_mark: |
+| dealCards_deckWithMoreThanOneElementLessThanCountCards_throwsException    | Deck with more than one element less than count cards          | exception       | :white_check_mark: |
+| dealCards_deckWithMoreThanOneElementWithCountCardsSevenCount_returnsCards | Deck with more than one element with count cards, count 7      | returns cards   | :white_check_mark: |
+
+
+
+### Method under test: `addToDeck()`
+spaces: collection, 
+
+cases:
+- empty()
+- one element
+- more than one cards
+- max size (N/A)
+- duplicate elements (N/A)
+- using first element (N/A)
+- using last element (N/A)
+- subset is empty (N/A)
+- subset has exactly one element (N/A)
+- subset has all but one element (N/A)
+- subset is same as original (N/A)
+
+| test_Name                           | State of the System | Expected output | Implemented?       |
+|-------------------------------------|--------------------|-----------------|--------------------|
+| addToDeck_emptyCards_addsNoCards    | empty cards        | adds no cards   | :white_check_mark: |
+| addToDeck_oneCard_addsCard          | one card           | adds one card   | :white_check_mark: |
+| addToDeck_moreThanOneCard_addsCards | more than one card | adds cards      | :white_check_mark: |
+
