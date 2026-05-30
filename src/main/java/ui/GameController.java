@@ -29,9 +29,10 @@ public class GameController {
 	private ComboValidator comboValidator;
 
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
-	public GameController(IGameDisplay display, IPlayerInput input) {
+	public GameController(IGameDisplay display, IPlayerInput input, ComboValidator comboValidator) {
 		this.display = display;
 		this.input = input;
+		this.comboValidator = comboValidator;
 	}
 
 	// 4 params: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
@@ -52,7 +53,8 @@ public class GameController {
 		}
 		this.deckFactory = new DeckFactory(numPlayers, input);
 		List<Player> players = buildPlayers(numPlayers);
-		this.gameState = new GameState(players, deckFactory.buildDeck());
+		Deck finalDeck = dealCardsAndReturnDeck(players);
+		this.gameState = new GameState(players, finalDeck);
 	}
 
 	Deck dealCardsAndReturnDeck(List<Player> players) {
