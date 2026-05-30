@@ -4,6 +4,7 @@ import domain.action.*;
 import domain.enums.CardType;
 import domain.model.Card;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -50,18 +51,22 @@ public class ComboValidator {
 			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
 			throw new IllegalArgumentException(bundle.getString("error.invalid.combo"));
 		}
-		if (cards.size() == 1) {
-			Card card = cards.get(0);
-			if (card.isType(CardType.SKIP)) { return new SkipAction(); }
-			if (card.isType(CardType.ATTACK)) { return new AttackAction(); }
-			if (card.isType(CardType.SHUFFLE)) { return new ShuffleAction(); }
-			if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(); }
-			if (card.isType(CardType.FAVOR)) { return new FavorAction(helper); }
-			if (card.isType(CardType.NOPE)) { return new NopeAction(); }
-		}
+		if (cards.size() == 1) { return resolveSingleCard(cards.get(0)); }
 		if (cards.size() == 2) { return new TwoCatAction(helper); }
-
 		return new ThreeCatAction(helper);
+	}
 
+	private CardAction resolveSingleCard(Card card) {
+		if (card.isType(CardType.SKIP)) { return new SkipAction(); }
+		else if (card.isType(CardType.ATTACK)) { return new AttackAction(); }
+		else if (card.isType(CardType.SHUFFLE)) { return new ShuffleAction(); }
+		else if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(); }
+		else if (card.isType(CardType.FAVOR)) { return new FavorAction(helper); }
+		else if (card.isType(CardType.NOPE)) { return new NopeAction(); }
+		else {
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(
+				MessageFormat.format(bundle.getString("error.unsupported.card.type"), card));
+		}
 	}
 }
