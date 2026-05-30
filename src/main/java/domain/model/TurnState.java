@@ -1,6 +1,8 @@
 package domain.model;
 
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class TurnState {
 
@@ -26,7 +28,8 @@ public class TurnState {
 
 	public void setPendingAction(Card card) {
 		if (card == null) {
-			throw new IllegalArgumentException("card must not be null");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.card.arg.null"));
 		}
 		pendingAction = card;
 	}

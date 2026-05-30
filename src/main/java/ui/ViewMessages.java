@@ -6,12 +6,11 @@ import java.util.ResourceBundle;
 
 final class ViewMessages {
 
-	static final ResourceBundle BUNDLE = ResourceBundle.getBundle("labels", Locale.getDefault());
-
 	private ViewMessages() {
 	}
 
 	static String format(String key, Object... arguments) {
-		return MessageFormat.format(BUNDLE.getString(key), arguments);
+		ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+		return MessageFormat.format(bundle.getString(key), arguments);
 	}
 }

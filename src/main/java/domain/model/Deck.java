@@ -3,10 +3,13 @@ package domain.model;
 import domain.enums.CardName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 public class Deck {
 	private Random random;
@@ -35,14 +38,17 @@ public class Deck {
 
 	public Card drawTop() throws IllegalStateException {
 		if (this.cards.isEmpty()) {
-			throw new IllegalStateException("Cannot draw from an empty deck");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.draw.empty.deck"));
 		}
 		return cards.remove(0);
 	}
 
 	public void insertAt(Card card, int index) throws IndexOutOfBoundsException {
 		if (index < 0 || index > cards.size()) {
-			throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IndexOutOfBoundsException(
+				MessageFormat.format(bundle.getString("error.index.out.of.bounds"), index));
 		}
 		cards.add(index, card);
 	}
@@ -57,7 +63,8 @@ public class Deck {
 
 	public List<Card> peekTop(int n) {
 		if (n > cards.size()) {
-			throw new IllegalArgumentException("Error: card number requested exceeds size of deck");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.peek.exceeds.deck"));
 		}
 		return Collections.unmodifiableList(cards.subList(0, n));
 	}

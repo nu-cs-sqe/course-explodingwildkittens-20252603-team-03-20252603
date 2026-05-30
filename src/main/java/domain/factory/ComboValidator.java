@@ -5,6 +5,8 @@ import domain.enums.CardType;
 import domain.model.Card;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ComboValidator {
 
@@ -45,7 +47,8 @@ public class ComboValidator {
 
 	public CardAction resolveAction(List<Card> cards) {
 		if (!isValid(cards)) {
-			throw new IllegalArgumentException("Invalid combo");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.invalid.combo"));
 		}
 		if (cards.size() == 1) {
 			Card card = cards.get(0);
