@@ -6,6 +6,7 @@ import domain.enums.CardName;
 import domain.enums.CardType;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -253,5 +254,31 @@ public class PlayerTest {
 		player.eliminatePlayer();
 		player.eliminatePlayer();
 		assertFalse(player.isActive());
+	}
+
+	@Test
+	void addCards_EmptyHand_AddsCards(){
+		Player player = new Player("p1", "Alice");
+		List<Card> cards = new ArrayList<>();
+		Card first = defuseCard();
+		cards.add(first);
+
+		player.addCards(cards);
+		assertEquals(1, player.getHand().size());
+		assertSame(first, player.getHand().get(0));
+
+	}
+
+	@Test
+	void addCards_NonEmptyHand_AddsCards(){
+		Player player = new Player("p1", "Alice");
+		List<Card> cards = new ArrayList<>();
+		Card first = defuseCard();
+		Card second = skipCard();
+		cards.add(first);
+		cards.add(second);
+		player.addCards(cards);
+		assertEquals(2, player.getHand().size());
+		assertSame(first, player.getHand().get(0));
 	}
 }

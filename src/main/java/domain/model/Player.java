@@ -97,4 +97,9 @@ public class Player {
 	public void eliminatePlayer() {
 		this.isActive = false;
 	}
+
+	public void addCards(List<Card> cards) {
+		hand.addAll(cards);
+	}
+
 }
