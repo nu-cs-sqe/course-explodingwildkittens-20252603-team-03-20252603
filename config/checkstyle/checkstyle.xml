@@ -35,10 +35,10 @@
             <message key="maxLen.method" value="Method length is {0} lines (max 20). Methods should do one thing only."/>
         </module>
 
-        <!-- Limit parameters: max 3, flag 4+; GameController constructor is an intentional exception (4 params per design.puml) -->
+        <!-- Limit parameters: max 3, flag 4+, exception for GameController explained in README.md -->
         <module name="ParameterNumber">
-            <property name="max" value="4"/>
-            <message key="maxParam" value="Method has {0} parameters (max 4). Consider grouping into a class."/>
+            <property name="max" value="3"/>
+            <message key="maxParam" value="Method has {0} parameters (max 3). Consider grouping into a class."/>
         </module>
 
         <!-- ===== CLASSES (Clean Code Ch. 10) ===== -->
