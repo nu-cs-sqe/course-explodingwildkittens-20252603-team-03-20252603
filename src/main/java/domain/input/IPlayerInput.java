@@ -12,7 +12,7 @@ public interface IPlayerInput {
 
 	int promptNumPlayers();
 
-	boolean promptNope(List<Player> players);
+	boolean promptNope(Player player);
 
 	int promptInsertPosition(int deckSize);
 

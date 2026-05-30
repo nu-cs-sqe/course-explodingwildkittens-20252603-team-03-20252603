@@ -1,0 +1,178 @@
+package ui;
+
+import domain.model.Card;
+import domain.model.Player;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.OptionalInt;
+import java.util.Scanner;
+
+final class TerminalInputReader {
+
+	private static final int MIN_PLAYERS = 2;
+	private static final int MAX_PLAYERS = 5;
+	private static final int DISPLAY_NUMBER_OFFSET = 1;
+
+	private final Scanner scanner;
+	private final PrintStream output;
+	private final TerminalDisplayWriter display;
+
+	TerminalInputReader(Scanner scanner, PrintStream output, TerminalDisplayWriter display) {
+		this.scanner = scanner;
+		this.output = output;
+		this.display = display;
+	}
+
+	List<Card> promptCardSelection(Player player) {
+		display.showPlayerHand(player);
+		output.print(ViewMessages.format("view.prompt.card.selection"));
+		String line = scanner.nextLine().trim();
+		return cardsAtIndices(player.getHand(), parseIndices(line));
+	}
+
+	int promptNumPlayers() {
+		output.print(ViewMessages.format("view.prompt.num.players"));
+		return readIntInRange(MIN_PLAYERS, MAX_PLAYERS);
+	}
+
+	boolean promptNope(Player player) {
+		if (player == null) {
+			throw new IllegalArgumentException(ViewMessages.format("error.card.arg.null"));
+		}
+		output.print(ViewMessages.format("view.prompt.nope", player.getName()));
+		return readYesNo();
+	}
+
+	int promptInsertPosition(int deckSize) {
+		output.print(ViewMessages.format("view.prompt.insert.position", deckSize));
+		return readIntInRange(0, deckSize);
+	}
+
+	Player promptTargetSelection(List<Player> candidates) {
+		while (true) {
+			display.printNumberedPlayers(candidates);
+			int index = readPlayerIndex();
+			if (isValidIndex(index, candidates.size())) {
+				return candidates.get(index);
+			}
+			display.printInvalidSelection();
+		}
+	}
+
+	int readCardTypeIndex() {
+		output.print(ViewMessages.format("view.prompt.card.type"));
+		return readInt() - DISPLAY_NUMBER_OFFSET;
+	}
+
+	boolean promptRestart() {
+		output.print(ViewMessages.format("view.prompt.restart"));
+		return readYesNo();
+	}
+
+	int readPlayerChoice() {
+		display.printPlayerChoiceMenu();
+		return readInt();
+	}
+
+	private int readPlayerIndex() {
+		output.print(ViewMessages.format("view.prompt.select.player"));
+		return readInt() - DISPLAY_NUMBER_OFFSET;
+	}
+
+	int readIntInRange(int min, int max) {
+		while (true) {
+			int value = readInt();
+			if (isWithinRange(value, min, max)) {
+				return value;
+			}
+			output.print(ViewMessages.format("view.prompt.range", min, max));
+		}
+	}
+
+	private int readInt() {
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine().trim();
+			OptionalInt value = parseIntegerLine(line);
+			if (value.isPresent()) {
+				return value.getAsInt();
+			}
+			output.print(ViewMessages.format("view.prompt.valid.number"));
+		}
+		throw new IllegalStateException(ViewMessages.format("error.input.exhausted"));
+	}
+
+	private boolean readYesNo() {
+		String yes = ViewMessages.format("input.yes");
+		String no = ViewMessages.format("input.no");
+		while (scanner.hasNextLine()) {
+			String answer = scanner.nextLine().trim().toLowerCase();
+			if (yes.equals(answer)) {
+				return true;
+			}
+			if (no.equals(answer)) {
+				return false;
+			}
+			output.print(ViewMessages.format("view.prompt.yes.no"));
+		}
+		throw new IllegalStateException(ViewMessages.format("error.input.exhausted"));
+	}
+
+	private OptionalInt parseIntegerLine(String line) {
+		try {
+			return OptionalInt.of(Integer.parseInt(line));
+		} catch (NumberFormatException e) {
+			return OptionalInt.empty();
+		}
+	}
+
+	private boolean isWithinRange(int value, int min, int max) {
+		return value >= min && value <= max;
+	}
+
+	private boolean isValidIndex(int index, int size) {
+		return index >= 0 && index < size;
+	}
+
+	private List<Card> cardsAtIndices(List<Card> hand, List<Integer> indices) {
+		List<Card> selected = new ArrayList<>();
+		for (int index : indices) {
+			if (isValidHandIndex(hand, index)) {
+				selected.add(hand.get(index));
+			}
+		}
+		return selected;
+	}
+
+	private boolean isValidHandIndex(List<Card> hand, int index) {
+		return index >= 0 && index < hand.size();
+	}
+
+	private List<Integer> parseIndices(String input) {
+		List<Integer> indices = new ArrayList<>();
+		if (input.isEmpty()) {
+			return indices;
+		}
+		for (String token : input.split("[,\\s]+")) {
+			addParsedIndex(indices, token);
+		}
+		return indices;
+	}
+
+	private void addParsedIndex(List<Integer> indices, String token) {
+		if (token.isEmpty()) {
+			return;
+		}
+		parseDisplayNumber(token).ifPresent(
+			displayNumber -> indices.add(displayNumber - DISPLAY_NUMBER_OFFSET));
+	}
+
+	private OptionalInt parseDisplayNumber(String token) {
+		try {
+			return OptionalInt.of(Integer.parseInt(token));
+		} catch (NumberFormatException e) {
+			return OptionalInt.empty();
+		}
+	}
+}

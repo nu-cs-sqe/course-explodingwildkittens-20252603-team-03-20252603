@@ -6,6 +6,8 @@ import domain.model.GameState;
 import domain.model.Player;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ThreeCatAction implements CardAction {
 
@@ -18,7 +20,8 @@ public class ThreeCatAction implements CardAction {
 	public void execute(GameState gameState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		if (others.isEmpty()) {
-			throw new IllegalStateException("No other active players to target");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.no.other.players"));
 		}
 		Player target = helper.pickTarget(others);
 		Player current = gameState.getCurrentPlayer();

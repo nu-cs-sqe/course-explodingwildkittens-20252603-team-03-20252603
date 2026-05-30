@@ -51,7 +51,7 @@ package ui{
       + showWinner(player: Player): void
       + promptCardSelection(player: Player): List<Card>
       + promptNumPlayers(): int
-      + promptNope(players: List<Player>): boolean
+      + promptNope(player: Player): boolean
     }
 
     ' ── Controller ───────────────────────────────────────────
@@ -82,7 +82,7 @@ package domain{
     interface domain.input.IPlayerInput {
       + promptCardSelection(player: Player): List<Card>
       + promptNumPlayers(): int
-      + promptNope(players: List<Player>): boolean
+      + promptNope(player: Player): boolean
     }
 
     ' ── Enums ────────────────────────────────────────────────
@@ -277,7 +277,7 @@ note top of domain.input.IPlayerInput
   Input from the user
   promptCardSelection: asks the player which cards they want to play when it's their turn
   promptNumPlayers: asks at the start how many players are playing
-  promptNope: asks players if they want to nope at each turn
+  promptNope: asks one player if they want to play a Nope
 end note
 
 note top of CardAction

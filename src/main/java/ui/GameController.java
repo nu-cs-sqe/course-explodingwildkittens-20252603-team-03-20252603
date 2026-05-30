@@ -49,7 +49,7 @@ public class GameController {
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
 		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
-			display.showMessage("Please enter a number of players between 2 and 5.");
+			display.showMessage(ViewMessages.format("num.players"));
 			numPlayers = input.promptNumPlayers();
 		}
 		this.deckFactory = new DeckFactory(numPlayers, input);
@@ -71,7 +71,7 @@ public class GameController {
 
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
-			throw new IllegalStateException("Game state is not ready to play a turn");}
+			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
 		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
@@ -157,10 +157,10 @@ public class GameController {
 
 	public void playCard(List<Card> cards) {
 		if (cards == null) {
-			throw new IllegalArgumentException("cards must not be null");
+			throw new IllegalArgumentException(ViewMessages.format("error.cards.arg.null"));
 		}
 		if (!comboValidator.isValid(cards)) {
-			display.showMessage("Invalid card selection.");
+			display.showMessage(ViewMessages.format("error.invalid.card"));
 			return;
 		}
 		TurnState turnState = gameState.turnState();
@@ -184,7 +184,7 @@ public class GameController {
 	private void applyNopeWindow(TurnState turnState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		for (Player player : others) {
-			if (input.promptNope(List.of(player))) {
+			if (input.promptNope(player)) {
 				turnState.incrementNopeCount();
 			}
 		}
@@ -207,7 +207,9 @@ public class GameController {
 	private List<Player> buildPlayers(int numPlayers) {
 		List<Player> players = new ArrayList<>();
 		for (int i = 0; i < numPlayers; i++) {
-			players.add(new Player("p" + (i + 1), "Player " + (i + 1)));
+			players.add(new Player(
+				"p" + (i + 1),
+				ViewMessages.format("player.name", i + 1)));
 		}
 		return players;
 	}

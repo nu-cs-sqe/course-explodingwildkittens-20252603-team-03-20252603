@@ -35,7 +35,8 @@ public class GameState {
 
 	public Player getCurrentPlayer() {
 		if (activePlayers.isEmpty()) {
-			throw new IllegalStateException("Error: no players left");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.no.players.left"));
 		}
 		return activePlayers.peek();
 	}
@@ -46,7 +47,8 @@ public class GameState {
 
 	public void eliminateCurrentPlayer() {
 		if (activePlayers.size() == 1) {
-			throw new IllegalStateException("Error: cannot eliminate the last remaining player");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.eliminate.last.player"));
 		}
 		Player currentPlayer = getCurrentPlayer();
 		currentPlayer.eliminatePlayer();
@@ -63,7 +65,8 @@ public class GameState {
 
 	public Card drawFromDeck() {
 		if (deck.isEmpty()) {
-			throw new IllegalStateException("Cannot draw from an empty deck");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.draw.empty.deck"));
 		}
 		return deck.drawTop();
 	}
@@ -74,7 +77,8 @@ public class GameState {
 
 	public void insertIntoDeck(Card card, int index) {
 		if (index < 0) {
-			throw new IndexOutOfBoundsException("Error: index is less than 0");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IndexOutOfBoundsException(bundle.getString("error.index.less.than.zero"));
 		}
 		deck.insertAt(card, index);
 	}
@@ -85,7 +89,8 @@ public class GameState {
 
 	public void discardCard(Card card) {
 		if (card == null) {
-			throw new IllegalArgumentException("Card cannot be null");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalArgumentException(bundle.getString("error.card.null"));
 		}
 		discardPile.add(card);
 	}
@@ -108,7 +113,8 @@ public class GameState {
 
 	public Player getNextPlayer() {
 		if (activePlayers.size() < 2) {
-			throw new IllegalStateException("No next player: only one active player remains");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.no.next.player"));
 		}
 		Iterator<Player> it = activePlayers.iterator();
 		it.next();
@@ -131,7 +137,8 @@ public class GameState {
 
 	public void insertPendingCardAt(int position) {
 		if (turnState.pendingAction().isEmpty()) {
-			throw new IllegalStateException("No pending action");
+			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+			throw new IllegalStateException(bundle.getString("error.no.pending.action"));
 		}
 		insertIntoDeck(turnState.pendingAction().get(), position);
 	}

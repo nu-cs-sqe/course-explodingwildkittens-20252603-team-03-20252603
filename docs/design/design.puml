@@ -13,7 +13,7 @@ package ui{
       + showWinner(player: Player): void
       + promptCardSelection(player: Player): List<Card>
       + promptNumPlayers(): int
-      + promptNope(players: List<Player>): boolean
+      + promptNope(player: Player): boolean
     }
 
     ' ── Controller ───────────────────────────────────────────
@@ -44,7 +44,7 @@ package domain{
     interface domain.input.IPlayerInput {
       + promptCardSelection(player: Player): List<Card>
       + promptNumPlayers(): int
-      + promptNope(players: List<Player>): boolean
+      + promptNope(player: Player): boolean
     }
 
     ' ── Enums ────────────────────────────────────────────────
