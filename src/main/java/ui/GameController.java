@@ -3,14 +3,11 @@ package ui;
 import domain.action.DefuseAction;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
-import domain.model.GameState;
+import domain.model.*;
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
-import domain.model.Card;
-import domain.model.Player;
-import domain.model.TurnState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +20,7 @@ public class GameController {
 	private static final int MAX_PLAYERS = 5;
 	private static final int DEFAULT_NORMAL_TURNS = 1;
 	private static final int DEFAULT_ATTACKING_TURNS = 2;
+	private static final int NUM_CARDS_PER_PLAYER = 7;
 
 	private GameState gameState;
 	private final IGameDisplay display;
@@ -38,7 +36,7 @@ public class GameController {
 
 	// 4 params: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
-	public GameController(GameState gameState, IGameDisplay display,
+	GameController(GameState gameState, IGameDisplay display,
 		IPlayerInput input, ComboValidator comboValidator){
 		this.gameState = gameState;
 		this.display = display;
@@ -55,6 +53,28 @@ public class GameController {
 		this.deckFactory = new DeckFactory(numPlayers, input);
 		List<Player> players = buildPlayers(numPlayers);
 		this.gameState = new GameState(players, deckFactory.buildDeck());
+	}
+
+	Deck dealCardsAndReturnDeck(List<Player> players) {
+		Deck deck = deckFactory.buildDeck();
+		List<Card> defuseCards = deckFactory.buildDefuseCards();
+		List<Card> explodingKittenCards = deckFactory.buildExplodingKittenCards();
+
+		deck.shuffle();
+		for (Player player : players) {
+			List<Card> cards = deck.dealCards(NUM_CARDS_PER_PLAYER);
+			player.addCards(cards);
+
+			if (!defuseCards.isEmpty()) {
+				Card defuseCard = defuseCards.remove(0);
+				player.addCard(defuseCard);
+			}
+		}
+
+		deck.addToDeck(explodingKittenCards);
+		deck.addToDeck(defuseCards);
+		deck.shuffle();
+		return deck;
 	}
 
 	public void endGame() {

@@ -317,3 +317,17 @@ cases:
 | drawCard_drawnCardIsNotExplodingKitten_AddsCardToPlayerHand                 | drawn card type ≠ EXPLODING_KITTEN                         | addCardToCurrentPlayer called with drawn card        | :white_check_mark: |
 | drawCard_drawnCardIsExplodingKitten_playerHasDefuse_ExecutesDefuseAction    | drawn card = EXPLODING_KITTEN, player has DEFUSE           | setPendingAction called; DefuseAction executes       | :white_check_mark: |
 | drawCard_drawnCardIsExplodingKitten_playerHasNoDefuse_EliminatesPlayer      | drawn card = EXPLODING_KITTEN, player has no DEFUSE        | eliminateCurrentPlayer called                        | :white_check_mark: |
+
+
+### Method under test: `dealCardsAndReturnDeck()`
+
+spaces: numPlayers = { 2, 5,}
+
+cases:
+- two players
+- five players
+
+| test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
+|----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHandsAndReturnsDeck  | two players         | returns deck with one exploding kitten; each player's hand is updated   | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHandsAndReturnsDeck | five players        | returns deck with four exploding kittens; each player's hand is updated | :white_check_mark: |
