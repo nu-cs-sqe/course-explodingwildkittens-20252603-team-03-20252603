@@ -6,7 +6,6 @@ import domain.factory.PlayerInteractionHelper;
 import java.util.Random;
 
 public class Main {
-	// extracted so the game loop can be unit tested independently of the composition root in main()
 	static void runGame(GameController controller) {
 		controller.startGame();
 		while (controller.isGameActive()) {

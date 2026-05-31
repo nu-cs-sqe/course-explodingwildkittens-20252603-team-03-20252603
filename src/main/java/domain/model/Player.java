@@ -98,8 +98,4 @@ public class Player {
 		this.isActive = false;
 	}
 
-	public void addCards(List<Card> cards) {
-		hand.addAll(cards);
-	}
-
 }

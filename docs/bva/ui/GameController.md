@@ -329,5 +329,7 @@ cases:
 
 | test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
 |----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
-| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHandsAndReturnsDeck  | two players         | returns deck with one exploding kitten; each player's hand is updated   | :white_check_mark: |
-| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHandsAndReturnsDeck | five players        | returns deck with four exploding kittens; each player's hand is updated | :white_check_mark: |
+| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten          | two players         | deck contains one exploding kitten                                      | :white_check_mark: |
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands                | two players         | each player's hand is non-empty                                         | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens       | five players        | deck contains four exploding kittens                                    | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands               | five players        | each player's hand is non-empty                                         | :white_check_mark: |

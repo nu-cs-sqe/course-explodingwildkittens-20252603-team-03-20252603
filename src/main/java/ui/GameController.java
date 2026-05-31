@@ -3,7 +3,11 @@ package ui;
 import domain.action.DefuseAction;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
-import domain.model.*;
+import domain.model.Card;
+import domain.model.Deck;
+import domain.model.GameState;
+import domain.model.Player;
+import domain.model.TurnState;
 import domain.action.CardAction;
 import domain.factory.ComboValidator;
 import domain.factory.DeckFactory;
@@ -65,8 +69,9 @@ public class GameController {
 
 		deck.shuffle();
 		for (Player player : players) {
-			List<Card> cards = deck.dealCards(NUM_CARDS_PER_PLAYER);
-			player.addCards(cards);
+			for (Card card : deck.dealCards(NUM_CARDS_PER_PLAYER)) {
+				player.addCard(card);
+			}
 
 			if (!defuseCards.isEmpty()) {
 				Card defuseCard = defuseCards.remove(0);

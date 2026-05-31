@@ -133,11 +133,4 @@ cases:
 | eliminatePlayer_WhenActive_SetsToFalse                 | isActive = true                  | isActive() = false     | :white_check_mark: |
 | eliminatePlayer_WhenAlreadyEliminated_RemainsInactive  | isActive = false                 | isActive() = false     | :white_check_mark: |
 
-### Method under test: `addCards()`
 
-spaces: hand size before add (0 vs ≥1)
-
-| test_Name                         | State of the System | Expected output            | Implemented?       |
-|-----------------------------------|---------------------|----------------------------|--------------------|
-| addCards_EmptyHand_AddsCards      | empty hand          | hand size 1, cards present | :white_check_mark: |
-| addCards_NonEmptyHand_AppendsCard | hand has one card   | cards added                | :white_check_mark: |

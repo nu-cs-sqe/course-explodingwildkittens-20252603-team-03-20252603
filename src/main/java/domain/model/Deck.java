@@ -81,9 +81,6 @@ public class Deck {
 
 	public List<Card> dealCards(int count) {
 		ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
-		if (this.cards.isEmpty()) {
-			throw new IllegalStateException(bundle.getString("error.draw.empty.deck"));
-		}
 		if (this.cards.size() < count) {
 			throw new IllegalStateException(bundle.getString("error.deal.exceeds.deck"));
 		}
