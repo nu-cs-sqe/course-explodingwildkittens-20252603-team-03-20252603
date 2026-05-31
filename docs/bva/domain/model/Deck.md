@@ -9,9 +9,9 @@
 - insertAt() --> insert at this index
 - size() --> return length of list
 - isEmpty() --> boolean if deck is empty
-- countCardsByType() --> returns number of cards of this type
+- countCardsByName() --> returns number of cards of this name
 - dealCards() --> returns a list of cards
-- addToDeck() --> adds cards toteh deck
+- addToDeck() --> adds cards to the deck
 
 
 

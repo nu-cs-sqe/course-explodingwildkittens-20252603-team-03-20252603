@@ -2,7 +2,7 @@
 
 ## Public interface (methods under analysis)
 
-- `GameController(display: IGameDisplay, input: domain.input.IPlayerInput)` (constructor) → new GameController
+- `GameController(display: IGameDisplay, input: domain.input.IPlayerInput, comboValidator: ComboValidator)` (constructor) → new GameController
 - `startGame()` → void
 - `endGame()` → void
 - `isGameActive()` → boolean
