@@ -37,6 +37,7 @@ public class GameController {
 	}
 
 	// 4 params: design.puml requires gameState, display, input, and comboValidator as distinct dependencies
+	@SuppressWarnings("checkstyle:ParameterNumber")
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
 	public GameController(GameState gameState, IGameDisplay display,
 		IPlayerInput input, ComboValidator comboValidator){

@@ -1,4 +1,4 @@
-# User Stories
+# Use Cases
 
 ---
 
