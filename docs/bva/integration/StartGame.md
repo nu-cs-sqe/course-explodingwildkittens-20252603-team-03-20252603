@@ -45,7 +45,7 @@ cases:
 | startGame_TwoPlayers_GameStateIsActive   | promptNumPlayers() returns 2 | isGameActive() = true | :white_check_mark: |
 | startGame_ThreePlayers_GameStateIsActive | promptNumPlayers() returns 3 | isGameActive() = true | :white_check_mark: |
 | startGame_FourPlayers_GameStateIsActive  | promptNumPlayers() returns 4 | isGameActive() = true | :white_check_mark: |
-| startGame_FivePlayers_GameStateIsActive  | promptNumPlayers() returns 5 | isGameActive() = true | :x:                |
+| startGame_FivePlayers_GameStateIsActive  | promptNumPlayers() returns 5 | isGameActive() = true | :white_check_mark: |
 
 ---
 
