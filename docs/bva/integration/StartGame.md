@@ -115,5 +115,5 @@ note: cross-references unit-level cases in `GameController.md` (`startGame_Inval
 | test_Name                                                          | State of the System                            | Expected output                                           | Implemented?       |
 |--------------------------------------------------------------------|------------------------------------------------|-----------------------------------------------------------|--------------------|
 | startGame_NumPlayersNegative_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns −1, then 2          | showMessage called once; game initializes with 2 players  | :white_check_mark: |
-| startGame_NumPlayersBelowMin_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 1, then 2           | showMessage called once; game initializes with 2 players  | :x:                |
+| startGame_NumPlayersBelowMin_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 1, then 2           | showMessage called once; game initializes with 2 players  | :white_check_mark: |
 | startGame_NumPlayersAboveMax_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 6, then 2           | showMessage called once; game initializes with 2 players  | :x:                |
