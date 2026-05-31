@@ -3,6 +3,7 @@ package ui;
 import domain.factory.ComboValidator;
 import domain.factory.PlayerInteractionHelper;
 import domain.input.IPlayerInput;
+import domain.enums.CardType;
 import domain.model.GameState;
 import domain.model.Player;
 import org.easymock.EasyMock;
@@ -19,6 +20,7 @@ public class StartGameIntegrationTest {
 
 	private static final int NEGATIVE_NUM_PLAYERS = -1;
 	private static final int INITIAL_HAND_SIZE = 8;
+	private static final int DEFUSE_CARDS_PER_PLAYER = 1;
 	private static final int ONE_PLAYER = 1;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
@@ -217,6 +219,29 @@ public class StartGameIntegrationTest {
 		allPlayers.addAll(gameState.getOtherActivePlayers());
 		for (Player player : allPlayers) {
 			assertEquals(INITIAL_HAND_SIZE, player.getHand().size());
+		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_TwoPlayers_EachPlayerHasExactlyOneDefuse() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			long defuseCount = player.getHand().stream()
+					.filter(card -> card.isType(CardType.DEFUSE))
+					.count();
+			assertEquals(DEFUSE_CARDS_PER_PLAYER, defuseCount);
 		}
 		EasyMock.verify(display, input);
 	}

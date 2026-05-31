@@ -60,10 +60,10 @@ cases:
 
 ### Partition 3 — Each player's hand contains exactly 1 Defuse card
 
-| test_Name                                              | State of the System          | Expected output                                     | Implemented? |
-|--------------------------------------------------------|------------------------------|-----------------------------------------------------|--------------|
-| startGame_TwoPlayers_EachPlayerHasExactlyOneDefuse     | promptNumPlayers() returns 2 | each player's hand has exactly 1 DEFUSE card        | :x:          |
-| startGame_FivePlayers_EachPlayerHasExactlyOneDefuse    | promptNumPlayers() returns 5 | each player's hand has exactly 1 DEFUSE card        | :x:          |
+| test_Name                                              | State of the System          | Expected output                                     | Implemented?       |
+|--------------------------------------------------------|------------------------------|-----------------------------------------------------|--------------------|
+| startGame_TwoPlayers_EachPlayerHasExactlyOneDefuse     | promptNumPlayers() returns 2 | each player's hand has exactly 1 DEFUSE card        | :white_check_mark: |
+| startGame_FivePlayers_EachPlayerHasExactlyOneDefuse    | promptNumPlayers() returns 5 | each player's hand has exactly 1 DEFUSE card        | :x:                |
 
 ---
 
