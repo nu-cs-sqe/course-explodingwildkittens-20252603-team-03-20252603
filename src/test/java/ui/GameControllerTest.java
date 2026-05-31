@@ -7,6 +7,7 @@ import domain.enums.CardType;
 import domain.factory.ComboValidator;
 import domain.input.IPlayerInput;
 import domain.model.Card;
+import domain.model.Deck;
 import domain.model.GameState;
 import domain.model.Player;
 import domain.model.TurnState;
@@ -352,10 +353,11 @@ public class GameControllerTest {
 	void startGame_ValidMinPlayers_InitializesWithoutError() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 
 		EasyMock.verify(display, input);
@@ -365,10 +367,11 @@ public class GameControllerTest {
 	void startGame_ValidMaxPlayers_InitializesWithoutError() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 
 		EasyMock.verify(display, input);
@@ -378,12 +381,13 @@ public class GameControllerTest {
 	void startGame_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(1).andReturn(2);
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 
 		EasyMock.verify(display, input);
@@ -393,14 +397,97 @@ public class GameControllerTest {
 	void startGame_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(SIX_PLAYERS_ATTEMPTED).andReturn(2);
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(new Player("p1", "Player 1"), new Player("p2", "Player 2"));
+		Deck deck = gc.dealCardsAndReturnDeck(players);
+
+		assertEquals(1, deck.countCardsByName(CardName.EXPLODING_KITTEN));
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(new Player("p1", "Player 1"), new Player("p2", "Player 2"));
+		gc.dealCardsAndReturnDeck(players);
+
+		for (Player player : players) {
+			assertFalse(player.getHand().isEmpty());
+		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(
+				new Player("p1", "Player 1"), new Player("p2", "Player 2"),
+				new Player("p3", "Player 3"), new Player("p4", "Player 4"),
+				new Player("p5", "Player 5"));
+		Deck deck = gc.dealCardsAndReturnDeck(players);
+
+		assertEquals(FIVE_PLAYERS_IN_GAME - 1, deck.countCardsByName(CardName.EXPLODING_KITTEN));
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+
+		List<Player> players = List.of(
+				new Player("p1", "Player 1"), new Player("p2", "Player 2"),
+				new Player("p3", "Player 3"), new Player("p4", "Player 4"),
+				new Player("p5", "Player 5"));
+		gc.dealCardsAndReturnDeck(players);
+
+		for (Player player : players) {
+			assertFalse(player.getHand().isEmpty());
+		}
 		EasyMock.verify(display, input);
 	}
 
@@ -408,13 +495,14 @@ public class GameControllerTest {
 	void endGame_OneActivePlayer_SetsGameInactive() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		display.showWinner(EasyMock.anyObject());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptRestart()).andReturn(false);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 		gc.endGame();
 
@@ -426,13 +514,14 @@ public class GameControllerTest {
 	void endGame_OneActivePlayer_DisplaysSurvivor() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		display.showWinner(EasyMock.anyObject());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptRestart()).andReturn(false);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 		gc.endGame();
 
@@ -443,13 +532,14 @@ public class GameControllerTest {
 	void endGame_PromptRestartFalse_DoesNotCallStartGame() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		display.showWinner(EasyMock.anyObject());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptRestart()).andReturn(false);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 		gc.endGame();
 
@@ -460,13 +550,14 @@ public class GameControllerTest {
 	void endGame_PromptRestartTrue_CallsStartGame() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2).andReturn(2);
 		display.showWinner(EasyMock.anyObject());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptRestart()).andReturn(true);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, comboValidator);
 		gc.startGame();
 		gc.endGame();
 

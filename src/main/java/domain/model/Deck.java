@@ -78,4 +78,22 @@ public class Deck {
 		}
 		return count;
 	}
+
+	public List<Card> dealCards(int count) {
+		ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
+		if (this.cards.size() < count) {
+			throw new IllegalStateException(bundle.getString("error.deal.exceeds.deck"));
+		}
+
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < count; i++) {
+			Card card = this.cards.remove(0);
+			cards.add(card);
+		}
+		return cards;
+	}
+
+	public void addToDeck(List<Card> cards) {
+		this.cards.addAll(cards);
+	}
 }

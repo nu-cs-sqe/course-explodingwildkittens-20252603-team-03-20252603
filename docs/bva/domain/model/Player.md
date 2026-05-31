@@ -132,3 +132,5 @@ cases:
 | isActive_InitialState_ReturnsTrue                      | freshly constructed player       | isActive() = true      | :white_check_mark: |
 | eliminatePlayer_WhenActive_SetsToFalse                 | isActive = true                  | isActive() = false     | :white_check_mark: |
 | eliminatePlayer_WhenAlreadyEliminated_RemainsInactive  | isActive = false                 | isActive() = false     | :white_check_mark: |
+
+

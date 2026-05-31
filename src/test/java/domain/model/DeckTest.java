@@ -14,8 +14,9 @@ public class DeckTest {
 
 	private static final int THREE_CARD_DECK_SIZE = 3;
 	private static final int FOUR_CARD_DECK_SIZE = 4;
+	private static final int NUM_CARDS_PER_PLAYER = 7;
+	private static final int EIGHT_CARDS = 8;
 
-	// --- shuffle() ---
 
 	@Test
 	void shuffle_EmptyDeck_Shuffles() {
@@ -438,6 +439,107 @@ public class DeckTest {
 		EasyMock.replay(mockCard1, mockCard2, mockCard3);
 
 		assertEquals(0, deck.countCardsByName(CardName.NOPE));
+		EasyMock.verify(mockCard1, mockCard2, mockCard3);
+	}
+
+
+	@Test
+	void dealCards_emptyDeck_throwsException () {
+		List<Card> cards = new ArrayList<>();
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithOneElement_throwsException() {
+		List<Card> cards = new ArrayList<>();
+		Card mockCard1 = EasyMock.createMock(Card.class);
+		cards.add(mockCard1);
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementMoreThanCountCards_returnsCards() {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < EIGHT_CARDS; i++) {
+			cards.add(EasyMock.createMock(Card.class));
+		}
+		Deck deck = new Deck(cards);
+
+		List<Card> dealt = deck.dealCards(NUM_CARDS_PER_PLAYER);
+
+		assertEquals(NUM_CARDS_PER_PLAYER, dealt.size());
+		assertEquals(1, deck.size());
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementLessThanCountCards_throwsException() {
+		List<Card> cards = new ArrayList<>();
+		cards.add(EasyMock.createMock(Card.class));
+		cards.add(EasyMock.createMock(Card.class));
+		Deck deck = new Deck(cards);
+
+		assertThrows(IllegalStateException.class, () -> deck.dealCards(NUM_CARDS_PER_PLAYER));
+	}
+
+	@Test
+	void dealCards_deckWithMoreThanOneElementWithCountCardsSevenCount_returnsCards() {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
+			cards.add(EasyMock.createMock(Card.class));
+		}
+		Deck deck = new Deck(cards);
+
+		List<Card> dealt = deck.dealCards(NUM_CARDS_PER_PLAYER);
+
+		assertEquals(NUM_CARDS_PER_PLAYER, dealt.size());
+		assertEquals(0, deck.size());
+	}
+
+	@Test
+	void addToDeck_emptyCards_addsNoCards() {
+		List<Card> cards = new ArrayList<>();
+		Deck deck = new Deck(cards);
+
+		int before = deck.size();
+		deck.addToDeck(cards);
+		int after = deck.size();
+		assertEquals(before, after);
+	}
+
+	@Test
+	void addToDeck_oneCard_addsCard() {
+		Card mockCard1 = EasyMock.createMock(Card.class);
+		Card mockCard2 = EasyMock.createMock(Card.class);
+		List<Card> initial = new ArrayList<>();
+		initial.add(mockCard1);
+		Deck deck = new Deck(initial);
+
+		EasyMock.replay(mockCard1, mockCard2);
+
+		deck.addToDeck(List.of(mockCard2));
+		assertEquals(2, deck.size());
+
+		EasyMock.verify(mockCard1, mockCard2);
+	}
+
+	@Test
+	void addToDeck_moreThanOneCard_addsCards() {
+		Card mockCard1 = EasyMock.createMock(Card.class);
+		Card mockCard2 = EasyMock.createMock(Card.class);
+		Card mockCard3 = EasyMock.createMock(Card.class);
+		List<Card> initial = new ArrayList<>();
+		initial.add(mockCard1);
+		Deck deck = new Deck(initial);
+
+		EasyMock.replay(mockCard1, mockCard2, mockCard3);
+
+		deck.addToDeck(List.of(mockCard2, mockCard3));
+		assertEquals(THREE_CARD_DECK_SIZE, deck.size());
+
 		EasyMock.verify(mockCard1, mockCard2, mockCard3);
 	}
 }

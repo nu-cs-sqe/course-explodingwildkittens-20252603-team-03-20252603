@@ -18,7 +18,7 @@ repositories {
 }
 
 application {
-    mainClass = "Code.Main"
+    mainClass = "ui.Main"
 }
 
 dependencies {
