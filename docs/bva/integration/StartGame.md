@@ -51,12 +51,12 @@ cases:
 
 ### Partition 2 — Each player has exactly 8 cards in hand (7 random + 1 Defuse)
 
-| test_Name                                        | State of the System          | Expected output                   | Implemented? |
-|--------------------------------------------------|------------------------------|-----------------------------------|--------------|
-| startGame_TwoPlayers_EachPlayerHasEightCards     | promptNumPlayers() returns 2 | every player's hand size = 8      | :x:          |
-| startGame_ThreePlayers_EachPlayerHasEightCards   | promptNumPlayers() returns 3 | every player's hand size = 8      | :x:          |
-| startGame_FourPlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 4 | every player's hand size = 8      | :x:          |
-| startGame_FivePlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 5 | every player's hand size = 8      | :x:          |
+| test_Name                                        | State of the System          | Expected output                   | Implemented?       |
+|--------------------------------------------------|------------------------------|-----------------------------------|--------------------|
+| startGame_TwoPlayers_EachPlayerHasEightCards     | promptNumPlayers() returns 2 | every player's hand size = 8      | :white_check_mark: |
+| startGame_ThreePlayers_EachPlayerHasEightCards   | promptNumPlayers() returns 3 | every player's hand size = 8      | :x:                |
+| startGame_FourPlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 4 | every player's hand size = 8      | :x:                |
+| startGame_FivePlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 5 | every player's hand size = 8      | :x:                |
 
 ---
 

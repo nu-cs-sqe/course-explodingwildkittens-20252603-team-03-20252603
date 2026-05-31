@@ -199,4 +199,24 @@ public class StartGameIntegrationTest {
 		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void startGame_TwoPlayers_EachPlayerHasEightCards() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			assertEquals(8, player.getHand().size());
+		}
+		EasyMock.verify(display, input);
+	}
 }
