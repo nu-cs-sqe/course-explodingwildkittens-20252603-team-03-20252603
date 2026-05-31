@@ -40,12 +40,12 @@ cases:
 
 ### Partition 1 — GameState is active after setup
 
-| test_Name                                | State of the System              | Expected output          | Implemented?       |
-|------------------------------------------|----------------------------------|--------------------------|--------------------|
-| startGame_TwoPlayers_GameStateIsActive   | promptNumPlayers() returns 2     | isGameActive() = true    | :white_check_mark: |
-| startGame_ThreePlayers_GameStateIsActive | promptNumPlayers() returns 3     | isGameActive() = true    | :x:                |
-| startGame_FourPlayers_GameStateIsActive  | promptNumPlayers() returns 4     | isGameActive() = true    | :x:                |
-| startGame_FivePlayers_GameStateIsActive  | promptNumPlayers() returns 5     | isGameActive() = true    | :x:                |
+| test_Name                                | State of the System          | Expected output       | Implemented?       |
+|------------------------------------------|------------------------------|-----------------------|--------------------|
+| startGame_TwoPlayers_GameStateIsActive   | promptNumPlayers() returns 2 | isGameActive() = true | :white_check_mark: |
+| startGame_ThreePlayers_GameStateIsActive | promptNumPlayers() returns 3 | isGameActive() = true | :white_check_mark: |
+| startGame_FourPlayers_GameStateIsActive  | promptNumPlayers() returns 4 | isGameActive() = true | :x:                |
+| startGame_FivePlayers_GameStateIsActive  | promptNumPlayers() returns 5 | isGameActive() = true | :x:                |
 
 ---
 

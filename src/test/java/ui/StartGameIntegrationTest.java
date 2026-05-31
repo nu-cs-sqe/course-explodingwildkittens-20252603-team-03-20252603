@@ -8,11 +8,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StartGameIntegrationTest {
 
+	private static final int THREE_PLAYERS = 3;
+
 	@Test
 	void startGame_TwoPlayers_GameStateIsActive() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		assertTrue(gc.isGameActive());
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ThreePlayers_GameStateIsActive() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
 		EasyMock.replay(display, input);
 
 		GameController gc = new GameController(display, input);
