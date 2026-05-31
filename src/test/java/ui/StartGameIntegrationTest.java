@@ -247,6 +247,29 @@ public class StartGameIntegrationTest {
 	}
 
 	@Test
+	void startGame_FivePlayers_EachPlayerHasExactlyOneDefuse() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			long defuseCount = player.getHand().stream()
+					.filter(card -> card.isType(CardType.DEFUSE))
+					.count();
+			assertEquals(DEFUSE_CARDS_PER_PLAYER, defuseCount);
+		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
 	void startGame_FivePlayers_EachPlayerHasEightCards() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
