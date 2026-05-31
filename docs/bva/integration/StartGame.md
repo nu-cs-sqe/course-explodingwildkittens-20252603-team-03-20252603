@@ -102,7 +102,7 @@ spaces: numPlayers = {2, 5} (boundary; the invariant applies identically at all 
 | test_Name                                        | State of the System          | Expected output                           | Implemented?       |
 |--------------------------------------------------|------------------------------|-------------------------------------------|--------------------|
 | startGame_TwoPlayers_AllPlayersAreActive         | promptNumPlayers() returns 2 | all 2 players have isActive() = true      | :white_check_mark: |
-| startGame_FivePlayers_AllPlayersAreActive        | promptNumPlayers() returns 5 | all 5 players have isActive() = true      | :x:                |
+| startGame_FivePlayers_AllPlayersAreActive        | promptNumPlayers() returns 5 | all 5 players have isActive() = true      | :white_check_mark: |
 
 ---
 

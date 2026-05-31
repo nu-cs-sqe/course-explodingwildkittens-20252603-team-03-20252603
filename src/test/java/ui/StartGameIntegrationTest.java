@@ -143,4 +143,24 @@ public class StartGameIntegrationTest {
 		}
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void startGame_FivePlayers_AllPlayersAreActive() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			assertTrue(player.isActive());
+		}
+		EasyMock.verify(display, input);
+	}
 }
