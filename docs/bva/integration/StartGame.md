@@ -74,7 +74,7 @@ spaces: numPlayers − 1 = {1, 2, 3, 4}
 | test_Name                                                   | State of the System          | Expected output                                      | Implemented?       |
 |-------------------------------------------------------------|------------------------------|------------------------------------------------------|--------------------|
 | startGame_TwoPlayers_DeckContainsOneExplodingKitten         | promptNumPlayers() returns 2 | deck contains exactly 1 EXPLODING_KITTEN card        | :white_check_mark: |
-| startGame_FivePlayers_DeckContainsFourExplodingKittens      | promptNumPlayers() returns 5 | deck contains exactly 4 EXPLODING_KITTEN cards       | :x:                |
+| startGame_FivePlayers_DeckContainsFourExplodingKittens      | promptNumPlayers() returns 5 | deck contains exactly 4 EXPLODING_KITTEN cards       | :white_check_mark: |
 
 ---
 

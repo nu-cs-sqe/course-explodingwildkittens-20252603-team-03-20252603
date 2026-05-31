@@ -23,6 +23,7 @@ public class StartGameIntegrationTest {
 	private static final int DEFUSE_CARDS_PER_PLAYER = 1;
 	private static final int TWO_PLAYERS = 2;
 	private static final int ONE_EXPLODING_KITTEN = 1;
+	private static final int FOUR_EXPLODING_KITTENS = 4;
 	private static final int ONE_PLAYER = 1;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
@@ -306,6 +307,24 @@ public class StartGameIntegrationTest {
 				.filter(card -> card.isType(CardType.EXPLODING_KITTEN))
 				.count();
 		assertEquals(ONE_EXPLODING_KITTEN, explodingKittenCount);
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_FivePlayers_DeckContainsFourExplodingKittens() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		long explodingKittenCount = gameState.peekTopOfDeck(gameState.getDeckSize()).stream()
+				.filter(card -> card.isType(CardType.EXPLODING_KITTEN))
+				.count();
+		assertEquals(FOUR_EXPLODING_KITTENS, explodingKittenCount);
 		EasyMock.verify(display, input);
 	}
 }
