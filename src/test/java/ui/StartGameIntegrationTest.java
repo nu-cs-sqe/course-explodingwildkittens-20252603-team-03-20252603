@@ -178,4 +178,18 @@ public class StartGameIntegrationTest {
 		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void startGame_FivePlayers_FirstPlayerIsCurrentPlayer() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());
+		EasyMock.verify(display, input);
+	}
 }
