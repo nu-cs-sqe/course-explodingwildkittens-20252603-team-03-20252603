@@ -97,4 +97,5 @@ public class Player {
 	public void eliminatePlayer() {
 		this.isActive = false;
 	}
+
 }

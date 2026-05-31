@@ -1,5 +1,7 @@
 package ui;
 
+import domain.factory.ComboValidator;
+import domain.factory.PlayerInteractionHelper;
 import domain.input.IPlayerInput;
 import domain.model.GameState;
 import domain.model.Player;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +24,10 @@ public class StartGameIntegrationTest {
 	private static final int FIVE_PLAYERS = 5;
 	private static final int SIX_PLAYERS = 6;
 
+	private static ComboValidator realComboValidator(IPlayerInput input) {
+		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
+	}
+
 	@Test
 	void startGame_TwoPlayers_GameStateIsActive() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
@@ -28,7 +35,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -42,7 +49,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -56,7 +63,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -70,7 +77,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -86,7 +93,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -102,7 +109,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -118,7 +125,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
@@ -132,7 +139,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		GameState gameState = gc.gameState();
@@ -152,7 +159,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		GameState gameState = gc.gameState();
@@ -172,7 +179,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());
@@ -186,7 +193,7 @@ public class StartGameIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
 		EasyMock.replay(display, input);
 
-		GameController gc = new GameController(display, input);
+		GameController gc = new GameController(display, input, realComboValidator(input));
 		gc.startGame();
 
 		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());

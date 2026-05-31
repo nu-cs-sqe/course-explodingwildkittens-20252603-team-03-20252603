@@ -254,4 +254,5 @@ public class PlayerTest {
 		player.eliminatePlayer();
 		assertFalse(player.isActive());
 	}
+
 }

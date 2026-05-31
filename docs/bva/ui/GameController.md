@@ -2,7 +2,7 @@
 
 ## Public interface (methods under analysis)
 
-- `GameController(display: IGameDisplay, input: domain.input.IPlayerInput)` (constructor) → new GameController
+- `GameController(display: IGameDisplay, input: domain.input.IPlayerInput, comboValidator: ComboValidator)` (constructor) → new GameController
 - `startGame()` → void
 - `endGame()` → void
 - `isGameActive()` → boolean
@@ -317,3 +317,19 @@ cases:
 | drawCard_drawnCardIsNotExplodingKitten_AddsCardToPlayerHand                 | drawn card type ≠ EXPLODING_KITTEN                         | addCardToCurrentPlayer called with drawn card        | :white_check_mark: |
 | drawCard_drawnCardIsExplodingKitten_playerHasDefuse_ExecutesDefuseAction    | drawn card = EXPLODING_KITTEN, player has DEFUSE           | setPendingAction called; DefuseAction executes       | :white_check_mark: |
 | drawCard_drawnCardIsExplodingKitten_playerHasNoDefuse_EliminatesPlayer      | drawn card = EXPLODING_KITTEN, player has no DEFUSE        | eliminateCurrentPlayer called                        | :white_check_mark: |
+
+
+### Method under test: `dealCardsAndReturnDeck()`
+
+spaces: numPlayers = { 2, 5,}
+
+cases:
+- two players
+- five players
+
+| test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
+|----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
+| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten          | two players         | deck contains one exploding kitten                                      | :white_check_mark: |
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands                | two players         | each player's hand is non-empty                                         | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens       | five players        | deck contains four exploding kittens                                    | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands               | five players        | each player's hand is non-empty                                         | :white_check_mark: |
