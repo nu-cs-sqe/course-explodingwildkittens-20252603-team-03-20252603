@@ -88,10 +88,10 @@ spaces: numPlayers − 1 = {1, 2, 3, 4}
 
 spaces: numPlayers = {2, 5} (boundary; interior players do not affect queue ordering)
 
-| test_Name                                              | State of the System                              | Expected output                         | Implemented? |
-|--------------------------------------------------------|--------------------------------------------------|-----------------------------------------|--------------|
-| startGame_TwoPlayers_FirstPlayerIsCurrentPlayer        | promptNumPlayers() returns 2; player 1 added first | getCurrentPlayer() returns player 1   | :x:          |
-| startGame_FivePlayers_FirstPlayerIsCurrentPlayer       | promptNumPlayers() returns 5; player 1 added first | getCurrentPlayer() returns player 1   | :x:          |
+| test_Name                                        | State of the System                                | Expected output                     | Implemented?       |
+|--------------------------------------------------|----------------------------------------------------|-------------------------------------|--------------------|
+| startGame_TwoPlayers_FirstPlayerIsCurrentPlayer  | promptNumPlayers() returns 2; player 1 added first | getCurrentPlayer() returns player 1 | :white_check_mark: |
+| startGame_FivePlayers_FirstPlayerIsCurrentPlayer | promptNumPlayers() returns 5; player 1 added first | getCurrentPlayer() returns player 1 | :x:                |
 
 ---
 

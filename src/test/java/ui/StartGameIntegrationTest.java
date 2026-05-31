@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StartGameIntegrationTest {
@@ -161,6 +162,20 @@ public class StartGameIntegrationTest {
 		for (Player player : allPlayers) {
 			assertTrue(player.isActive());
 		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_TwoPlayers_FirstPlayerIsCurrentPlayer() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		assertEquals("p1", gc.gameState().getCurrentPlayer().getId());
 		EasyMock.verify(display, input);
 	}
 }
