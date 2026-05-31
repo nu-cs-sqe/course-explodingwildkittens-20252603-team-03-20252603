@@ -13,6 +13,7 @@ public class StartGameIntegrationTest {
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
 	private static final int FIVE_PLAYERS = 5;
+	private static final int SIX_PLAYERS = 6;
 
 	@Test
 	void startGame_TwoPlayers_GameStateIsActive() {
@@ -91,6 +92,22 @@ public class StartGameIntegrationTest {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(ONE_PLAYER).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		assertTrue(gc.isGameActive());
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_NumPlayersAboveMax_ShowsErrorAndRepromptsUntilValid() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(SIX_PLAYERS).andReturn(2);
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
