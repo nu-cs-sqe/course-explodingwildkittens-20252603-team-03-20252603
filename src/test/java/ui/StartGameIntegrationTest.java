@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StartGameIntegrationTest {
 
+	private static final int NEGATIVE_NUM_PLAYERS = -1;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
 	private static final int FIVE_PLAYERS = 5;
@@ -59,6 +60,22 @@ public class StartGameIntegrationTest {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		assertTrue(gc.isGameActive());
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_NumPlayersNegative_ShowsErrorAndRepromptsUntilValid() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(NEGATIVE_NUM_PLAYERS).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(display, input);
 
 		GameController gc = new GameController(display, input);

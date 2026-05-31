@@ -112,8 +112,8 @@ spaces: numPlayers = {−1, 1, 6}
 
 note: cross-references unit-level cases in `GameController.md` (`startGame_InvalidNumPlayersBelowMin_*` and `startGame_InvalidNumPlayersAboveMax_*`); integration tests here confirm the same behaviour holds with real collaborators.
 
-| test_Name                                                          | State of the System                            | Expected output                                           | Implemented? |
-|--------------------------------------------------------------------|------------------------------------------------|-----------------------------------------------------------|--------------|
-| startGame_NumPlayersNegative_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns −1, then 2          | showMessage called once; game initializes with 2 players  | :x:          |
-| startGame_NumPlayersBelowMin_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 1, then 2           | showMessage called once; game initializes with 2 players  | :x:          |
-| startGame_NumPlayersAboveMax_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 6, then 2           | showMessage called once; game initializes with 2 players  | :x:          |
+| test_Name                                                          | State of the System                            | Expected output                                           | Implemented?       |
+|--------------------------------------------------------------------|------------------------------------------------|-----------------------------------------------------------|--------------------|
+| startGame_NumPlayersNegative_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns −1, then 2          | showMessage called once; game initializes with 2 players  | :white_check_mark: |
+| startGame_NumPlayersBelowMin_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 1, then 2           | showMessage called once; game initializes with 2 players  | :x:                |
+| startGame_NumPlayersAboveMax_ShowsErrorAndRepromptsUntilValid      | promptNumPlayers() returns 6, then 2           | showMessage called once; game initializes with 2 players  | :x:                |
