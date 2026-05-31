@@ -99,10 +99,10 @@ spaces: numPlayers = {2, 5} (boundary; interior players do not affect queue orde
 
 spaces: numPlayers = {2, 5} (boundary; the invariant applies identically at all valid counts)
 
-| test_Name                                        | State of the System          | Expected output                           | Implemented? |
-|--------------------------------------------------|------------------------------|-------------------------------------------|--------------|
-| startGame_TwoPlayers_AllPlayersAreActive         | promptNumPlayers() returns 2 | all 2 players have isActive() = true      | :x:          |
-| startGame_FivePlayers_AllPlayersAreActive        | promptNumPlayers() returns 5 | all 5 players have isActive() = true      | :x:          |
+| test_Name                                        | State of the System          | Expected output                           | Implemented?       |
+|--------------------------------------------------|------------------------------|-------------------------------------------|--------------------|
+| startGame_TwoPlayers_AllPlayersAreActive         | promptNumPlayers() returns 2 | all 2 players have isActive() = true      | :white_check_mark: |
+| startGame_FivePlayers_AllPlayersAreActive        | promptNumPlayers() returns 5 | all 5 players have isActive() = true      | :x:                |
 
 ---
 

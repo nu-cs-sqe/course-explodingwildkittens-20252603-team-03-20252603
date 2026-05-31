@@ -1,8 +1,13 @@
 package ui;
 
 import domain.input.IPlayerInput;
+import domain.model.GameState;
+import domain.model.Player;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -116,6 +121,26 @@ public class StartGameIntegrationTest {
 		gc.startGame();
 
 		assertTrue(gc.isGameActive());
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_TwoPlayers_AllPlayersAreActive() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input);
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			assertTrue(player.isActive());
+		}
 		EasyMock.verify(display, input);
 	}
 }

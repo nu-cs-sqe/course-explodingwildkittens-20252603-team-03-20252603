@@ -70,6 +70,10 @@ public class GameController {
 		return gameState.isActive();
 	}
 
+	GameState gameState() {
+		return gameState;
+	}
+
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
 			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));}
@@ -98,11 +102,7 @@ public class GameController {
 		}
 
 		Player currentPlayer = gameState.getCurrentPlayer();
-		if (!currentPlayer.isActive()) {
-			return false;
-		}
-
-		return true;
+		return currentPlayer.isActive();
 	}
 
 	boolean hasToPlayATurn() {
@@ -146,7 +146,7 @@ public class GameController {
 	void resetCurrentPlayerWasAttacked() {
 		Player currentPlayer = gameState.getCurrentPlayer();
 		currentPlayer.resetWasAttacked();
-	};
+	}
 
 	void resetGameState(int turnsForNextPlayer) {
 		gameState.turnState().reset(turnsForNextPlayer);
