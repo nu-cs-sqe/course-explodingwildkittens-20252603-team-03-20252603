@@ -54,9 +54,7 @@ cases:
 | test_Name                                        | State of the System          | Expected output                   | Implemented?       |
 |--------------------------------------------------|------------------------------|-----------------------------------|--------------------|
 | startGame_TwoPlayers_EachPlayerHasEightCards     | promptNumPlayers() returns 2 | every player's hand size = 8      | :white_check_mark: |
-| startGame_ThreePlayers_EachPlayerHasEightCards   | promptNumPlayers() returns 3 | every player's hand size = 8      | :x:                |
-| startGame_FourPlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 4 | every player's hand size = 8      | :x:                |
-| startGame_FivePlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 5 | every player's hand size = 8      | :x:                |
+| startGame_FivePlayers_EachPlayerHasEightCards    | promptNumPlayers() returns 5 | every player's hand size = 8      | :white_check_mark: |
 
 ---
 
@@ -65,8 +63,6 @@ cases:
 | test_Name                                              | State of the System          | Expected output                                     | Implemented? |
 |--------------------------------------------------------|------------------------------|-----------------------------------------------------|--------------|
 | startGame_TwoPlayers_EachPlayerHasExactlyOneDefuse     | promptNumPlayers() returns 2 | each player's hand has exactly 1 DEFUSE card        | :x:          |
-| startGame_ThreePlayers_EachPlayerHasExactlyOneDefuse   | promptNumPlayers() returns 3 | each player's hand has exactly 1 DEFUSE card        | :x:          |
-| startGame_FourPlayers_EachPlayerHasExactlyOneDefuse    | promptNumPlayers() returns 4 | each player's hand has exactly 1 DEFUSE card        | :x:          |
 | startGame_FivePlayers_EachPlayerHasExactlyOneDefuse    | promptNumPlayers() returns 5 | each player's hand has exactly 1 DEFUSE card        | :x:          |
 
 ---
@@ -78,8 +74,6 @@ spaces: numPlayers − 1 = {1, 2, 3, 4}
 | test_Name                                                   | State of the System          | Expected output                                      | Implemented? |
 |-------------------------------------------------------------|------------------------------|------------------------------------------------------|--------------|
 | startGame_TwoPlayers_DeckContainsOneExplodingKitten         | promptNumPlayers() returns 2 | deck contains exactly 1 EXPLODING_KITTEN card        | :x:          |
-| startGame_ThreePlayers_DeckContainsTwoExplodingKittens      | promptNumPlayers() returns 3 | deck contains exactly 2 EXPLODING_KITTEN cards       | :x:          |
-| startGame_FourPlayers_DeckContainsThreeExplodingKittens     | promptNumPlayers() returns 4 | deck contains exactly 3 EXPLODING_KITTEN cards       | :x:          |
 | startGame_FivePlayers_DeckContainsFourExplodingKittens      | promptNumPlayers() returns 5 | deck contains exactly 4 EXPLODING_KITTEN cards       | :x:          |
 
 ---

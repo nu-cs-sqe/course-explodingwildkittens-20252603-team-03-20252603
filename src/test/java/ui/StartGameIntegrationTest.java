@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StartGameIntegrationTest {
 
 	private static final int NEGATIVE_NUM_PLAYERS = -1;
+	private static final int INITIAL_HAND_SIZE = 8;
 	private static final int ONE_PLAYER = 1;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
@@ -215,7 +216,27 @@ public class StartGameIntegrationTest {
 		allPlayers.add(gameState.getCurrentPlayer());
 		allPlayers.addAll(gameState.getOtherActivePlayers());
 		for (Player player : allPlayers) {
-			assertEquals(8, player.getHand().size());
+			assertEquals(INITIAL_HAND_SIZE, player.getHand().size());
+		}
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_FivePlayers_EachPlayerHasEightCards() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		gc.startGame();
+
+		GameState gameState = gc.gameState();
+		List<Player> allPlayers = new ArrayList<>();
+		allPlayers.add(gameState.getCurrentPlayer());
+		allPlayers.addAll(gameState.getOtherActivePlayers());
+		for (Player player : allPlayers) {
+			assertEquals(INITIAL_HAND_SIZE, player.getHand().size());
 		}
 		EasyMock.verify(display, input);
 	}
