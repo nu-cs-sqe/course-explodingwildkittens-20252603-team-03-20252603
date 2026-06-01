@@ -64,3 +64,26 @@
 15. [not started] Mercy: Integration Tests — playATurn() Normal Flow
 16. [not started] Chibu: Integration Tests — Exploding Kitten, Defuse, Remove Player & End Game
 17. [not started] Austin: Integration Tests — Card Action & Combo
+
+
+
+## Week 9 (05/25/2026-05/31/2026)
+**Planning and Progress Tracking**:
+1. [done] Team: Meeting with Professor Yiji Zhang to go over progress, design, and project questions. Received feedback and working on current feedback
+2. [done] Caroline: addressed Prof Yiji's comments and fixed the concerns raised in Prof Yiji's feedback
+3. [done] Caroline: Integration tests for start game and end game sequence
+4. [done] Mercy, Caroline: Added game launch sequnce to allow us to run the game successfully
+5. [done] Austin: Internationalize hardcoded strings and numbers
+6. [done] Chibueze: Full Terminal Implementation
+7. [done] Mercy: GameController playATurn() & drawCard() with BVA and testing
+5. [In progress] Austin: integration tests for Card Action & Combo
+6. [In progress] Mercy: integration tests for playATurn() Normal Flow
+7. [In progress] Chibueze: Integration tests for Exploding Kitten, Defuse, Remove Player & End Game 
+8. [In progress] Austin: bug fixes: kill existing mutants in the game
+8. [not started] Mercy: Manual testing for attack, see the future card action
+9. [not started] Austin: manual testing for skip, shuffle, favor
+10. [not started] Caroline: manual testing for cat cards
+11. [not started] Chibueze: manual testing for defuse and exploding kitten
+
+
+
