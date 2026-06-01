@@ -61,6 +61,10 @@ this file focuses on design, logic, and correctness issues that static analysis 
 - Missing tests for boundary conditions and error paths
 - Mocks used where a simple stub would do — over-mocking makes tests brittle
 
+### Strings & Internationalisation
+- String concatenation (`"Hello " + name`) is not allowed for user-facing strings — use `MessageFormat.format()` instead
+- All user-facing strings must be sourced from the i18n resource bundle (`labels.properties`) — no hardcoded string literals in production code
+
 ### Java-Specific
 - Using `==` to compare Strings or objects instead of `.equals()`
 - `instanceof` chains that should be replaced with polymorphism or pattern matching
