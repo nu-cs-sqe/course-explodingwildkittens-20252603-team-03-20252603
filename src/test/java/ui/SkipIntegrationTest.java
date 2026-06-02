@@ -48,8 +48,6 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("view.prompt.num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -91,8 +89,6 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("error.num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -114,6 +110,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 	@Test
@@ -131,8 +129,6 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showMessage(ViewMessages.format("error.num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -156,6 +152,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore-1, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 	@Test
@@ -173,8 +171,6 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
-		display.showMessage(ViewMessages.format("error.num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -199,5 +195,7 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 }
