@@ -7,6 +7,8 @@ These tests test the following classes (not mocked)
 - GameState
 - Player
 - TurnState
+- Deck
+- 
 
 
 ## Assumptions and Notes
@@ -18,17 +20,21 @@ These tests test the following classes (not mocked)
   - deck has cards already
 
 ## Method under test: `playATurn()`
-spaces: _game logic_
+spaces: _count, game logic_
 
 cases:
-- play a turn should allow users to play many cards
-- end of a turn should draw card if needed and advance to next player
-- play a turn (invalid card combo) should gracefully display error and ask user to choose again
+- play a turn should not allow users to play card(s) if action is noped
+- play a turn should not allow users to play card(s) if card combo is invalid
+- play a turn should allow users to play 0 cards
+- play a turn should allow users to play 1 card(s) if action is not noped, and is valid
+- play a turn should allow users to play more than one card(s) if action is not noped, and is valid
 
-### Partition 1 - Play a card; user plays one card is prompted to choose again
-
-### Partition 2 - Play a card; user plays one card, selects done playing and system draws card and goes to the next player
-
-### Partition 3 - Play a card; user plays invalid card combo, gracefully displays the error to user and moves to next player
+| test_Name                                                | State of the System                                      | Expected output                                     | Implemented?       |
+|----------------------------------------------------------|----------------------------------------------------------|-----------------------------------------------------|--------------------|
+| playATurn_ActionIsNoped_CardIsNotPlayed                  | user plays a card, action is noped                       | system should not allow user to play card           | :white_check_mark: |
+| playATurn_InvalidCardCombo_CardIsNotPlayed               | user plays a card, invalid card combo                    | system should not allow user to play card           | :white_check_mark: |
+| playATurn_PlayZeroCards_GameIsAdvanced                   | user plays no cards                                      | system should give the user a card and advance game | :white_check_mark: |
+| playATurn_PlayOneCardNotNopedValidCard_CardIsPlayed      | user plays a card, action is not noped, valid card combo | system should allow user to play card               | :white_check_mark: |
+| playATurn_PlayManyCardsNotNopedValidCards_CardsArePlayed | user plays cards, action is not noped, valid card combo  | system should allow user to play cards              | :white_check_mark: |
 
 
