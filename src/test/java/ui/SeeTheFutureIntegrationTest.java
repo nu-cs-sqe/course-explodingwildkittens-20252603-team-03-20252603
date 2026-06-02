@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SuppressWarnings("checkstyle:MethodLength")
 public class SeeTheFutureIntegrationTest {
-	private final int TWO_PLAYERS = 2;
+	private static final int TWO_PLAYERS = 2;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
