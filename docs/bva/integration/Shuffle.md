@@ -4,9 +4,6 @@
 
 Integration tests for **shuffle** card action
 These tests test the end to end action of shuffle card
-These classes are not mocked:
-- k
-
 
 ## Assumptions and Notes
 - Assumes system is already launched
