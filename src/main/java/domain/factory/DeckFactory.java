@@ -79,7 +79,10 @@ public class DeckFactory {
 	List<Card> generateSeeTheFutureCards() {
 		List<Card> cards = new ArrayList<>();
 		for (int i = 0; i < NUM_SEE_THE_FUTURE_CARDS; i++) {
-			cards.add(new Card(CardType.SEE_THE_FUTURE, CardName.SEE_THE_FUTURE, new SeeTheFutureAction(helper)));
+			cards.add(new Card(
+					CardType.SEE_THE_FUTURE,
+					CardName.SEE_THE_FUTURE,
+					new SeeTheFutureAction(helper)));
 		}
 		return cards;
 	}

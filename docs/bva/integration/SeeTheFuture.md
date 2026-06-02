@@ -1,9 +1,13 @@
 # BVA Analysis for see the future card Action
 
 ## Scope
-
 Integration tests for **see the future** card action
 These tests test the end to end action of see the future card
+
+# Design decisions
+- we suppressed the checkstyleLength check on this test class since our test methods are asserting 
+many method calls and setting up expectations such that it cannot be contained in only 20 lines 
+as the checkstyle expects.
 
 ## Assumptions and Notes
 - Assumes system is already launched
