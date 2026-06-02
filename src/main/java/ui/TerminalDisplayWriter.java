@@ -48,12 +48,12 @@ final class TerminalDisplayWriter {
 	void showPlayerHand(Player player) {
 		output.println(ViewMessages.format("view.hand.header", player.getName()));
 		printNumberedCards(player.getHand());
-		printPeekCards(player);
 	}
 
-	private void printPeekCards(Player player) {
+	public void printPeekCards(Player player) {
 		List<Card> peekCards = player.getPeekCards();
 		if (peekCards.isEmpty()) {
+			output.println(ViewMessages.format("no.cards.to.peek"));
 			return;
 		}
 		output.println(ViewMessages.format("view.peek.cards"));

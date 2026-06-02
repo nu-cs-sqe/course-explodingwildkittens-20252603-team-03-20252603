@@ -102,4 +102,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		}
 		return PlayerChoice.DONE_PLAYING_CARDS;
 	}
+
+	public void showPeekCards(Player player) {
+		input.showPeekCards(player);
+	}
 }

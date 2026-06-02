@@ -48,7 +48,7 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
+		display.showMessage(ViewMessages.format("view.prompt.num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
@@ -71,6 +71,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore-1, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 
@@ -89,7 +91,7 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
+		display.showMessage(ViewMessages.format("error.num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
@@ -129,7 +131,7 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
+		display.showMessage(ViewMessages.format("error.num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
@@ -171,7 +173,7 @@ public class SkipIntegrationTest {
 		playerHandCards.add(skipCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
+		display.showMessage(ViewMessages.format("error.num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
