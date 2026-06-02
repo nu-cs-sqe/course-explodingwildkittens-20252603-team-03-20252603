@@ -24,8 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AttackIntegrationTest {
 	private final int TWO_PLAYERS = 2;
+	private final int THREE_PLAYERS = 3;
 	private final int ONE_TURN = 1;
+	private final int ONE_PLAYER = 1;
 	private final int TWO_TURNS = 2;
+	private final int THREE_TURNS = 3;
+	private final int FOUR_TURNS = 4;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
@@ -111,6 +115,125 @@ public class AttackIntegrationTest {
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
 		assertEquals(ONE_TURN, turnsForNextPlayer);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void attack_FirstTurn_InitiallyAttacked_NotNoped_NextPlayerAttacked(){
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		List<Card> playerHandCards = new ArrayList<>();
+		List<Card> drawPileCards = new ArrayList<>();
+		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
+		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		drawPileCards.add(cattermelonCard);
+		drawPileCards.add(shuffleCard);
+		playerHandCards.add(attackCard);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
+		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().times(TWO_TURNS);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.PLAY_CARD);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(List.of(attackCard)).times(TWO_TURNS);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(false).anyTimes();
+
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		Deck deck = new Deck(drawPileCards);
+		gc.startGame(deck, playerHandCards);
+		Player firstPlayer = gc.gameState().getCurrentPlayer();
+		int firstPlayerSizeBefore = firstPlayer.getHand().size();
+		gc.playATurn();
+		int firstPlayerSizeAfter = firstPlayer.getHand().size();
+		Player secondPlayer = gc.gameState().getCurrentPlayer();
+		int secondPlayerSizeBefore = secondPlayer.getHand().size();
+		gc.playATurn();
+		int secondPlayerSizeAfter = secondPlayer.getHand().size();
+		Player thirdPlayer = gc.gameState().getCurrentPlayer();
+
+		int turnsForLastPlayer = gc.getTurnsRemaining();
+
+		assertEquals(firstPlayerSizeBefore-1, firstPlayerSizeAfter);
+		assertEquals(secondPlayerSizeBefore-1, secondPlayerSizeAfter);
+		assertNotEquals(firstPlayer,  secondPlayer);
+		assertNotEquals(firstPlayer, thirdPlayer);
+		assertNotEquals(secondPlayer, thirdPlayer);
+		assertEquals(FOUR_TURNS, turnsForLastPlayer);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void attack_InitiallyAttacked_FirstTurn_Noped_NextPlayerNotAttacked(){
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		List<Card> playerHandCards = new ArrayList<>();
+		List<Card> drawPileCards = new ArrayList<>();
+		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
+		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+
+		drawPileCards.add(cattermelonCard);
+		drawPileCards.add(shuffleCard1);
+		drawPileCards.add(shuffleCard2);
+		drawPileCards.add(shuffleCard3);
+		playerHandCards.add(attackCard);
+		playerHandCards.add(cattermelonCard);
+		playerHandCards.add(shuffleCard1);
+		playerHandCards.add(shuffleCard2);
+		playerHandCards.add(shuffleCard3);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
+		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().times(TWO_TURNS);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(List.of(attackCard))
+				.andReturn(List.of(attackCard))
+				.andReturn(List.of(shuffleCard1));
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(false).times(TWO_PLAYERS)
+				.andReturn(false).times(ONE_PLAYER)
+				.andReturn(true).times(ONE_PLAYER)
+				.andReturn(false).times(TWO_PLAYERS);
+
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		Deck deck = new Deck(drawPileCards);
+		gc.startGame(deck, playerHandCards);
+		Player firstPlayer = gc.gameState().getCurrentPlayer();
+		int firstPlayerSizeBefore = firstPlayer.getHand().size();
+		gc.playATurn();
+		int firstPlayerSizeAfter = firstPlayer.getHand().size();
+		Player secondPlayer = gc.gameState().getCurrentPlayer();
+		int secondPlayerSizeBefore = secondPlayer.getHand().size();
+		gc.playATurn();
+		int secondPlayerSizeAfter = secondPlayer.getHand().size();
+		Player thirdPlayer = gc.gameState().getCurrentPlayer();
+
+		int turnsForLastPlayer = gc.getTurnsRemaining();
+
+		assertEquals(firstPlayerSizeBefore-1, firstPlayerSizeAfter);
+		assertEquals(secondPlayerSizeBefore, secondPlayerSizeAfter);
+		assertNotEquals(firstPlayer,  secondPlayer);
+		assertNotEquals(firstPlayer, thirdPlayer);
+		assertNotEquals(secondPlayer, thirdPlayer);
+		assertEquals(ONE_TURN, turnsForLastPlayer);
 
 		EasyMock.verify(display, input);
 	}
