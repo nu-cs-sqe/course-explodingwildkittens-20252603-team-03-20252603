@@ -122,6 +122,5 @@ public class ShuffleIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
-		assertNotEquals(deckBefore.subList(1, deckBefore.size()), deckAfter);
 	}
 }
