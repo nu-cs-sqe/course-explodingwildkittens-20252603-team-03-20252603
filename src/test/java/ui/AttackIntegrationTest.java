@@ -24,15 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SuppressWarnings("checkstyle:MethodLength")
 public class AttackIntegrationTest {
-	private final int TWO_PLAYERS = 2;
-	private final int THREE_PLAYERS = 3;
-	private final int FOUR_PLAYERS = 4;
-	private final int ONE_TURN = 1;
-	private final int ONE_PLAYER = 1;
-	private final int TWO_TURNS = 2;
-	private final int THREE_TURNS = 3;
-	private final int FOUR_TURNS = 4;
-	private final int SIX_TURNS = 6;
+	private static final int TWO_PLAYERS = 2;
+	private static final int THREE_PLAYERS = 3;
+	private static final int FOUR_PLAYERS = 4;
+	private static final int ONE_TURN = 1;
+	private static final int ONE_PLAYER = 1;
+	private static final int TWO_TURNS = 2;
+	private static final int THREE_TURNS = 3;
+	private static final int FOUR_TURNS = 4;
+	private static final int SIX_TURNS = 6;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
