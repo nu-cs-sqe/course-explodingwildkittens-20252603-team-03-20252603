@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class ShuffleIntegrationTest {
 
 	private static final int TWO_PLAYERS = 2;
+	private static final int RANDOM_SEED = 42;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
@@ -45,13 +46,11 @@ public class ShuffleIntegrationTest {
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card beardCard = new Card(CardType.CAT_CARD, CardName.BEARD_CAT, new NoAction());
 		Card hairyPotatoCard = new Card(CardType.CAT_CARD, CardName.HAIRY_POTATO_CAT, new NoAction());
-		playerHandCards.add(skipCard);
-		playerHandCards.add(cattermelonCard);
-		playerHandCards.add(beardCard);
-		playerHandCards.add(hairyPotatoCard);
-		List<Card> originalCardOrder = playerHandCards;
+		drawPileCards.add(skipCard);
+		drawPileCards.add(cattermelonCard);
+		drawPileCards.add(beardCard);
+		drawPileCards.add(hairyPotatoCard);
 		playerHandCards.add(shuffleCard);
-		drawPileCards.add(shuffleCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showMessage(ViewMessages.format("num.players"));
@@ -67,18 +66,19 @@ public class ShuffleIntegrationTest {
 		EasyMock.replay(display, input);
 
 		GameController gc = new GameController(display, input, realComboValidator(input));
-		Deck deck = new Deck(drawPileCards);
+		Deck deck = new Deck(drawPileCards, new Random(RANDOM_SEED));
 		gc.startGame(deck, playerHandCards);
 		Player firstPlayer = gc.gameState().getCurrentPlayer();
 		int sizeBefore = firstPlayer.getHand().size();
+		List<Card> deckBefore = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 		gc.playATurn();
 		Player secondPlayer = gc.gameState().getCurrentPlayer();
 		int sizeAfter = firstPlayer.getHand().size();
-		List<Card> currentOrderCards = firstPlayer.getHand();
+		List<Card> deckAfter = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
-		assertEquals(originalCardOrder, currentOrderCards);
+		assertEquals(deckBefore.subList(1, deckBefore.size()), deckAfter);
 	}
 
 	@Test
@@ -92,13 +92,11 @@ public class ShuffleIntegrationTest {
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card beardCard = new Card(CardType.CAT_CARD, CardName.BEARD_CAT, new NoAction());
 		Card hairyPotatoCard = new Card(CardType.CAT_CARD, CardName.HAIRY_POTATO_CAT, new NoAction());
-		playerHandCards.add(skipCard);
-		playerHandCards.add(cattermelonCard);
-		playerHandCards.add(beardCard);
-		playerHandCards.add(hairyPotatoCard);
-		List<Card> originalCardOrder = playerHandCards;
+		drawPileCards.add(skipCard);
+		drawPileCards.add(cattermelonCard);
+		drawPileCards.add(beardCard);
+		drawPileCards.add(hairyPotatoCard);
 		playerHandCards.add(shuffleCard);
-		drawPileCards.add(shuffleCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showMessage(ViewMessages.format("num.players"));
@@ -114,17 +112,18 @@ public class ShuffleIntegrationTest {
 		EasyMock.replay(display, input);
 
 		GameController gc = new GameController(display, input, realComboValidator(input));
-		Deck deck = new Deck(drawPileCards);
+		Deck deck = new Deck(drawPileCards, new Random(RANDOM_SEED));
 		gc.startGame(deck, playerHandCards);
 		Player firstPlayer = gc.gameState().getCurrentPlayer();
 		int sizeBefore = firstPlayer.getHand().size();
+		List<Card> deckBefore = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 		gc.playATurn();
 		Player secondPlayer = gc.gameState().getCurrentPlayer();
 		int sizeAfter = firstPlayer.getHand().size();
-		List<Card> currentOrderCards = firstPlayer.getHand();
+		List<Card> deckAfter = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
-		assertEquals(originalCardOrder, currentOrderCards);
+		assertNotEquals(deckBefore.subList(1, deckBefore.size()), deckAfter);
 	}
 }
