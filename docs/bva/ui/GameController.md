@@ -196,8 +196,9 @@ cases:
 
 
 
-### Method under test: `handleTurnTaking()`
-spaces: boolean (isAttacking), boolean (wasAttacked), count (turnsRemaining)
+### Method under test: `setTurnsForNextPlayer()`
+spaces: boolean (isAttacking), boolean (wasAttacked), turnsRemaining
+
 
 cases:
 - isAttacking = false
@@ -209,16 +210,31 @@ cases:
 - turnsRemaining = 3 (> 1, user-cited example)
 - turnsRemaining = INT_MAX (N/A — would overflow when added to DEFAULT_ATTACKING_TURNS)
 
-| test_Name                                                                            | State of the System                                                    | Expected output                                           |    Implemented?    |
-|--------------------------------------------------------------------------------------|------------------------------------------------------------------------|-----------------------------------------------------------|:------------------:|
-| handleTurnTaking_notAttacking_DecrementsAndReturnsOne                                | isAttacking=false, turnsRemaining (current player)=1                   | returns 1 for nextplayer, turnsRemaining decremented to 0 | :white_check_mark: |
-| handleTurnTaking_attackingNotWasAttacked_DecrementsAndReturnsTwo                     | isAttacking=true, wasAttacked=false, turnsRemaining (current player)=1 | returns 2 for nextplayer, turnsRemaining decremented to 0 | :white_check_mark: |
-| handleTurnTaking_attackingWasAttacked_turnsRemainingIsOne_DecrementsAndReturnsThree  | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=1  | returns 3 for nextplayer, turnsRemaining decremented to 0 | :white_check_mark: |
-| handleTurnTaking_attackingWasAttacked_turnsRemainingIsTwo_DecrementsAndReturnsFour   | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=2  | returns 4 for nextplayer, turnsRemaining decremented to 1 | :white_check_mark: |
-| handleTurnTaking_attackingWasAttacked_turnsRemainingIsThree_DecrementsAndReturnsFive | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=3  | returns 5 for nextplayer, turnsRemaining decremented to 2 | :white_check_mark: |
-| handleTurnTaking_attackingWasAttacked_turnsRemainingIsFour_DecrementsAndReturnsSix   | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=4  | returns 6 for nextplayer, turnsRemaining decremented to 3 | :white_check_mark: |
-| handleTurnTaking_notAttacking_turnsRemainingisThree_DecrementsAndReturnsOne          | isAttacking=false, turnsRemaining (current player)=3                   | returns 1 for nextplayer, turnsRemaining decremented to 2 | :white_check_mark: |
 
+| test_Name                                                                    | State of the System                                                   | Expected output           |    Implemented?    |
+|------------------------------------------------------------------------------|-----------------------------------------------------------------------|---------------------------|:------------------:|
+| setTurnsForNextPlayer_notAttacking_ReturnsOne                                | isAttacking=false,                                                    | returns 1 for nextplayer  | :white_check_mark: |
+| setTurnsForNextPlayer_attackingNotWasAttacked_ReturnsTwo                     | isAttacking=true, wasAttacked=false,                                  | returns 2 for nextplayer  | :white_check_mark: |
+| setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsOne_ReturnsThree  | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=1 | returns 3 for nextplayer  | :white_check_mark: |
+| setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsTwo_ReturnsFour   | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=2 | returns 4 for nextplayer, | :white_check_mark: |
+| setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsThree_ReturnsFive | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=3 | returns 5 for nextplayer, | :white_check_mark: |
+| setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsFour_ReturnsSix   | isAttacking=true, wasAttacked=true, turnsRemaining (current player)=4 | returns 6 for nextplayer  | :white_check_mark: |
+
+
+
+### Method under test: `decrementTurns()`
+spaces: count (turnsRemaining)
+
+cases:
+- start with one turn
+- start with two turns
+- turnsRemaining = 0 (N/A- can never start with 0 remaning turns)
+- turnsRemaining = INT_MAX (N/A)
+
+| test_Name                                    | State of the System  | Expected output                 |    Implemented?    |
+|----------------------------------------------|----------------------|---------------------------------|:------------------:|
+| decrementTurns_startWithOneTurn_decrements  | start with one turn  | turnsRemaining decremented to 0 | :white_check_mark: |
+| decrementTurns_startWithTwoTurns_decrements | start with two turns | turnsRemaining decremented to 1 | :white_check_mark: |
 
 
 ### Method under test: `resetCurrentPlayerWasAttacked()`

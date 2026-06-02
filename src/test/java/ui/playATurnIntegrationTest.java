@@ -10,6 +10,7 @@ import domain.factory.ComboValidator;
 import domain.factory.PlayerInteractionHelper;
 import domain.input.IPlayerInput;
 import domain.model.Card;
+import domain.model.Deck;
 import domain.model.Player;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
@@ -39,11 +40,6 @@ public class playATurnIntegrationTest {
 
 	@Test
 	void playATurn_ActionIsNoped_UserNotAllowedToPlayCard() {
-		// asks user for choice
-		// calls play card
-		// card is discarded
-		// apply nope window - action is noped
-		// card not executed
 
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
@@ -53,7 +49,7 @@ public class playATurnIntegrationTest {
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
-		List<Card> cards = new ArrayList<Card>();
+		List<Card> cards = new ArrayList<>();
 		cards.add(skipCard);
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(cards).once();
@@ -61,7 +57,8 @@ public class playATurnIntegrationTest {
 		EasyMock.replay(display, input);
 
 		GameController gc = new GameController(display, input, realComboValidator(input));
-		gc.startGame();
+		Deck deck = new Deck(cards);
+		gc.startGame(deck, cards);
 		Player firstPlayer = gc.gameState().getCurrentPlayer();
 		int before = firstPlayer.getHand().size();
 		gc.playATurn();
@@ -69,6 +66,41 @@ public class playATurnIntegrationTest {
 		int after = firstPlayer.getHand().size();
 
 		assertEquals(before, after);
+		assertNotEquals(firstPlayer,  secondPlayer);
+
+	}
+
+	@Test
+	void playATurn_InvalidCardCombo_CardIsNotPlayed() {
+
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
+		display.showMessage(ViewMessages.format("num.players"));
+		EasyMock.expectLastCall().once();
+		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
+		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SKIP, new ShuffleAction());
+		List<Card> cards = new ArrayList<>();
+		cards.add(skipCard);
+		cards.add(shuffleCard);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(cards).once();
+		display.showMessage(ViewMessages.format("error.invalid.card"));
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		Deck deck = new Deck(cards);
+		gc.startGame(deck, cards);
+		Player firstPlayer = gc.gameState().getCurrentPlayer();
+		int before = firstPlayer.getHand().size();
+		gc.playATurn();
+		Player secondPlayer = gc.gameState().getCurrentPlayer();
+		int after = firstPlayer.getHand().size();
+
+		assertNotEquals(before, after);
 		assertNotEquals(firstPlayer,  secondPlayer);
 
 	}
