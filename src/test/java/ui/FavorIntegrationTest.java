@@ -149,4 +149,51 @@ public class FavorIntegrationTest {
 
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void favor_Noped_CardNotRobbed(){
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
+		Player player1 = new Player("P1", "Player1");
+		Player player2 = new Player("P2", "Player2");
+		List<Card> playerHandCards = new ArrayList<>();
+		List<Card> drawPileCards = new ArrayList<>();
+		List<Player>  players = new ArrayList<>();
+		Card favorCard = new Card(CardType.FAVOR, CardName.FAVOR, new FavorAction(playerInteractionHelper));
+		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		drawPileCards.add(favorCard);
+		drawPileCards.add(shuffleCard);
+		playerHandCards.add(favorCard);
+		playerHandCards.add(shuffleCard);
+		players.add(player1);
+		players.add(player2);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
+		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(List.of(favorCard)).once();
+
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, realComboValidator(input));
+		Deck deck = new Deck(drawPileCards);
+		gc.startGame(deck, playerHandCards,  players);
+		Player firstPlayer = gc.gameState().getCurrentPlayer();
+		int sizeBefore = firstPlayer.getHand().size();
+		gc.playATurn();
+		Player secondPlayer = gc.gameState().getCurrentPlayer();
+		int sizeAfter = firstPlayer.getHand().size();
+
+		assertEquals(sizeBefore, sizeAfter);
+		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
+	}
 }
