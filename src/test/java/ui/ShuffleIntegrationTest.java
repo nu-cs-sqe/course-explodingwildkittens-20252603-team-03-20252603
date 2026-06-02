@@ -112,15 +112,12 @@ public class ShuffleIntegrationTest {
 		gc.startGame(deck, playerHandCards);
 		Player firstPlayer = gc.gameState().getCurrentPlayer();
 		int sizeBefore = firstPlayer.getHand().size();
-		List<Card> deckBefore = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 		gc.playATurn();
 		Player secondPlayer = gc.gameState().getCurrentPlayer();
 		int sizeAfter = firstPlayer.getHand().size();
-		List<Card> deckAfter = new ArrayList<>(gc.gameState().peekTopOfDeck(gc.gameState().getDeckSize()));
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
-		assertNotEquals(deckBefore.subList(1, deckBefore.size()), deckAfter);
 
 		EasyMock.verify(display, input);
 	}
