@@ -22,6 +22,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@SuppressWarnings("checkstyle:MethodLength")
 public class SkipIntegrationTest {
 
 	private static final int TWO_PLAYERS = 2;
@@ -136,7 +137,9 @@ public class SkipIntegrationTest {
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)
+				.andReturn(true);
 
 		EasyMock.replay(display, input);
 
@@ -176,7 +179,10 @@ public class SkipIntegrationTest {
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true).andReturn(true).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)
+				.andReturn(true)
+				.andReturn(true);
 
 		EasyMock.replay(display, input);
 
