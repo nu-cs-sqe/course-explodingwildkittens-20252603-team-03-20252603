@@ -1,6 +1,5 @@
 package ui;
 
-import domain.action.FavorAction;
 import domain.action.ShuffleAction;
 import domain.action.SkipAction;
 import domain.enums.CardName;
@@ -22,7 +21,8 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class playATurnIntegrationTest {
+@SuppressWarnings("checkstyle:MethodLength")
+public class PlayATurnIntegrationTest {
 	private static final int TWO_PLAYERS = 2;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
@@ -42,7 +42,9 @@ public class playATurnIntegrationTest {
 		display.showMessage(ViewMessages.format("num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		List<Card> cards = new ArrayList<>();
 		cards.add(skipCard);
@@ -74,7 +76,9 @@ public class playATurnIntegrationTest {
 		display.showMessage(ViewMessages.format("num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SKIP, new ShuffleAction());
 		List<Card> cards = new ArrayList<>();
@@ -144,8 +148,11 @@ public class playATurnIntegrationTest {
 		display.showMessage(ViewMessages.format("num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
-		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(playerHandCards).once();
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(playerHandCards).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(false);
 
 		EasyMock.replay(display, input);
@@ -179,7 +186,10 @@ public class playATurnIntegrationTest {
 		display.showMessage(ViewMessages.format("num.players"));
 		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.PLAY_CARD).andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(playerHandCards.get(0)))
 				.andReturn(List.of(playerHandCards.get(1)));
