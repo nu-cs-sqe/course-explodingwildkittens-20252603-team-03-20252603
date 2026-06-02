@@ -21,7 +21,7 @@ public class Deck {
 	}
 
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
-	Deck(List<Card> cards, Random random) {
+	public Deck(List<Card> cards, Random random) {
 		this.cards = new ArrayList<>(cards);
 		this.random = random;
 	}

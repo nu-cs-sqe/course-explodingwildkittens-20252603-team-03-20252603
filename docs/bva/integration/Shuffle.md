@@ -24,4 +24,3 @@ cases:
 |-----------------------------------|----------------------------------------|----------------------|--------------------|
 | shuffle_IsNoped_DeckNotShuffled   | user plays a card, action is noped     | deck is not shuffled | :white_check_mark: |
 | shuffle_IsNotNoped_DeckIsShuffled | user plays a card, action is not noped | deck is shuffled     | :white_check_mark: |
-
