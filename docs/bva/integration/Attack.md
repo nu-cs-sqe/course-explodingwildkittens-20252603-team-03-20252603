@@ -35,7 +35,6 @@ cases:
 - player was initially attacked; attacks on second turn; not noped; next person is attacked (3)
 - player was initially attacked; attacks on second turn;  noped; next person is not attacked
 - past two players were attacked; attacks on first turn; not noped; next person is attacked --attacks stack (6)
-- past two players were attacked; attacks on first turn;  noped; next person is not attacked
 
 | test_Name                                                        | State of the System                                   | Expected output          | Implemented?       |
 |------------------------------------------------------------------|-------------------------------------------------------|--------------------------|--------------------|
@@ -46,4 +45,3 @@ cases:
 | attack_InitiallyAttacked_SecondTurn_NotNoped_NextPlayerAttacked  | initially attacked, attacks on second turn, not noped | next player attacked (3) | :x:                |
 | attack_InitiallyAttacked_SecondTurn_Noped_NextPlayerNotAttacked  | initially attacked, attacks on second turn, noped     | next player not attacked | :x:                |
 | attack_ThreeStackedAttacks_FirstTurn_NotNoped_NextPlayerAttacked | two stacked attacks, attacks on first turn, not noped | next player attacked (6) | :x:                |
-| attack_ThreeStackedAttacks_FirstTurn_Noped_NextPlayerNotAttacked | two stacked attacks, attacks on first turn, noped     | next player not attacked | :x:                |

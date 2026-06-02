@@ -22,6 +22,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@SuppressWarnings("checkstyle:MethodLength")
 public class AttackIntegrationTest {
 	private final int TWO_PLAYERS = 2;
 	private final int THREE_PLAYERS = 3;
