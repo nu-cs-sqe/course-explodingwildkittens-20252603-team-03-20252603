@@ -4,6 +4,7 @@ import domain.action.CardAction;
 import domain.action.NoAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
+import domain.enums.PlayerChoice;
 import domain.factory.ComboValidator;
 import domain.input.IPlayerInput;
 import domain.model.Card;
@@ -653,46 +654,72 @@ public class GameControllerTest {
 	}
 
 	@Test
-	void handleTurnTaking_notAttacking_DecrementsAndReturnsOne() {
+	void decrementTurns_startWithOneTurn_decrements(){
+		TurnState turnState = new TurnState();
+		int currentTurns = 1;
+		turnState.reset(currentTurns);
+
+
+		GameState mockGameState = createMockGameState(turnState);
+		EasyMock.replay(mockGameState);
+
+
+		GameController controller = createGameController(mockGameState);
+		controller.decrementTurns();
+
+
+		assertEquals(0, turnState.turnsRemaining());
+		EasyMock.verify(mockGameState);
+	}
+
+
+	@Test
+	void decrementTurns_startWithTwoTurns_decrements(){
+		TurnState turnState = new TurnState();
+		int currentTurns = 2;
+		turnState.reset(currentTurns);
+
+
+		GameState mockGameState = createMockGameState(turnState);
+		EasyMock.replay(mockGameState);
+
+
+		GameController controller = createGameController(mockGameState);
+		controller.decrementTurns();
+
+
+		assertEquals(1, turnState.turnsRemaining());
+		EasyMock.verify(mockGameState);
+	}
+
+
+
+	@Test
+	void setTurnsForNextPlayer_notAttacking_ReturnsOne() {
 		TurnState turnState = new TurnState();
 		// i am not attacking
 		// i was also not attacked (i just have one turn to play)
 		int currentTurns = 1;
 		turnState.reset(currentTurns);
 
-		GameState mockGameState = createMockGameState(turnState);
-		EasyMock.replay(mockGameState);
-
-		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
-
-		assertEquals(1, nextPlayerTurns);
-		assertEquals(0, turnState.turnsRemaining());
-		EasyMock.verify(mockGameState);
-	}
-
-	@Test
-	void handleTurnTaking_notAttacking_turnsRemainingIsThree_DecrementsAndReturnsOne() {
-		TurnState turnState = new TurnState();
-		// have been attacked by someone who was attacked (i have to play 4 turns);
-		// and I just played one turn (3 turns left)
-		// i am not attacking the next guy
-		int currentTurns = THREE_TURNS;
-		turnState.reset(currentTurns);
 
 		GameState mockGameState = createMockGameState(turnState);
 		EasyMock.replay(mockGameState);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(1, nextPlayerTurns);
-		assertEquals(2, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState);
 	}
 
+
+
+
 	@Test
-	void handleTurnTaking_attackingNotWasAttacked_DecrementsAndReturnsTwo() {
+	void setTurnsForNextPlayer_attackingNotWasAttacked_ReturnsTwo() {
 		TurnState turnState = new TurnState();
 		// i am attacking the next guy;
 		// i was not attacked, (i have one turn to play)
@@ -700,24 +727,29 @@ public class GameControllerTest {
 		turnState.reset(currentTurns);
 		turnState.startAttack();
 
+
 		GameState mockGameState = createMockGameState(turnState);
+
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer);
 		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
 
+
 		EasyMock.replay(mockGameState, mockPlayer);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(2, nextPlayerTurns);
-		assertEquals(0, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState, mockPlayer);
 	}
 
+
 	@Test
-	void handleTurnTaking_attackingWasAttacked_turnsRemainingIsOne_DecrementsAndReturnsThree() {
+	void setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsOne_ReturnsThree() {
 		TurnState turnState = new TurnState();
 		// i am attacking the next guy;
 		// i was attacked, and i already played one turn (one turn left)
@@ -725,24 +757,29 @@ public class GameControllerTest {
 		turnState.reset(currentTurns);
 		turnState.startAttack();
 
+
 		GameState mockGameState = createMockGameState(turnState);
+
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer);
 		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(true);
 
+
 		EasyMock.replay(mockGameState, mockPlayer);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(THREE_TURNS, nextPlayerTurns);
-		assertEquals(0, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState, mockPlayer);
 	}
 
+
 	@Test
-	void handleTurnTaking_attackingWasAttacked_turnsRemainingIsTwo_DecrementsAndReturnsFour() {
+	void setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsTwo_ReturnsFour() {
 		TurnState turnState = new TurnState();
 		//i am attacking the next guy
 		// i was attacked (so I have to play 2 turns and this is my first turn)
@@ -750,73 +787,85 @@ public class GameControllerTest {
 		turnState.reset(currentTurns);
 		turnState.startAttack();
 
+
 		GameState mockGameState = createMockGameState(turnState);
+
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer);
 		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(true);
 
+
 		EasyMock.replay(mockGameState, mockPlayer);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(FOUR_TURNS, nextPlayerTurns);
-		assertEquals(1, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState, mockPlayer);
 	}
 
+
 	@Test
-	void handleTurnTaking_attackingWasAttacked_turnsRemainingIsThree_DecrementsAndReturnsFive() {
+	void setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsThree_ReturnsFive() {
 		TurnState turnState = new TurnState();
 		// i am attacking the next guy
 		// I was attacked by someone who was also attacked (i have to play 4 turns)
 		// I just played one turn; 3 turns left
-		int currentTurns = THREE_TURNS;
-		turnState.reset(currentTurns);
+		turnState.reset(THREE_TURNS);
 		turnState.startAttack();
 
+
 		GameState mockGameState = createMockGameState(turnState);
+
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer);
 		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(true);
 
+
 		EasyMock.replay(mockGameState, mockPlayer);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(FIVE_TURNS, nextPlayerTurns);
-		assertEquals(2, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState, mockPlayer);
 	}
 
 	@Test
-	void handleTurnTaking_attackingWasAttacked_turnsRemainingIsFour_DecrementsAndReturnsSix() {
+	void setTurnsForNextPlayer_attackingWasAttacked_turnsRemainingIsFour_ReturnsSix() {
 		TurnState turnState = new TurnState();
 		// I am attacking the next guy
 		// I was attacked by someone who was also attacked (I have to play 4 turns)
 		// I have not played any yet (I have 4 turns to go)
-		int currentTurns = FOUR_TURNS;
-		turnState.reset(currentTurns);
+		turnState.reset(FOUR_TURNS);
 		turnState.startAttack();
 
+
 		GameState mockGameState = createMockGameState(turnState);
+
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer);
 		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(true);
 
+
 		EasyMock.replay(mockGameState, mockPlayer);
 
+
 		GameController controller = createGameController(mockGameState);
-		int nextPlayerTurns = controller.handleTurnTaking();
+		int nextPlayerTurns = controller.setTurnsForNextPlayer();
+
 
 		assertEquals(SIX_TURNS, nextPlayerTurns);
-		assertEquals(THREE_TURNS, turnState.turnsRemaining());
 		EasyMock.verify(mockGameState, mockPlayer);
 	}
+
 
 	@Test
 	void resetGameState_turnsForNextPlayerIsOne_ResetsTurnState() {
@@ -1017,7 +1066,9 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
 		display.showCurrentPlayer(mockPlayer);
 		EasyMock.expectLastCall().once();
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(domain.enums.PlayerChoice.PLAY_CARD);
+		EasyMock.expect(input.promptPlayerChoice())
+				.andReturn(domain.enums.PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(mockPlayer)).andReturn(cards);
 		EasyMock.expect(comboValidator.isValid(cards)).andReturn(true);
 		mockGameState.removeCardFromCurrentPlayer(card);
@@ -1025,6 +1076,11 @@ public class GameControllerTest {
 		mockGameState.discardCard(card);
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(Collections.emptyList());
+		Card drawnCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(drawnCard);
+		EasyMock.expect(drawnCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(drawnCard);
+		EasyMock.expectLastCall().once();
 		EasyMock.expect(comboValidator.resolveAction(cards)).andReturn(mockAction);
 		mockAction.execute(mockGameState);
 		EasyMock.expectLastCall().once();
@@ -1032,9 +1088,9 @@ public class GameControllerTest {
 		EasyMock.expectLastCall().once();
 		mockGameState.advancePlayer();
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator, mockAction);
+		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator, mockAction, drawnCard);
 		new GameController(mockGameState, display, input, comboValidator).playATurn();
-		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator, mockAction);
+		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator, mockAction, drawnCard);
 	}
 
 	@Test

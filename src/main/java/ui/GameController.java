@@ -62,6 +62,26 @@ public class GameController {
 		this.gameState = new GameState(players, finalDeck);
 	}
 
+	// method for integration tests to allow us to pass in the state of the deck to avoid random draws from the deck
+	void startGame(Deck deck, List<Card> cards){
+		int numPlayers = input.promptNumPlayers();
+		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
+			display.showMessage(ViewMessages.format("num.players"));
+			numPlayers = input.promptNumPlayers();
+		}
+		List<Player> players = new ArrayList<>();
+		for (int i = 0; i < numPlayers; i++) {
+			Player player = new Player(
+					"p" + (i + 1),
+					ViewMessages.format("player.name", i + 1));
+			for (Card card : cards) {
+				player.addCard(card);
+			}
+			players.add(player);
+		}
+		this.gameState = new GameState(players, deck);
+	}
+
 	Deck dealCardsAndReturnDeck(List<Player> players) {
 		Deck deck = deckFactory.buildDeck();
 		List<Card> defuseCards = deckFactory.buildDefuseCards();
@@ -106,7 +126,6 @@ public class GameController {
 			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
-		int turnsForNextPlayer = DEFAULT_NORMAL_TURNS;
 		while (hasToPlayATurn()) {
 			PlayerChoice playerChoice = input.promptPlayerChoice();
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
@@ -114,9 +133,9 @@ public class GameController {
 				playCard(chosenCards);
 			} else {
 				handleDrawingCards();
-				}
-			turnsForNextPlayer = handleTurnTaking();
-		}
+				decrementTurns();
+			}}
+		int turnsForNextPlayer = setTurnsForNextPlayer();
 		resetCurrentPlayerWasAttacked();
 		resetGameState(turnsForNextPlayer);
 		advanceGameToNextPlayer();
@@ -149,25 +168,26 @@ public class GameController {
 		}
 	}
 
-	int handleTurnTaking() {
+	void decrementTurns() {
+		gameState.turnState().decrementTurns();
+	}
+
+	int setTurnsForNextPlayer() {
 		boolean currentPlayerIsAttacking = gameState.turnState().isAttacking();
 
+
 		if (!currentPlayerIsAttacking) {
-			gameState.turnState().decrementTurns();
 			return DEFAULT_NORMAL_TURNS;
 		} else {
 			Player currentPlayer = gameState.getCurrentPlayer();
 			if (currentPlayer.wasAttacked()){
 				int nextPlayerTurns = gameState.turnState().turnsRemaining() + DEFAULT_ATTACKING_TURNS;
-				gameState.turnState().decrementTurns();
 				return nextPlayerTurns;
 			} else {
 				int nextPlayerTurns = DEFAULT_ATTACKING_TURNS;
-				gameState.turnState().decrementTurns();
 				return nextPlayerTurns;
 			}
 		}
-
 	}
 
 	void resetCurrentPlayerWasAttacked() {
