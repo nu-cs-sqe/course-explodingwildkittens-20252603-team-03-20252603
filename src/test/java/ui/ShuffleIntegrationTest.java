@@ -31,9 +31,6 @@ public class ShuffleIntegrationTest {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
 	}
 
-	private static PlayerInteractionHelper realPlayerInteractionHelper(IPlayerInput input) {
-		return new PlayerInteractionHelper(input, new Random());
-	}
 
 	@Test
 	void shuffle_IsNoped_DeckNotShuffled(){
