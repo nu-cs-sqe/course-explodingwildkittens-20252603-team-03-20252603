@@ -121,4 +121,5 @@ public class ShuffleIntegrationTest {
 
 		EasyMock.verify(display, input);
 	}
+
 }
