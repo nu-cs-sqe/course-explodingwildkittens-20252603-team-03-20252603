@@ -53,4 +53,8 @@ public class PlayerInteractionHelper {
 		from.removeCard(card);
 		to.addCard(card);
 	}
+
+	public void showPeekCards(Player player){
+		input.showPeekCards(player);
+	}
 }

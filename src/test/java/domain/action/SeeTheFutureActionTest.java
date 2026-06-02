@@ -2,6 +2,7 @@ package domain.action;
 
 import domain.enums.CardName;
 import domain.enums.CardType;
+import domain.factory.PlayerInteractionHelper;
 import domain.model.Card;
 import domain.model.GameState;
 import domain.model.Player;
@@ -34,10 +35,11 @@ public class SeeTheFutureActionTest {
 
 	@Test
 	void execute_EmptyDeck_StoresPeekWithEmptyList() {
+		PlayerInteractionHelper helper = EasyMock.createMock(PlayerInteractionHelper.class);
 		Player player = player();
 		GameState mockGameState = mockReturning(player, Collections.emptyList());
 
-		new SeeTheFutureAction().execute(mockGameState);
+		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertTrue(player.getPeekCards().isEmpty());
 		EasyMock.verify(mockGameState);
@@ -45,11 +47,12 @@ public class SeeTheFutureActionTest {
 
 	@Test
 	void execute_DeckWithOneCard_StoresPeekWithOneCard() {
+		PlayerInteractionHelper helper = EasyMock.createMock(PlayerInteractionHelper.class);
 		Player player = player();
 		Card card1 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1));
 
-		new SeeTheFutureAction().execute(mockGameState);
+		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1), player.getPeekCards());
 		EasyMock.verify(mockGameState);
@@ -57,12 +60,13 @@ public class SeeTheFutureActionTest {
 
 	@Test
 	void execute_DeckWithTwoCards_StoresPeekWithTwoCards() {
+		PlayerInteractionHelper helper = EasyMock.createMock(PlayerInteractionHelper.class);
 		Player player = player();
 		Card card1 = card();
 		Card card2 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1, card2));
 
-		new SeeTheFutureAction().execute(mockGameState);
+		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1, card2), player.getPeekCards());
 		EasyMock.verify(mockGameState);
@@ -70,13 +74,14 @@ public class SeeTheFutureActionTest {
 
 	@Test
 	void execute_DeckWithThreeOrMoreCards_StoresPeekWithThreeCards() {
+		PlayerInteractionHelper helper = EasyMock.createMock(PlayerInteractionHelper.class);
 		Player player = player();
 		Card card1 = card();
 		Card card2 = card();
 		Card card3 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1, card2, card3));
 
-		new SeeTheFutureAction().execute(mockGameState);
+		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1, card2, card3), player.getPeekCards());
 		EasyMock.verify(mockGameState);

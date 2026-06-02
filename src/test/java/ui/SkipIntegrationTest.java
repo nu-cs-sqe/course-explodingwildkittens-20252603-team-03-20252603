@@ -69,6 +69,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore-1, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 

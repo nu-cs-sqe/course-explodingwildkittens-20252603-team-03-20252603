@@ -45,6 +45,10 @@ final class TerminalInputReader {
 		return readYesNo();
 	}
 
+	void showPeekCards(Player player) {
+		display.printPeekCards(player);
+	}
+
 	int promptInsertPosition(int deckSize) {
 		output.print(ViewMessages.format("view.prompt.insert.position", deckSize));
 		return readIntInRange(0, deckSize);
