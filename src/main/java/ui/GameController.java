@@ -199,6 +199,10 @@ public class GameController {
 		gameState.turnState().reset(turnsForNextPlayer);
 	}
 
+	int getTurnsRemaining() {
+		return gameState.turnState().turnsRemaining();
+	}
+
 	void advanceGameToNextPlayer() {
 		gameState.advancePlayer();
 	}
