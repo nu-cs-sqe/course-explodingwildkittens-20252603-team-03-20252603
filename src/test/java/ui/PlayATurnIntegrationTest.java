@@ -29,9 +29,6 @@ public class PlayATurnIntegrationTest {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
 	}
 
-	private static PlayerInteractionHelper realPlayerInteractionHelper(IPlayerInput input) {
-		return new PlayerInteractionHelper(input, new Random());
-	}
 
 	@Test
 	void playATurn_ActionIsNoped_UserNotAllowedToPlayCard() {
