@@ -75,6 +75,8 @@ public class ShuffleIntegrationTest {
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
 		assertEquals(deckBefore.subList(1, deckBefore.size()), deckAfter);
+
+		EasyMock.verify(display, input);
 	}
 
 	@Test
@@ -116,5 +118,7 @@ public class ShuffleIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 }
