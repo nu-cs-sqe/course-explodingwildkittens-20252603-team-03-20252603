@@ -34,7 +34,7 @@ public class SeeTheFutureIntegrationTest {
 	void seeTheFuture_IsNotNoped_PeekCardsShown(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
-		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
+		PlayerInteractionHelper playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
 		List<Card> playerHandCards = new ArrayList<>();
 		List<Card> drawPileCards = new ArrayList<>();
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
@@ -81,7 +81,7 @@ public class SeeTheFutureIntegrationTest {
 	void seeTheFuture_IsNoped_NoPeekCardsShown(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
-		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
+		PlayerInteractionHelper playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
 		List<Card> playerHandCards = new ArrayList<>();
 		List<Card> drawPileCards = new ArrayList<>();
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());

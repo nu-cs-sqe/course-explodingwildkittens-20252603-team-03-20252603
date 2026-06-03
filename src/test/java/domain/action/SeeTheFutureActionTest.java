@@ -38,11 +38,14 @@ public class SeeTheFutureActionTest {
 		PlayerInteractionHelper helper = EasyMock.createMock(PlayerInteractionHelper.class);
 		Player player = player();
 		GameState mockGameState = mockReturning(player, Collections.emptyList());
+		helper.showPeekCards(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(helper);
 
 		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertTrue(player.getPeekCards().isEmpty());
-		EasyMock.verify(mockGameState);
+		EasyMock.verify(mockGameState, helper);
 	}
 
 	@Test
@@ -51,11 +54,14 @@ public class SeeTheFutureActionTest {
 		Player player = player();
 		Card card1 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1));
+		helper.showPeekCards(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(helper);
 
 		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1), player.getPeekCards());
-		EasyMock.verify(mockGameState);
+		EasyMock.verify(mockGameState, helper);
 	}
 
 	@Test
@@ -65,11 +71,14 @@ public class SeeTheFutureActionTest {
 		Card card1 = card();
 		Card card2 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1, card2));
+		helper.showPeekCards(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(helper);
 
 		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1, card2), player.getPeekCards());
-		EasyMock.verify(mockGameState);
+		EasyMock.verify(mockGameState, helper);
 	}
 
 	@Test
@@ -80,10 +89,13 @@ public class SeeTheFutureActionTest {
 		Card card2 = card();
 		Card card3 = card();
 		GameState mockGameState = mockReturning(player, List.of(card1, card2, card3));
+		helper.showPeekCards(EasyMock.isA(Player.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(helper);
 
 		new SeeTheFutureAction(helper).execute(mockGameState);
 
 		assertEquals(List.of(card1, card2, card3), player.getPeekCards());
-		EasyMock.verify(mockGameState);
+		EasyMock.verify(mockGameState, helper);
 	}
 }
