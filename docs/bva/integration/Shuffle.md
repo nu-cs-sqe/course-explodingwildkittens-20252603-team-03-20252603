@@ -14,7 +14,7 @@ spaces: _game logic_
 
 cases:
 - user plays a turn; card is not noped; deck is shuffled
-- user plays a turn; card is noped; deck is shuffled
+- user plays a turn; card is noped; deck is not shuffled
 
 
 | test_Name                         | State of the System                    | Expected output      | Implemented?       |
