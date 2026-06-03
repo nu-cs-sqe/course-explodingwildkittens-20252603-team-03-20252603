@@ -1,6 +1,5 @@
 package ui;
 
-import domain.action.AttackAction;
 import domain.action.NoAction;
 import domain.action.ShuffleAction;
 import domain.action.SkipAction;
