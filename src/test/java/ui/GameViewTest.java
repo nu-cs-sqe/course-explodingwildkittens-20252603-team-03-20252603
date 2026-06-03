@@ -149,10 +149,18 @@ public class GameViewTest {
 	}
 
 	@Test
-	void showPlayerHand_WithPeekCards_PrintsPeekSection() {
+	void showPeekCards_WithPeekCards_PrintsPeekSection() {
 		Player mockPlayer = mockPlayerWithPeek("Alice", List.of(skipCard()));
-		createView("").showPlayerHand(mockPlayer);
+		createView("").showPeekCards(mockPlayer);
 		assertTrue(capturedOutput().contains("Peek cards:"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showPeekCards_WithNoPeekCards_DoesNotPrintPeekSection(){
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		createView("").showPeekCards(mockPlayer);
+		assertFalse(capturedOutput().contains("Peek cards:"));
 		EasyMock.verify(mockPlayer);
 	}
 

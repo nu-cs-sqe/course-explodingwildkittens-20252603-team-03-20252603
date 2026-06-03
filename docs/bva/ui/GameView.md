@@ -82,7 +82,16 @@ spaces: empty hand vs cards; peek cards empty vs present
 |----------------------------------------------|----------------------------|------------------------------------------|--------------------|
 | showPlayerHand_EmptyHand_PrintsHeaderOnly    | player with empty hand     | header only, no numbered cards           | :white_check_mark: |
 | showPlayerHand_WithCards_PrintsNumberedCards | hand has one SKIP card     | stdout contains "1. SKIP"                | :white_check_mark: |
-| showPlayerHand_WithPeekCards_PrintsPeekSection | peek buffer has cards    | stdout contains "Peek cards:"            | :white_check_mark: |
+
+## Method under test: `showPeekCards()`
+
+spaces: peek cards empty vs present
+
+| test_Name                                             | State of the System      | Expected output                        | Implemented?       |
+|-------------------------------------------------------|--------------------------|----------------------------------------|--------------------|
+| showPeekCards_WithPeekCards_PrintsPeekSection         | peek buffer has cards    | stdout contains "Peek cards:"          | :white_check_mark: |
+| showPeekCards_WithNoPeekCards_DoesNotPrintPeekSection | peek buffer has no cards | stdout does not contains "Peek cards:" | :white_check_mark: |
+
 
 ### Method under test: `promptNumPlayers()`
 

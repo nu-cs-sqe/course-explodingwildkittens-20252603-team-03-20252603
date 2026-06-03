@@ -60,7 +60,7 @@ public class ComboValidator {
 		if (card.isType(CardType.SKIP)) { return new SkipAction(); }
 		else if (card.isType(CardType.ATTACK)) { return new AttackAction(); }
 		else if (card.isType(CardType.SHUFFLE)) { return new ShuffleAction(); }
-		else if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(); }
+		else if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(helper); }
 		else if (card.isType(CardType.FAVOR)) { return new FavorAction(helper); }
 		else if (card.isType(CardType.NOPE)) { return new NopeAction(); }
 		else {

@@ -69,6 +69,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore-1, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 
@@ -108,6 +110,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 	@Test
@@ -148,6 +152,8 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore-1, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 
 	@Test
@@ -189,5 +195,7 @@ public class SkipIntegrationTest {
 
 		assertEquals(sizeBefore, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
+
+		EasyMock.verify(display, input);
 	}
 }
