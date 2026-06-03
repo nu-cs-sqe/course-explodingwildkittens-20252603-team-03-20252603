@@ -51,7 +51,8 @@ public class PlayATurnIntegrationTest {
 		cards.add(nopeCard2);
 		cards.add(nopeCard3);
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
-		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(List.of(skipCard)).once();
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(List.of(skipCard)).once();
 
 		EasyMock.replay(display, input);
 
@@ -92,7 +93,8 @@ public class PlayATurnIntegrationTest {
 		cards.add(nopeCard1);
 		cards.add(nopeCard2);
 		cards.add(nopeCard3);
-		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(List.of(skipCard, shuffleCard)).once();
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
+				.andReturn(List.of(skipCard, shuffleCard)).once();
 		display.showMessage(ViewMessages.format("error.invalid.card"));
 		EasyMock.expectLastCall().once();
 
