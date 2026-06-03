@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -88,6 +89,11 @@ public class GameViewTest {
 		EasyMock.expect(mockTurnState.turnsRemaining()).andReturn(TURNS_REMAINING);
 		EasyMock.replay(mockGameState, mockTurnState);
 		return mockGameState;
+	}
+
+	@Test
+	void gameView_DefaultConstructor_CreatesInstance() {
+		assertNotNull(new GameView());
 	}
 
 	@Test
