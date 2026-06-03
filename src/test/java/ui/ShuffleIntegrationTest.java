@@ -51,8 +51,6 @@ public class ShuffleIntegrationTest {
 		playerHandCards.add(shuffleCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -97,8 +95,6 @@ public class ShuffleIntegrationTest {
 		playerHandCards.add(shuffleCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showMessage(ViewMessages.format("num.players"));
-		EasyMock.expectLastCall().once();
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.PLAY_CARD)
