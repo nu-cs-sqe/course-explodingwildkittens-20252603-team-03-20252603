@@ -26,8 +26,8 @@ cases:
 - invalid card combo; card is not robbed; graceful error
 
 
-| test_Name                              | State of the System          | Expected output             | Implemented? |
-|----------------------------------------|------------------------------|-----------------------------|--------------|
-| twoCard_ValidCombo_NotNoped_CardRobbed | valid card combo; not noped  | card is robbed              | :x:          |
-| twoCard_ValidCombo_Noped_CardNotRobbed | valid card combo; noped      | card is not robbed          | :x:          |
-| twoCard_InvalidCombo_GracefulError     | invalid card combo           | graceful error; no rob      | :x:          |
+| test_Name                              | State of the System         | Expected output        | Implemented?       |
+|----------------------------------------|-----------------------------|------------------------|--------------------|
+| twoCard_ValidCombo_NotNoped_CardRobbed | valid card combo; not noped | card is robbed         | :white-check-mark: |
+| twoCard_ValidCombo_Noped_CardNotRobbed | valid card combo; noped     | card is not robbed     | :white-check-mark: |
+| twoCard_InvalidCombo_GracefulError     | invalid card combo          | graceful error; no rob | :white-check-mark: |
