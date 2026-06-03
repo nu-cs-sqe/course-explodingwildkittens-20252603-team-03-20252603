@@ -1,5 +1,6 @@
 package ui;
 
+import domain.action.NoAction;
 import domain.action.ShuffleAction;
 import domain.action.SkipAction;
 import domain.enums.CardName;
@@ -43,8 +44,14 @@ public class PlayATurnIntegrationTest {
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		List<Card> cards = new ArrayList<>();
 		cards.add(skipCard);
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		cards.add(nopeCard1);
+		cards.add(nopeCard2);
+		cards.add(nopeCard3);
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
-		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(cards).once();
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(List.of(skipCard)).once();
 
 		EasyMock.replay(display, input);
 
@@ -79,7 +86,13 @@ public class PlayATurnIntegrationTest {
 		List<Card> cards = new ArrayList<>();
 		cards.add(skipCard);
 		cards.add(shuffleCard);
-		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(cards).once();
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		cards.add(nopeCard1);
+		cards.add(nopeCard2);
+		cards.add(nopeCard3);
+		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class))).andReturn(List.of(skipCard, shuffleCard)).once();
 		display.showMessage(ViewMessages.format("error.invalid.card"));
 		EasyMock.expectLastCall().once();
 
@@ -115,6 +128,12 @@ public class PlayATurnIntegrationTest {
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SKIP, new ShuffleAction());
 		cards.add(skipCard);
 		cards.add(shuffleCard);
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		cards.add(nopeCard1);
+		cards.add(nopeCard2);
+		cards.add(nopeCard3);
 
 		GameController gc = new GameController(display, input, realComboValidator(input));
 		Deck deck = new Deck(cards);
@@ -140,6 +159,12 @@ public class PlayATurnIntegrationTest {
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		playerHandCards.add(skipCard);
 		drawPileCards.add(skipCard);
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
@@ -147,7 +172,7 @@ public class PlayATurnIntegrationTest {
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
-				.andReturn(playerHandCards).once();
+				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(false);
 
 		EasyMock.replay(display, input);
@@ -178,6 +203,12 @@ public class PlayATurnIntegrationTest {
 		playerHandCards.add(skipCard);
 		playerHandCards.add(shuffleCard);
 		drawPileCards.add(skipCard);
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
@@ -186,8 +217,8 @@ public class PlayATurnIntegrationTest {
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
-				.andReturn(List.of(playerHandCards.get(0)))
-				.andReturn(List.of(playerHandCards.get(1)));
+				.andReturn(List.of(skipCard)).once()
+				.andReturn(List.of(shuffleCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(false).andReturn(false);
 
 		EasyMock.replay(display, input);

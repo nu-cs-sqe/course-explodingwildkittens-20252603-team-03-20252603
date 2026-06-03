@@ -44,6 +44,12 @@ public class ShuffleIntegrationTest {
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card beardCard = new Card(CardType.CAT_CARD, CardName.BEARD_CAT, new NoAction());
 		Card hairyPotatoCard = new Card(CardType.CAT_CARD, CardName.HAIRY_POTATO_CAT, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 		drawPileCards.add(skipCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(beardCard);
@@ -90,6 +96,12 @@ public class ShuffleIntegrationTest {
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card beardCard = new Card(CardType.CAT_CARD, CardName.BEARD_CAT, new NoAction());
 		Card hairyPotatoCard = new Card(CardType.CAT_CARD, CardName.HAIRY_POTATO_CAT, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 		drawPileCards.add(skipCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(beardCard);
