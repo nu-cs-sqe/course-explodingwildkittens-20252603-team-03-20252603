@@ -39,9 +39,9 @@ cases:
 | test_Name                                                        | State of the System                                   | Expected output          | Implemented?       |
 |------------------------------------------------------------------|-------------------------------------------------------|--------------------------|--------------------|
 | attack_NotInitiallyAttacked_NotNoped_NextPlayerAttacked          | not initially attacked, not noped                     | nextplayer attacked      | :white_check_mark: |
-| attack_NotInitiallyAttacked_Noped_NextPlayerNotAttacked          | not initially attacked, noped                         | next player not attacked | :x:                |
-| attack_InitiallyAttacked_FirstTurn_NotNoped_NextPlayerAttacked   | initially attacked, attacks on first turn, not noped  | next player attacked (4) | :x:                |
-| attack_InitiallyAttacked_FirstTurn_Noped_NextPlayerNotAttacked   | initially attacked, attacks on first turn, noped      | next player not attacked | :x:                |
-| attack_InitiallyAttacked_SecondTurn_NotNoped_NextPlayerAttacked  | initially attacked, attacks on second turn, not noped | next player attacked (3) | :x:                |
-| attack_InitiallyAttacked_SecondTurn_Noped_NextPlayerNotAttacked  | initially attacked, attacks on second turn, noped     | next player not attacked | :x:                |
-| attack_ThreeStackedAttacks_FirstTurn_NotNoped_NextPlayerAttacked | two stacked attacks, attacks on first turn, not noped | next player attacked (6) | :x:                |
+| attack_NotInitiallyAttacked_Noped_NextPlayerNotAttacked          | not initially attacked, noped                         | next player not attacked | :white_check_mark: |
+| attack_InitiallyAttacked_FirstTurn_NotNoped_NextPlayerAttacked   | initially attacked, attacks on first turn, not noped  | next player attacked (4) | :white_check_mark: |
+| attack_InitiallyAttacked_FirstTurn_Noped_NextPlayerNotAttacked   | initially attacked, attacks on first turn, noped      | next player not attacked | :white_check_mark: |
+| attack_InitiallyAttacked_SecondTurn_NotNoped_NextPlayerAttacked  | initially attacked, attacks on second turn, not noped | next player attacked (3) | :white_check_mark: |
+| attack_InitiallyAttacked_SecondTurn_Noped_NextPlayerNotAttacked  | initially attacked, attacks on second turn, noped     | next player not attacked | :white_check_mark: |
+| attack_ThreeStackedAttacks_FirstTurn_NotNoped_NextPlayerAttacked | two stacked attacks, attacks on first turn, not noped | next player attacked (6) | :white_check_mark: |

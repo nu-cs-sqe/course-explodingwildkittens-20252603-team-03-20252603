@@ -123,7 +123,7 @@ public class AttackIntegrationTest {
 	}
 
 	@Test
-	void attack_FirstTurn_InitiallyAttacked_NotNoped_NextPlayerAttacked(){
+	void attack_InitiallyAttacked_FirstTurn_NotNoped_NextPlayerAttacked(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
 		List<Card> playerHandCards = new ArrayList<>();
