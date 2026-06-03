@@ -25,8 +25,8 @@ cases:
 - user plays a turn; card is not noped; player has no cards; continues on --> no error
 - user plays a turn; card is noped; does not ask for card
 
-| test_Name                            | State of the System                    | Expected output       | Implemented? |
-|--------------------------------------|----------------------------------------|-----------------------|--------------|
-| favor_NotNoped_HasCards_CardIsRobbed | not noped; has cards                   | card is robbed        | :x:          |
-| favor_NotNoped_NoCards_NothingHappens| not noped; player has no cards         | no error, no robbery  | :x:          |
-| favor_Noped_CardNotRobbed            | noped                                  | card not robbed       | :x:          |
+| test_Name                            | State of the System                    | Expected output       | Implemented?     |
+|--------------------------------------|----------------------------------------|-----------------------|------------------|
+| favor_NotNoped_HasCards_CardIsRobbed | not noped; has cards                   | card is robbed        | :white-check-mark: |
+| favor_NotNoped_NoCards_NothingHappens| not noped; player has no cards         | no error, no robbery  | :white-check-mark:               |
+| favor_Noped_CardNotRobbed            | noped                                  | card not robbed       | :white-check-mark:               |
