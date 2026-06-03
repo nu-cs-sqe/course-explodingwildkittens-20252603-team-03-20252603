@@ -8,7 +8,10 @@ These tests test the following classes (not mocked)
 - Player
 - TurnState
 - Deck
-- 
+- DeckFactory
+- Card
+- ComboValidator
+- PlayerInteractionHelper
 
 
 ## Assumptions and Notes
