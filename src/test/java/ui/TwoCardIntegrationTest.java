@@ -1,9 +1,7 @@
 package ui;
 
-import domain.action.FavorAction;
 import domain.action.NoAction;
 import domain.action.ShuffleAction;
-import domain.action.TwoCatAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
@@ -23,6 +21,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@SuppressWarnings("checkstyle:MethodLength")
 public class TwoCardIntegrationTest {
 
 	private static final int TWO_PLAYERS = 2;
@@ -37,7 +36,6 @@ public class TwoCardIntegrationTest {
 	void twoCard_ValidCombo_NotNoped_CardRobbed(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
-		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
 		Player player1 = new Player("P1", "Player1");
 		Player player2 = new Player("P2", "Player2");
 		List<Card> playerHandCards = new ArrayList<>();
@@ -95,7 +93,6 @@ public class TwoCardIntegrationTest {
 	void twoCard_ValidCombo_Noped_CardNotRobbed(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
-		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
 		Player player1 = new Player("P1", "Player1");
 		Player player2 = new Player("P2", "Player2");
 		List<Card> playerHandCards = new ArrayList<>();
@@ -160,7 +157,6 @@ public class TwoCardIntegrationTest {
 	void twoCard_InvalidCombo_GracefulError(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
-		PlayerInteractionHelper  playerInteractionHelper = new PlayerInteractionHelper(input, new Random());
 		Player player1 = new Player("P1", "Player1");
 		Player player2 = new Player("P2", "Player2");
 		List<Card> playerHandCards = new ArrayList<>();
