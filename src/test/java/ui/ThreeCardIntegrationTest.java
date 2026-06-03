@@ -50,6 +50,12 @@ public class ThreeCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);
@@ -112,6 +118,12 @@ public class ThreeCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);
@@ -174,6 +186,12 @@ public class ThreeCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);
@@ -234,6 +252,12 @@ public class ThreeCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);

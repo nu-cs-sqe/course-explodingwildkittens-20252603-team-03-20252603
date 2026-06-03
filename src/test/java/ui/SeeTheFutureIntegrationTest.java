@@ -43,6 +43,12 @@ public class SeeTheFutureIntegrationTest {
 				CardName.SEE_THE_FUTURE,
 				new SeeTheFutureAction(playerInteractionHelper));
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 		drawPileCards.add(seeTheFutureCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
@@ -90,6 +96,12 @@ public class SeeTheFutureIntegrationTest {
 				CardName.SEE_THE_FUTURE,
 				new SeeTheFutureAction(playerInteractionHelper));
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 		drawPileCards.add(seeTheFutureCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);

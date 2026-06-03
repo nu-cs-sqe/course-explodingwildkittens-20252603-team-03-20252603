@@ -72,7 +72,11 @@ public class GameControllerTest {
 	}
 
 	private Player otherPlayer() {
-		return new Player("p2", "Other Player");
+		Card nopeCard = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Player player =  new Player("p2", "Other Player");
+		player.addCard(nopeCard);
+		return player;
+
 	}
 
 	private void expectBasePlaySetup(List<Card> cards, TurnState turnState) {
@@ -292,6 +296,12 @@ public class GameControllerTest {
 		Player p1 = new Player("p1", "Player 1");
 		Player p2 = new Player("p2", "Player 2");
 		Player p3 = new Player("p3", "Player 3");
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		p1.addCard(nopeCard1);
+		p2.addCard(nopeCard2);
+		p3.addCard(nopeCard3);
 		CardAction mockAction = EasyMock.createMock(CardAction.class);
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
@@ -316,6 +326,12 @@ public class GameControllerTest {
 		Player p1 = new Player("p1", "Player 1");
 		Player p2 = new Player("p2", "Player 2");
 		Player p3 = new Player("p3", "Player 3");
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		p1.addCard(nopeCard1);
+		p2.addCard(nopeCard2);
+		p3.addCard(nopeCard3);
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(false);
@@ -337,6 +353,12 @@ public class GameControllerTest {
 		Player p1 = new Player("p1", "Player 1");
 		Player p2 = new Player("p2", "Player 2");
 		Player p3 = new Player("p3", "Player 3");
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		p1.addCard(nopeCard1);
+		p2.addCard(nopeCard2);
+		p3.addCard(nopeCard3);
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(true);

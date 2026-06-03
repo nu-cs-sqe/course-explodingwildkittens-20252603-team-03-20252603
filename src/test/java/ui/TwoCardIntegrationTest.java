@@ -49,6 +49,12 @@ public class TwoCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);
@@ -101,13 +107,17 @@ public class TwoCardIntegrationTest {
 		players.add(player1);
 		players.add(player2);
 
-
 		Card cattermelon1 = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card cattermelon2 = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
-
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(cattermelon2);
@@ -171,7 +181,12 @@ public class TwoCardIntegrationTest {
 		Card shuffleCard1 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard2 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
-
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
 
 		playerHandCards.add(cattermelon1);
 		playerHandCards.add(beardCat);
@@ -181,7 +196,6 @@ public class TwoCardIntegrationTest {
 		drawPileCards.add(shuffleCard1);
 		drawPileCards.add(shuffleCard2);
 		drawPileCards.add(shuffleCard3);
-
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
@@ -206,15 +220,9 @@ public class TwoCardIntegrationTest {
 		int expectedSize = sizeBefore  + ONE_CARD;
 		Player secondPlayer = gc.gameState().getCurrentPlayer();
 
-
 		assertEquals(expectedSize, sizeAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
 
-
 		EasyMock.verify(display, input);
 	}
-
-
-
-
 }
