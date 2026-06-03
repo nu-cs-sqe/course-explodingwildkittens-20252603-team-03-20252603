@@ -30,10 +30,10 @@ cases:
 
 ### Note: in each test, assert only the users with nopes are asked to nope and everyone who nopes loses a card.
 
-| test_Name                                          | State of the System                        | Expected output                                        | Implemented?       |
-|----------------------------------------------------|--------------------------------------------|--------------------------------------------------------|--------------------|
-| nope_ZeroNopes_CardExecuted                        | 0 nopes                                    | card executed; players don't lose any cards            | :white_check_mark: |
-| nope_OneNope_CardNotExecuted                       | 1 nope                                     | card not executed; player loses nope card              | :white_check_mark: |
-| nope_TwoNopes_CardExecuted                         | 2 nopes                                    | card executed; players lose nope cards                 | :x:                |
-| nope_ThreeNopes_CardNotExecuted                    | 3 nopes                                    | card not executed; players lose nope cards             | :x:                |
-| nope_ThreePlayers_OneWithNope_OnlyOnePlayerPrompted | 3 players; only 1 player has a nope       | only that player is prompted; player loses nope card   | :x:                |
+| test_Name                                               | State of the System                        | Expected output                                        | Implemented?       |
+|---------------------------------------------------------|--------------------------------------------|--------------------------------------------------------|--------------------|
+| nope_ZeroNopes_CardExecuted                             | 0 nopes                                    | card executed; players don't lose any cards            | :white_check_mark: |
+| nope_OneNope_CardNotExecuted                            | 1 nope                                     | card not executed; player loses nope card              | :white_check_mark: |
+| nope_TwoNopes_CardExecuted                              | 2 nopes                                    | card executed; players lose nope cards                 | :x:                |
+| nope_ThreeNopes_CardNotExecuted                         | 3 nopes                                    | card not executed; players lose nope cards             | :x:                |
+| nope_ThreePlayers_OneLeftWithNope_OnlyOnePlayerPrompted | 3 players; only 1 player has a nope       | only that player is prompted; player loses nope card   | :x:                |
