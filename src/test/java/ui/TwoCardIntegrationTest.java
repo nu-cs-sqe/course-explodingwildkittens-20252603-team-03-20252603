@@ -77,12 +77,15 @@ public class TwoCardIntegrationTest {
 		Deck deck = new Deck(drawPileCards);
 		gc.startGame(deck, playerHandCards,  players);
 		Player firstPlayer = gc.gameState().getCurrentPlayer();
+		int sizeOfPlayerTwoHandBefore = player2.getHand().size();
 		int sizeBefore = firstPlayer.getHand().size();
 		gc.playATurn();
 		int sizeAfter = firstPlayer.getHand().size();
 		Player secondPlayer = gc.gameState().getCurrentPlayer();
+		int sizeOfPlayerTwoHandAfter = secondPlayer.getHand().size();
 
 		assertEquals(sizeBefore, sizeAfter);
+		assertEquals(sizeOfPlayerTwoHandBefore-1 , sizeOfPlayerTwoHandAfter);
 		assertNotEquals(firstPlayer,  secondPlayer);
 
 		EasyMock.verify(display, input);
