@@ -47,6 +47,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
 		playerHandCards.add(attackCard);
@@ -89,6 +97,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
 		playerHandCards.add(attackCard);
@@ -131,6 +147,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
 		playerHandCards.add(attackCard);
@@ -184,6 +208,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard1);
@@ -253,6 +285,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard1);
@@ -320,6 +360,14 @@ public class AttackIntegrationTest {
 		Card shuffleCard3 = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new ShuffleAction());
 		Card attackCard = new Card(CardType.ATTACK, CardName.ATTACK, new AttackAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard1);
@@ -393,6 +441,14 @@ public class AttackIntegrationTest {
 		Card cattermelonCard1 = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card cattermelonCard2 = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card cattermelonCard3 = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
+		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		Card nopeCard4 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
+		playerHandCards.add(nopeCard1);
+		playerHandCards.add(nopeCard2);
+		playerHandCards.add(nopeCard3);
+		playerHandCards.add(nopeCard4);
 
 		drawPileCards.add(cattermelonCard1);
 		drawPileCards.add(cattermelonCard2);

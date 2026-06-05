@@ -251,9 +251,13 @@ public class GameController {
 	private void applyNopeWindow(TurnState turnState) {
 		List<Player> others = gameState.getOtherActivePlayers();
 		for (Player player : others) {
-			if (input.promptNope(player)) {
-				turnState.incrementNopeCount();
+			if (player.hasCard(CardType.NOPE)){
+				if (input.promptNope(player)) {
+					player.removeCardOfType(CardType.NOPE);
+					turnState.incrementNopeCount();
+				}
 			}
+
 		}
 	}
 
