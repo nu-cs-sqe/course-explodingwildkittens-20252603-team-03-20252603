@@ -99,6 +99,10 @@ public class GameState {
 		return discardPile.size();
 	}
 
+	public List<Card> getDiscardPile() {
+		return Collections.unmodifiableList(discardPile);
+	}
+
 	public void addCardToCurrentPlayer(Card card) {
 		getCurrentPlayer().addCard(card);
 	}
