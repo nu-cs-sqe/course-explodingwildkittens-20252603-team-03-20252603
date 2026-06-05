@@ -83,13 +83,8 @@ public class GameController {
 		this.gameState = new GameState(players, deck);
 	}
 
-	// method for integration tests to allow us to pass in the state of the deck to avoid random draws from the deck
+	// method for integration tests to allow passing in players and deck state directly
 	void startGame(Deck deck, List<Card> cards, List<Player> players){
-		int numPlayers = input.promptNumPlayers();
-		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
-			display.showMessage(ViewMessages.format("error.num.players"));
-			numPlayers = input.promptNumPlayers();
-		}
 		for (Player player : players) {
 			for (Card card : cards) {
 				player.addCard(card);

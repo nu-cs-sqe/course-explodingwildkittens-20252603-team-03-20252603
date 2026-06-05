@@ -22,15 +22,11 @@ spaces: hasDefuse = {true, false}, isLastPlayerStanding = {true, false}
 
 cases:
 - player draws EK; has Defuse; survives; Defuse discarded; EK reinserted into deck
-- player draws EK; no Defuse; player eliminated; hand cleared to discard pile
+- player draws EK; no Defuse; player eliminated; hand cleared; EK discarded; game ends; winner identified
 - player draws EK; no Defuse; eliminated player never reappears in queue on subsequent turns
-- player draws EK; no Defuse; EK ends up in discard pile, not the deck
-- player draws EK; no Defuse; last player remaining; endGame triggered; winner identified
 
-| test_Name                                               | State of the System                        | Expected output                              | Implemented?       |
-|---------------------------------------------------------|--------------------------------------------|----------------------------------------------|--------------------|
-| explodingKitten_HasDefuse_PlayerSurvivesAndEKReinserted | has Defuse card                            | survives; Defuse discarded; EK back in deck  | :white_check_mark: |
-| explodingKitten_NoDefuse_PlayerEliminated               | no Defuse; 2 players                       | isActive=false; hand cleared                 | :white_check_mark: |
-| explodingKitten_NoDefuse_EliminatedPlayerRemovedFromQueue | no Defuse; 3 players                     | eliminated player never becomes current      | :white_check_mark: |
-| explodingKitten_NoDefuse_EKInDiscardPile                | no Defuse; 2 players                       | EK in discard pile; not in deck              | :white_check_mark: |
-| explodingKitten_LastPlayerRemaining_GameEndsAndWinnerIdentified | no Defuse; last player remaining | game status ENDED; winner is last player     | :white_check_mark: |
+| test_Name                                               | State of the System                        | Expected output                                                          | Implemented?       |
+|---------------------------------------------------------|--------------------------------------------|--------------------------------------------------------------------------|--------------------|
+| explodingKitten_HasDefuse_PlayerSurvivesAndEKReinserted | has Defuse card                            | survives; Defuse discarded; EK back in deck at top                       | :white_check_mark: |
+| explodingKitten_NoDefuse_PlayerEliminatedAndGameEnds    | no Defuse; 2 players                       | eliminated; hand cleared; EK in discard; game ended; winner is player2   | :white_check_mark: |
+| explodingKitten_NoDefuse_EliminatedPlayerRemovedFromQueue | no Defuse; 3 players                     | eliminated player never becomes current on subsequent turns              | :white_check_mark: |
