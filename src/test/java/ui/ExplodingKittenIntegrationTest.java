@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SuppressWarnings("checkstyle:MethodLength")
 public class ExplodingKittenIntegrationTest {
 
-	private static final int TWO_PLAYERS = 2;
+	private static final int TWO_TURNS = 2;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
@@ -124,16 +124,16 @@ public class ExplodingKittenIntegrationTest {
 		List<Player> players = new ArrayList<>();
 		Card ekCard = new Card(CardType.EXPLODING_KITTEN, CardName.EXPLODING_KITTEN, new NoAction());
 		Card fillerCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new NoAction());
-		Card drawCard = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new NoAction());
+		Card deckFiller = new Card(CardType.SHUFFLE, CardName.SHUFFLE, new NoAction());
 		drawPileCards.add(ekCard);
-		drawPileCards.add(drawCard);
+		drawPileCards.add(deckFiller);
 		playerHandCards.add(fillerCard);
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);
 
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expectLastCall().times(TWO_PLAYERS);
+		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice())
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);

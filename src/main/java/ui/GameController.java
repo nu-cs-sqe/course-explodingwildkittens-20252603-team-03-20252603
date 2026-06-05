@@ -15,7 +15,6 @@ import domain.input.IPlayerInput;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -165,7 +164,6 @@ public class GameController {
 		}
 	}
 
-
 	boolean readyToPlayATurn() {
 		if (!gameState.isActive()) {
 			return false;
@@ -289,8 +287,10 @@ public class GameController {
 	}
 
 	private void useDefuse() {
-		Optional<Card> defuse = gameState.getCurrentPlayer().removeCardOfType(CardType.DEFUSE);
-		defuse.ifPresent(gameState::discardCard);
+		Card defuse = gameState.getCurrentPlayer()
+			.removeCardOfType(CardType.DEFUSE)
+			.orElseThrow();
+		gameState.discardCard(defuse);
 		new DefuseAction(input).execute(gameState);
 	}
 
