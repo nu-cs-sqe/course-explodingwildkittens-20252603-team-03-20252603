@@ -1010,7 +1010,8 @@ public class GameControllerTest {
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator);
 
-		new GameController(mockGameState, display, input, comboValidator).advanceTurnOrTriggerEndGame(mockPlayer);
+		GameController gc = new GameController(mockGameState, display, input, comboValidator);
+		gc.advanceTurnOrTriggerEndGame(mockPlayer);
 
 		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator);
 	}
@@ -1052,7 +1053,8 @@ public class GameControllerTest {
 		EasyMock.expect(input.promptRestart()).andReturn(false);
 		EasyMock.replay(mockGameState, mockTurnState, mockPlayer, mockWinner, display, input, comboValidator);
 
-		new GameController(mockGameState, display, input, comboValidator).advanceTurnOrTriggerEndGame(mockPlayer);
+		GameController gc = new GameController(mockGameState, display, input, comboValidator);
+		gc.advanceTurnOrTriggerEndGame(mockPlayer);
 
 		EasyMock.verify(mockGameState, mockTurnState, mockPlayer, mockWinner, display, input, comboValidator);
 	}
