@@ -994,6 +994,70 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void advanceTurnOrTriggerEndGame_PlayerIsActive_AdvancesNormally() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState turnState = new TurnState();
+		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
+		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(true);
+		mockPlayer.resetWasAttacked();
+		EasyMock.expectLastCall().once();
+		mockGameState.advancePlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator);
+
+		new GameController(mockGameState, display, input, comboValidator).advanceTurnOrTriggerEndGame(mockPlayer);
+
+		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator);
+	}
+
+	@Test
+	void advanceTurnOrTriggerEndGame_PlayerIsEliminated_MultiplePlayersRemain_ResetsState() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(false);
+		mockTurnState.reset(1);
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(mockGameState.activePlayerCount()).andReturn(2);
+		EasyMock.replay(mockGameState, mockTurnState, mockPlayer);
+
+		createGameController(mockGameState).advanceTurnOrTriggerEndGame(mockPlayer);
+
+		EasyMock.verify(mockGameState, mockTurnState, mockPlayer);
+	}
+
+	@Test
+	void advanceTurnOrTriggerEndGame_PlayerIsEliminated_LastPlayerRemaining_TriggersEndGame() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		Player mockWinner = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState mockTurnState = EasyMock.createMock(TurnState.class);
+		EasyMock.expect(mockGameState.turnState()).andReturn(mockTurnState).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(false);
+		mockTurnState.reset(1);
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(mockGameState.activePlayerCount()).andReturn(1);
+		mockGameState.endGame();
+		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockWinner);
+		display.showWinner(mockWinner);
+		EasyMock.expect(input.promptRestart()).andReturn(false);
+		EasyMock.replay(mockGameState, mockTurnState, mockPlayer, mockWinner, display, input, comboValidator);
+
+		new GameController(mockGameState, display, input, comboValidator).advanceTurnOrTriggerEndGame(mockPlayer);
+
+		EasyMock.verify(mockGameState, mockTurnState, mockPlayer, mockWinner, display, input, comboValidator);
+	}
+
+	@Test
 	void readyToPlayATurn_gameStateNotActive_ReturnsFalse() {
 		GameState mockGameState = EasyMock.createMock(GameState.class);
 		EasyMock.expect(mockGameState.isActive()).andReturn(false);
