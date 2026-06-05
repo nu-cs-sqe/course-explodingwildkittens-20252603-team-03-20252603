@@ -60,7 +60,6 @@ public class FavorIntegrationTest {
 		players.add(player1);
 		players.add(player2);
 
-		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice())
@@ -120,7 +119,6 @@ public class FavorIntegrationTest {
 		players.add(player2);
 		players.add(player3);
 
-		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice())
@@ -188,7 +186,6 @@ public class FavorIntegrationTest {
 		players.add(player1);
 		players.add(player2);
 
-		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice())
