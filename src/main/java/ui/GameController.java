@@ -15,6 +15,7 @@ import domain.input.IPlayerInput;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -138,7 +139,8 @@ public class GameController {
 
 	public void playATurn() {
 		if (!readyToPlayATurn()) {
-			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));}
+			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));
+		}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
 		while (hasToPlayATurn()) {
@@ -149,11 +151,23 @@ public class GameController {
 			} else {
 				handleDrawingCards();
 				decrementTurns();
-			}}
-		int turnsForNextPlayer = setTurnsForNextPlayer();
-		resetCurrentPlayerWasAttacked();
-		resetGameState(turnsForNextPlayer);
-		advanceGameToNextPlayer();
+			}
+		}
+		advanceTurnOrTriggerEndGame(currentPlayer);
+	}
+
+	void advanceTurnOrTriggerEndGame(Player currentPlayer) {
+		if (currentPlayer.isActive()) {
+			int turnsForNextPlayer = setTurnsForNextPlayer();
+			resetCurrentPlayerWasAttacked();
+			resetGameState(turnsForNextPlayer);
+			advanceGameToNextPlayer();
+		} else {
+			resetGameState(DEFAULT_NORMAL_TURNS);
+			if (gameState.activePlayerCount() == 1) {
+				endGame();
+			}
+		}
 	}
 
 
@@ -264,15 +278,35 @@ public class GameController {
 	public void drawCard() {
 		Card card = gameState.drawFromDeck();
 		if (card.isType(CardType.EXPLODING_KITTEN)) {
-			gameState.turnState().setPendingAction(card);
-			if (gameState.currentPlayerHasCard(CardType.DEFUSE)) {
-				new DefuseAction(input).execute(gameState);
-			} else {
-				gameState.eliminateCurrentPlayer();
-			}
+			handleExplodingKitten(card);
 		} else {
 			gameState.addCardToCurrentPlayer(card);
 		}
+	}
+
+	private void handleExplodingKitten(Card card) {
+		gameState.turnState().setPendingAction(card);
+		if (gameState.currentPlayerHasCard(CardType.DEFUSE)) {
+			useDefuse();
+		} else {
+			eliminateWithCleanup(card);
+		}
+	}
+
+	private void useDefuse() {
+		Optional<Card> defuse = gameState.getCurrentPlayer().removeCardOfType(CardType.DEFUSE);
+		defuse.ifPresent(gameState::discardCard);
+		new DefuseAction(input).execute(gameState);
+	}
+
+	private void eliminateWithCleanup(Card card) {
+		gameState.discardCard(card);
+		List<Card> handCopy = new ArrayList<>(gameState.getCurrentPlayer().getHand());
+		for (Card handCard : handCopy) {
+			gameState.removeCardFromCurrentPlayer(handCard);
+			gameState.discardCard(handCard);
+		}
+		gameState.eliminateCurrentPlayer();
 	}
 
 	private List<Player> buildPlayers(int numPlayers) {
