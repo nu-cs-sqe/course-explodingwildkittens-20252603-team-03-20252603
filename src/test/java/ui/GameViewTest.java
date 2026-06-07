@@ -347,6 +347,13 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptPlayerChoice_DoneOptionMentionsDrawingCard() {
+		Player player = mockNamedPlayer("Alice");
+		createView("2\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("draw"));
+	}
+
+	@Test
 	void promptNumPlayers_NoInput_ThrowsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> createView("").promptNumPlayers());
 	}
