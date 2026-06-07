@@ -334,6 +334,13 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptPlayerChoice_MenuStartsWithBlankLine() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().startsWith("\n"));
+	}
+
+	@Test
 	void promptPlayerChoice_PlayCardOption_ReturnsPlayCard() {
 		Player player = mockNamedPlayer("Alice");
 		PlayerChoice choice = createView("1\n").promptPlayerChoice(player);
