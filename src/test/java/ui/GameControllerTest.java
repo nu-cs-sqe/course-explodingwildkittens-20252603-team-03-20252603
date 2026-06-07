@@ -452,6 +452,24 @@ public class GameControllerTest {
 		EasyMock.verify(display, input);
 	}
 
+	@Test
+	void startGame_ConstructorIntegrationTest_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(SIX_PLAYERS_ATTEMPTED).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
 
 
 	@Test
