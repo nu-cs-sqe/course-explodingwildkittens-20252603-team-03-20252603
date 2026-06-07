@@ -86,4 +86,16 @@
 11. [not started] Chibueze: manual testing for defuse and exploding kitten
 
 
+## Week 10 (06/01/2026-06/07/2026)
+**Planning and Progress Tracking**:
+1. [done] Mercy: Support of locale (issue #92)
+2. [done] Mercy: bug fix: peek cards never cleared after See The Future; not shown after card is played (issue #80)
+3. [done] Austin: Manual Testing: Skip, Shuffle, Favor (issue #70)
+4. [done] Mercy: Manual Testing: Attack, See The Future (issue #69)
+5. [done] Chibueze: Manual Testing: Defuse, Exploding Kitten (issue #68)
+6. [done] Caroline: Refactor ComboValidator#resolveAction to use explicit if/else if/else chain (issue #63)
+7. [in progress] Team: Manual testing of game to confirm game logic (issue #62)
+8. [in progress] Caroline: Manual Testing: Cat Card (issue #71)
+9. [in progress] Austin, Chibueze: Command Line UI fixes (issue #86)
+
 
