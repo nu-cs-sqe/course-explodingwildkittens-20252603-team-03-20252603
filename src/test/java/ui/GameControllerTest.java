@@ -6,6 +6,7 @@ import domain.enums.CardName;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
 import domain.factory.ComboValidator;
+import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.Deck;
@@ -658,6 +659,33 @@ public class GameControllerTest {
 		}
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void dealCardsAndReturnDeck_createsFullDeck_AssertsDeckMethodsCalled(){
+		DeckFactory mockDeckFactory = EasyMock.createMock(DeckFactory.class);
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeckFactory.buildDeck()).andReturn(mockDeck);
+		List<Card> defuseCards = List.of();
+		List<Card> explodingKittenCards = List.of();
+		List<Player> players = List.of(new Player("p1", "Player 1"));
+		EasyMock.expect(mockDeckFactory.buildDefuseCards()).andReturn(defuseCards);
+		EasyMock.expect(mockDeckFactory.buildExplodingKittenCards()).andReturn(explodingKittenCards);
+
+		mockDeck.shuffle();
+		EasyMock.expect(mockDeck.dealCards(7)).andReturn(List.of());
+		mockDeck.addToDeck(explodingKittenCards);
+		mockDeck.addToDeck(defuseCards);
+		mockDeck.shuffle();
+
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.replay(mockDeck, mockDeckFactory, display, input, comboValidator);
+		GameController gc = new GameController(display, input, comboValidator, mockDeckFactory);
+		gc.dealCardsAndReturnDeck(players);
+		EasyMock.verify(mockDeck, mockDeckFactory);
+	}
+
 
 	@Test
 	void endGame_OneActivePlayer_SetsGameInactive() {

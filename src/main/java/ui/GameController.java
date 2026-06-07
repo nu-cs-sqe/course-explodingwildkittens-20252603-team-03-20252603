@@ -50,6 +50,17 @@ public class GameController {
 		this.comboValidator = comboValidator;
 	}
 
+	// 4 params: design.puml requires gameState, display, input, and deckFactory as dependencies for the tests
+	@SuppressWarnings("checkstyle:ParameterNumber")
+	@SuppressFBWarnings("EI_EXPOSE_REP2")
+	GameController(IGameDisplay display, IPlayerInput input,
+	               ComboValidator comboValidator, DeckFactory deckFactory) {
+		this.display = display;
+		this.input = input;
+		this.comboValidator = comboValidator;
+		this.deckFactory = deckFactory;
+	}
+
 	public void startGame() {
 		int numPlayers = input.promptNumPlayers();
 		while (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
