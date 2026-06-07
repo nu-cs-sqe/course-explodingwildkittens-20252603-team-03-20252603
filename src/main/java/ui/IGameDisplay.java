@@ -12,7 +12,7 @@ public interface IGameDisplay {
 
 	void showWinner(Player player);
 
-	void showCurrentPlayer(Player player);
+	void showCurrentPlayer(Player player, int turnsRemaining);
 
 	void showEliminated(Player player);
 }

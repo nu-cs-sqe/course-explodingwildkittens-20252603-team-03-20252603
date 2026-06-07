@@ -120,8 +120,24 @@ public class GameViewTest {
 	@Test
 	void showCurrentPlayer_NamedPlayer_PrintsTurnHeader() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		createView("").showCurrentPlayer(mockPlayer);
+		createView("").showCurrentPlayer(mockPlayer, 1);
 		assertTrue(capturedOutput().contains("Bob's turn"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_ShowsTurnsRemaining() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, 3);
+		assertTrue(capturedOutput().contains("3 turn(s) remaining"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_StartsWithBlankLine() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, 1);
+		assertTrue(capturedOutput().startsWith("\n"));
 		EasyMock.verify(mockPlayer);
 	}
 

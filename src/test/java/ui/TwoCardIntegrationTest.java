@@ -65,7 +65,7 @@ public class TwoCardIntegrationTest {
 		drawPileCards.add(shuffleCard2);
 		drawPileCards.add(shuffleCard3);
 
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -131,7 +131,7 @@ public class TwoCardIntegrationTest {
 		drawPileCards.add(shuffleCard3);
 
 
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -198,7 +198,7 @@ public class TwoCardIntegrationTest {
 		drawPileCards.add(shuffleCard2);
 		drawPileCards.add(shuffleCard3);
 
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)

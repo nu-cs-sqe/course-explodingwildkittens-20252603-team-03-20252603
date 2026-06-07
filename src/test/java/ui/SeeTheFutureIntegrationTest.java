@@ -55,7 +55,7 @@ public class SeeTheFutureIntegrationTest {
 		playerHandCards.add(seeTheFutureCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -108,7 +108,7 @@ public class SeeTheFutureIntegrationTest {
 		playerHandCards.add(seeTheFutureCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)

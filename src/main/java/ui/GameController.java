@@ -147,7 +147,7 @@ public class GameController {
 			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));
 		}
 		Player currentPlayer = gameState.getCurrentPlayer();
-		display.showCurrentPlayer(currentPlayer);
+		display.showCurrentPlayer(currentPlayer, gameState.turnState().turnsRemaining());
 		while (hasToPlayATurn()) {
 			PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
 			if (playerChoice == PlayerChoice.PLAY_CARD) {

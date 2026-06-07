@@ -1303,7 +1303,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		mockPlayer.resetWasAttacked();
 		EasyMock.expectLastCall().once();
@@ -1329,7 +1329,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(domain.enums.PlayerChoice.PLAY_CARD)
@@ -1371,7 +1371,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject())).andReturn(domain.enums.PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);

@@ -52,8 +52,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		display.showWinner(player);
 	}
 
-	public void showCurrentPlayer(Player player) {
-		display.showCurrentPlayer(player);
+	public void showCurrentPlayer(Player player, int turnsRemaining) {
+		display.showCurrentPlayer(player, turnsRemaining);
 	}
 
 	public void showEliminated(Player player) {

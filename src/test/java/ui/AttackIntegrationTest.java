@@ -60,7 +60,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
@@ -110,7 +110,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
@@ -160,7 +160,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -228,7 +228,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -305,7 +305,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -380,7 +380,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
@@ -471,7 +471,7 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard6);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(THREE_TURNS);
 		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)

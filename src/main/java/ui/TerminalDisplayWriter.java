@@ -85,8 +85,8 @@ final class TerminalDisplayWriter {
 		output.println(ViewMessages.format("view.winner", player.getName()));
 	}
 
-	void showCurrentPlayer(Player player) {
-		output.println(ViewMessages.format("view.current.player.turn", player.getName()));
+	void showCurrentPlayer(Player player, int turnsRemaining) {
+		output.println(ViewMessages.format("view.current.player.turn", player.getName(), turnsRemaining));
 	}
 
 	void showEliminated(Player player) {
