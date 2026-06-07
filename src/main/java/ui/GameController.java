@@ -149,7 +149,7 @@ public class GameController {
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer);
 		while (hasToPlayATurn()) {
-			PlayerChoice playerChoice = input.promptPlayerChoice();
+			PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
 				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
 				playCard(chosenCards);

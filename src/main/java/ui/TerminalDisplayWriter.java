@@ -109,10 +109,10 @@ final class TerminalDisplayWriter {
 		}
 	}
 
-	void printPlayerChoiceMenu() {
+	void printPlayerChoiceMenu(Player player) {
 		output.println(ViewMessages.format("view.menu.play.card", 1));
 		output.println(ViewMessages.format("view.menu.done.playing"));
-		output.print(ViewMessages.format("view.prompt.choose"));
+		output.print(ViewMessages.format("view.prompt.choose", player.getName()));
 	}
 
 	void printInvalidSelection() {

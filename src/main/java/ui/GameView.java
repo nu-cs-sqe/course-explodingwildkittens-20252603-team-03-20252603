@@ -96,8 +96,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return input.promptRestart();
 	}
 
-	public PlayerChoice promptPlayerChoice() {
-		int choice = input.readPlayerChoice();
+	public PlayerChoice promptPlayerChoice(Player player) {
+		int choice = input.readPlayerChoice(player);
 		return resolvePlayerChoice(choice);
 	}
 

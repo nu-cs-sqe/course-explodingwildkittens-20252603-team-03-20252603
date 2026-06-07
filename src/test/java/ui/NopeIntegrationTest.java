@@ -57,7 +57,7 @@ public class NopeIntegrationTest {
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
@@ -101,7 +101,7 @@ public class NopeIntegrationTest {
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
@@ -149,7 +149,7 @@ public class NopeIntegrationTest {
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
@@ -201,7 +201,7 @@ public class NopeIntegrationTest {
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
@@ -254,7 +254,7 @@ public class NopeIntegrationTest {
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
 		display.showCurrentPlayer(EasyMock.isA(Player.class));
 		EasyMock.expectLastCall().times(TWO_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
 				.andReturn(PlayerChoice.PLAY_CARD)

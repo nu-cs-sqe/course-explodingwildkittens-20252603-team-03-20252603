@@ -23,7 +23,7 @@ public interface IPlayerInput {
 
 	boolean promptRestart();
 
-	PlayerChoice  promptPlayerChoice();
+	PlayerChoice promptPlayerChoice(Player player);
 
 	void showPeekCards(Player player);
 

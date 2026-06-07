@@ -103,8 +103,8 @@ final class TerminalInputReader {
 		return readYesNo();
 	}
 
-	int readPlayerChoice() {
-		display.printPlayerChoiceMenu();
+	int readPlayerChoice(Player player) {
+		display.printPlayerChoiceMenu(player);
 		return readInt();
 	}
 

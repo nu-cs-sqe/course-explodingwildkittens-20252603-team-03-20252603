@@ -311,14 +311,23 @@ public class GameViewTest {
 
 	@Test
 	void promptPlayerChoice_PlayCardOption_ReturnsPlayCard() {
-		PlayerChoice choice = createView("1\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("1\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.PLAY_CARD, choice);
 	}
 
 	@Test
 	void promptPlayerChoice_DoneOption_ReturnsDonePlaying() {
-		PlayerChoice choice = createView("2\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("2\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
+	}
+
+	@Test
+	void promptPlayerChoice_ShowsPlayerNameInChoosePrompt() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("Alice"));
 	}
 
 	@Test
