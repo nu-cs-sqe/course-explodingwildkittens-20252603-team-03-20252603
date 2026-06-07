@@ -17,6 +17,7 @@
 - `promptCardType()` → CardType
 - `promptRestart()` → boolean
 - `promptPlayerChoice()` → PlayerChoice
+- `promptLocale` → Locale
 
 ## Class size and structure
 
@@ -166,3 +167,18 @@ spaces: play card option vs done option
 |----------------------------------------------------|---------------------|------------------------------------|--------------------|
 | promptPlayerChoice_PlayCardOption_ReturnsPlayCard  | input "1"           | PlayerChoice.PLAY_CARD             | :white_check_mark: |
 | promptPlayerChoice_DoneOption_ReturnsDonePlaying   | input "2"           | PlayerChoice.DONE_PLAYING_CARDS    | :white_check_mark: |
+
+
+### Method under test: `promptLocale()`
+
+spaces: locale : language 
+
+| test_Name                          | State of the System | Expected output | Implemented?       |
+|------------------------------------|---------------------|-----------------|--------------------|
+| promptLocale_English_ReturnsLocale | 1                   | Locale.ENGLISH  | :white_check_mark: |
+| promptLocale_Null_ReturnsLocale    | null                | Locale.ENGLISH  | :white_check_mark: |
+| promptLocale_German_ReturnsLocale  | 3                   | Locale.GERMAN   | :white_check_mark: |
+| promptLocale_French_ReturnsLocale  | 2                   | Locale.FRANCE   | :white_check_mark: |
+| promptLocale_Spanish_ReturnsLocale | 4                   | Locale("es")    | :white_check_mark: |
+
+
