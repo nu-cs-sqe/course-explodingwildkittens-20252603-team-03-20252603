@@ -38,6 +38,7 @@ public class GameControllerTest {
 	private static final int FOUR_TURNS = 4;
 	private static final int FIVE_TURNS = 5;
 	private static final int SIX_TURNS = 6;
+	private static final int SEVEN_CARDS = 7;
 
 	@BeforeEach
 	void setUp() {
@@ -672,7 +673,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockDeckFactory.buildExplodingKittenCards()).andReturn(explodingKittenCards);
 
 		mockDeck.shuffle();
-		EasyMock.expect(mockDeck.dealCards(7)).andReturn(List.of());
+		EasyMock.expect(mockDeck.dealCards(SEVEN_CARDS)).andReturn(List.of());
 		mockDeck.addToDeck(explodingKittenCards);
 		mockDeck.addToDeck(defuseCards);
 		mockDeck.shuffle();

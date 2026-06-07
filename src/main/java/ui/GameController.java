@@ -54,7 +54,7 @@ public class GameController {
 	@SuppressWarnings("checkstyle:ParameterNumber")
 	@SuppressFBWarnings("EI_EXPOSE_REP2")
 	GameController(IGameDisplay display, IPlayerInput input,
-	               ComboValidator comboValidator, DeckFactory deckFactory) {
+		ComboValidator comboValidator, DeckFactory deckFactory) {
 		this.display = display;
 		this.input = input;
 		this.comboValidator = comboValidator;
