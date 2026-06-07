@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -168,6 +169,36 @@ public class GameViewTest {
 		createView("").showPeekCards(mockPlayer);
 		assertFalse(capturedOutput().contains("Peek cards:"));
 		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptLocale_English_ReturnsLocale() {
+		Locale result = createView("1\n").promptLocale();
+		assertEquals(Locale.ENGLISH, result);
+	}
+
+	@Test
+	void promptLocale_Null_ReturnsLocale() {
+		Locale result = createView("null\n1\n").promptLocale();
+		assertEquals(Locale.ENGLISH, result);
+	}
+
+	@Test
+	void promptLocale_French_ReturnsLocale() {
+		Locale result = createView("2\n").promptLocale();
+		assertEquals(Locale.FRENCH, result);
+	}
+
+	@Test
+	void promptLocale_German_ReturnsLocale() {
+		Locale result = createView("3\n").promptLocale();
+		assertEquals(Locale.GERMAN, result);
+	}
+
+	@Test
+	void promptLocale_Spanish_ReturnsLocale() {
+		Locale result = createView("4\n").promptLocale();
+		assertEquals(new Locale("es"), result);
 	}
 
 	@Test

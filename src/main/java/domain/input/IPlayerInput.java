@@ -6,6 +6,7 @@ import domain.model.Card;
 import domain.model.Player;
 
 import java.util.List;
+import java.util.Locale;
 
 public interface IPlayerInput {
 	List<Card> promptCardSelection(Player player);
@@ -25,4 +26,6 @@ public interface IPlayerInput {
 	PlayerChoice  promptPlayerChoice();
 
 	void showPeekCards(Player player);
+
+	Locale promptLocale();
 }
