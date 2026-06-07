@@ -1348,6 +1348,39 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void playATurn_CardSelectionReturnsEmpty_SkipsPlayCardAndRepromptsMenu() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState turnState = new TurnState();
+		EasyMock.expect(mockGameState.isActive()).andReturn(true);
+		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
+		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptCardSelection(mockPlayer)).andReturn(Collections.emptyList());
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(mockCard);
+		EasyMock.expectLastCall().once();
+		mockPlayer.resetWasAttacked();
+		EasyMock.expectLastCall().once();
+		mockGameState.advancePlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
+		new GameController(mockGameState, display, input, comboValidator).playATurn();
+		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
+	}
+
+	@Test
 	void playATurn_ReadyToPlayATurn_HasToPlayATurn_PlayACard_OneLoopRun_PlaysCards() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);

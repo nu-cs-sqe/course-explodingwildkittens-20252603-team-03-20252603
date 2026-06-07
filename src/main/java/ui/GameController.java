@@ -153,7 +153,9 @@ public class GameController {
 			PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
 				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
-				playCard(chosenCards);
+				if (!chosenCards.isEmpty()) {
+					playCard(chosenCards);
+				}
 			} else {
 				handleDrawingCards();
 				decrementTurns();

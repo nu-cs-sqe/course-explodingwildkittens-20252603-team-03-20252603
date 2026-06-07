@@ -238,6 +238,14 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptCardSelection_DonePlayingInput_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("DONE_PLAYING\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
 	void promptCardSelection_SingleIndex_ReturnsCard() {
 		Card card = skipCard();
 		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
