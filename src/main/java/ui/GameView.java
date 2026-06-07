@@ -56,6 +56,10 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		display.showCurrentPlayer(player);
 	}
 
+	public void showEliminated(Player player) {
+		display.showEliminated(player);
+	}
+
 	public List<Card> promptCardSelection(Player player) {
 		return input.promptCardSelection(player);
 	}

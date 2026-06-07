@@ -1469,6 +1469,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockPlayer.getHand()).andReturn(List.of(handCard));
 		mockGameState.removeCardFromCurrentPlayer(handCard);
 		mockGameState.discardCard(handCard);
+		mockDisplay.showEliminated(mockPlayer);
 		mockGameState.eliminateCurrentPlayer();
 		EasyMock.replay(mockGameState, mockTurnState, mockCard, mockPlayer, mockInput, mockDisplay);
 		new GameController(mockGameState, mockDisplay, mockInput, mockComboValidator).drawCard();

@@ -379,6 +379,16 @@ public class GameViewTest {
 	}
 
 	@Test
+	void showEliminated_NamedPlayer_PrintsEliminationMessage() {
+		Player mockPlayer = mockNamedPlayer("Alice");
+		createView("").showEliminated(mockPlayer);
+		String output = capturedOutput();
+		assertTrue(output.contains("Alice"));
+		assertTrue(output.contains("eliminated"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
 	void showPlayerHand_UnknownCard_PrintsUnknown() {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.isName(EasyMock.anyObject(CardName.class))).andReturn(false).anyTimes();
