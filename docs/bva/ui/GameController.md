@@ -46,6 +46,19 @@ cases:
 | startGame_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 | startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 
+### Method under test: `startGame() (created for integration tests)`
+
+spaces: numPlayers = {< 2, 2, 5, > 5}
+
+cases:
+- numPlayers below minimum (e.g., 1): `showMessage` called, `promptNumPlayers` called again until valid
+- numPlayers above maximum (e.g., 6): `showMessage` called, `promptNumPlayers` called again until valid
+- numPlayers = 2 (minimum valid): no error shown, game initializes
+- numPlayers = 5 (maximum valid): no error shown, game initializes
+
+| test_Name                                                                                       | State of the System                                                         | Expected output                                                                  | Implemented?       |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------|--------------------|
+| startGame_ConstructorIntegrationTest_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 1 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
 
 
 ### Method under test: `endGame()`

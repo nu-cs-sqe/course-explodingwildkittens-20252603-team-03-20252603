@@ -393,6 +393,26 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void startGame_ConstructorIntegrationTest_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(1).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+
+	@Test
 	void startGame_ValidMinPlayers_InitializesWithoutError() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
