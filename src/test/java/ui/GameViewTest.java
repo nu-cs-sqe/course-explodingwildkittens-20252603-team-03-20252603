@@ -21,6 +21,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -89,6 +90,11 @@ public class GameViewTest {
 		EasyMock.expect(mockTurnState.turnsRemaining()).andReturn(TURNS_REMAINING);
 		EasyMock.replay(mockGameState, mockTurnState);
 		return mockGameState;
+	}
+
+	@Test
+	void gameView_DefaultConstructor_CreatesInstance() {
+		assertNotNull(new GameView());
 	}
 
 	@Test
@@ -313,5 +319,76 @@ public class GameViewTest {
 	void promptPlayerChoice_DoneOption_ReturnsDonePlaying() {
 		PlayerChoice choice = createView("2\n").promptPlayerChoice();
 		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
+	}
+
+	@Test
+	void promptNumPlayers_NoInput_ThrowsIllegalStateException() {
+		assertThrows(IllegalStateException.class, () -> createView("").promptNumPlayers());
+	}
+
+	@Test
+	void promptNope_NoInput_ThrowsIllegalStateException() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		assertThrows(IllegalStateException.class, () -> createView("").promptNope(mockPlayer));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptInsertPosition_BelowMin_PromptsAgain() {
+		int position = createView("-1\n0\n").promptInsertPosition(DECK_SIZE);
+		assertEquals(0, position);
+	}
+
+	@Test
+	void promptTargetSelection_NegativeIndex_PromptsAgain() {
+		Player first = new Player("p1", "Alice");
+		Player second = new Player("p2", "Bob");
+		Player chosen = createView("0\n2\n").promptTargetSelection(List.of(first, second));
+		assertEquals(second, chosen);
+	}
+
+	@Test
+	void promptCardSelection_NegativeIndex_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("0\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_NonNumericToken_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("abc\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_LeadingComma_SkipsEmptyToken() {
+		Card card = skipCard();
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
+		List<Card> selected = createView(",1\n").promptCardSelection(mockPlayer);
+		assertEquals(SINGLE_CARD, selected.size());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardType_InvalidThenValid_LoopsAndReturnsType() {
+		CardType type = createView("0\n1\n").promptCardType();
+		assertEquals(CardType.EXPLODING_KITTEN, type);
+	}
+
+	@Test
+	void showPlayerHand_UnknownCard_PrintsUnknown() {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.isName(EasyMock.anyObject(CardName.class))).andReturn(false).anyTimes();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getName()).andReturn("Alice").anyTimes();
+		EasyMock.expect(mockPlayer.getHand()).andReturn(List.of(mockCard)).anyTimes();
+		EasyMock.expect(mockPlayer.getPeekCards()).andReturn(List.of()).anyTimes();
+		EasyMock.replay(mockCard, mockPlayer);
+		createView("").showPlayerHand(mockPlayer);
+		assertTrue(capturedOutput().contains(ViewMessages.format("view.card.unknown")));
+		EasyMock.verify(mockCard, mockPlayer);
 	}
 }
