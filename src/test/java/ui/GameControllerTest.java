@@ -411,6 +411,67 @@ public class GameControllerTest {
 		EasyMock.verify(display, input);
 	}
 
+	@Test
+	void startGame_ConstructorIntegrationTest_ValidMaxPlayers_InitializesWithoutError() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ValidMinPlayers_InitializesWithoutError_PlayerNamesAreCorrect() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+		GameState gamestate = gc.gameState();
+		Player firstPlayer = gamestate.getCurrentPlayer();
+		Player secondPlayer = gamestate.getOtherActivePlayers().get(0);
+		int playersInGame = gamestate.getOtherActivePlayers().size() + 1;
+
+		assertEquals("p1", firstPlayer.getId());
+		assertEquals("p2", secondPlayer.getId());
+		assertEquals("Player 1", firstPlayer.getName());
+		assertEquals("Player 2", secondPlayer.getName());
+		assertEquals(playersInGame, 2 );
+
+		EasyMock.verify(display, input);
+	}
+
+
+
+	@Test
+	void startGame_ConstructorIntegrationTest_ValidMinPlayers_InitializesWithoutError() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+
 
 	@Test
 	void startGame_ValidMinPlayers_InitializesWithoutError() {
