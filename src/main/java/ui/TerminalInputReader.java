@@ -6,6 +6,7 @@ import domain.model.Player;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.OptionalInt;
 import java.util.Scanner;
 
@@ -14,6 +15,11 @@ final class TerminalInputReader {
 	private static final int MIN_PLAYERS = 2;
 	private static final int MAX_PLAYERS = 5;
 	private static final int DISPLAY_NUMBER_OFFSET = 1;
+	private static final int LOCALE_FIRST_OPTION = 1;
+	private static final int LOCALE_LAST_OPTION = 4;
+	private static final int LOCALE_FRENCH_OPTION = 2;
+	private static final int LOCALE_GERMAN_OPTION = 3;
+	private static final int LOCALE_SPANISH_OPTION = 4;
 
 	private final Scanner scanner;
 	private final PrintStream output;
@@ -23,6 +29,28 @@ final class TerminalInputReader {
 		this.scanner = scanner;
 		this.output = output;
 		this.display = display;
+	}
+
+	Locale promptLocale() {
+		output.println("Select language / Sprache wahlen / Choisir la langue / Seleccionar idioma:");
+		output.println("1. English");
+		output.println("2. Francais (French)");
+		output.println("3. Deutsch (German)");
+		output.println("4. Espanol (Spanish)");
+		output.print("Choice (1-4): ");
+		int choice = readLocaleChoice();
+
+		if (choice == LOCALE_GERMAN_OPTION) {
+			return Locale.GERMAN;
+		} else if (choice == LOCALE_SPANISH_OPTION) {
+			return new Locale("es");
+		} else if (choice == LOCALE_FRENCH_OPTION) {
+			return Locale.FRENCH;
+		} else return Locale.ENGLISH;
+	}
+
+	private int readLocaleChoice() {
+		return readIntInRange(LOCALE_FIRST_OPTION, LOCALE_LAST_OPTION);
 	}
 
 	List<Card> promptCardSelection(Player player) {

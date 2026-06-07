@@ -12,6 +12,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class GameView implements IGameDisplay, IPlayerInput {
@@ -29,6 +30,10 @@ public class GameView implements IGameDisplay, IPlayerInput {
 	public GameView(Scanner scanner, PrintStream output) {
 		this.display = new TerminalDisplayWriter(output);
 		this.input = new TerminalInputReader(scanner, output, display);
+	}
+
+	public Locale promptLocale() {
+		return input.promptLocale();
 	}
 
 	public void showGameState(GameState gameState) {
