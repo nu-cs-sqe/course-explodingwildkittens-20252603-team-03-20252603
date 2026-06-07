@@ -195,6 +195,8 @@ public class FavorIntegrationTest {
 				.andReturn(List.of(favorCard)).once();
 
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

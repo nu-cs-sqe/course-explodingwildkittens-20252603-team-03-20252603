@@ -141,7 +141,8 @@ public class TwoCardIntegrationTest {
 
 
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
-
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

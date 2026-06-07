@@ -107,6 +107,8 @@ public class NopeIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true).once();
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -210,6 +212,8 @@ public class NopeIntegrationTest {
 				.andReturn(true)
 				.andReturn(true)
 				.andReturn(true);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -267,6 +271,8 @@ public class NopeIntegrationTest {
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER)
 				.andReturn(false).times(ONE_PLAYER);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

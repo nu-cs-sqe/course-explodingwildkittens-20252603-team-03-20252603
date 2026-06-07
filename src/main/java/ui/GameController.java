@@ -264,6 +264,8 @@ public class GameController {
 		if (turnState.nopeCount() % 2 == 0) {
 			CardAction action = comboValidator.resolveAction(cards);
 			action.execute(gameState);
+		} else {
+			display.showMessage(ViewMessages.format("view.action.noped"));
 		}
 		turnState.clearPendingAction();
 	}

@@ -53,6 +53,8 @@ public class PlayATurnIntegrationTest {
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

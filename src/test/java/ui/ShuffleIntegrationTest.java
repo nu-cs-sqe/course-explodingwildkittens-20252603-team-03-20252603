@@ -64,6 +64,8 @@ public class ShuffleIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(shuffleCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

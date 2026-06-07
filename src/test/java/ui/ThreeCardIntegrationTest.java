@@ -210,6 +210,8 @@ public class ThreeCardIntegrationTest {
 				.andReturn(List.of(cattermelon1, cattermelon2, cattermelon3)).once();
 
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 

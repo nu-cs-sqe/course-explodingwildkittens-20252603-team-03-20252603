@@ -413,6 +413,14 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptCardSelection_PromptMentionsSeparators() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		createView("1\n").promptCardSelection(mockPlayer);
+		assertTrue(capturedOutput().contains("comma"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
 	void promptCardType_InvalidThenValid_LoopsAndReturnsType() {
 		CardType type = createView("0\n1\n").promptCardType();
 		assertEquals(CardType.EXPLODING_KITTEN, type);
