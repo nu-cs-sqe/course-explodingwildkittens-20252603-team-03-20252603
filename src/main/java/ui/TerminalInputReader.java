@@ -32,11 +32,11 @@ final class TerminalInputReader {
 	}
 
 	Locale promptLocale() {
-		output.println("Select language / Sprache wahlen / Choisir la langue / Seleccionar idioma:");
+		output.println("Select language / Sprache wählen / Choisir la langue / Seleccionar idioma:");
 		output.println("1. English");
-		output.println("2. Francais (French)");
+		output.println("2. Français (French)");
 		output.println("3. Deutsch (German)");
-		output.println("4. Espanol (Spanish)");
+		output.println("4. Español (Spanish)");
 		output.print("Choice (1-4): ");
 		int choice = readLocaleChoice();
 
