@@ -207,6 +207,25 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void playCard_ValidSingleCard_Noped_ActionNotExecuted_AssertPendingAction() {
+		List<Card> cards = List.of(skipCard());
+		TurnState turnState = EasyMock.createMock(TurnState.class);
+		expectNopedPlaySetup(cards, turnState);
+		turnState.setPendingAction(cards.get(0));
+		EasyMock.expectLastCall().once();
+		turnState.incrementNopeCount();
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(turnState.nopeCount()).andReturn(1);
+		turnState.clearPendingAction();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, turnState);
+
+		controller.playCard(cards);
+
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, turnState);
+	}
+
+	@Test
 	void playCard_ValidSingleCard_Noped_IncrementsNopeCount() {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();

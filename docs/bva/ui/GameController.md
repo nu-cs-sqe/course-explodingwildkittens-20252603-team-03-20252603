@@ -140,7 +140,18 @@ cases:
 
 ---
 
-#### Partition 6 — Nope window: multiple players
+#### Partition 6 — playCard sets the pending Action
+
+cases:
+- valid card is noped; action is not executed; assert pending action
+
+| test_Name                                                            | State of the System                           | Expected output       | Implemented? |
+|----------------------------------------------------------------------|-----------------------------------------------|-----------------------|--------------|
+| playCard_ValidSingleCard_Noped_ActionNotExecuted_AssertPendingAction | valid card is noped; action is not executed   | pending action is set | :white_check_mark: |
+
+---
+
+#### Partition 7 — Nope window: multiple players
 
 cases:
 - no other players → promptNope never called, action executes
@@ -343,9 +354,10 @@ cases:
 - two players
 - five players
 
-| test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
-|----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
-| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten          | two players         | deck contains one exploding kitten                                      | :white_check_mark: |
-| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands                | two players         | each player's hand is non-empty                                         | :white_check_mark: |
-| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens       | five players        | deck contains four exploding kittens                                    | :white_check_mark: |
-| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands               | five players        | each player's hand is non-empty                                         | :white_check_mark: |
+| test_Name                                                          | State of the System | Expected output                      | Implemented?       |
+|--------------------------------------------------------------------|---------------------|--------------------------------------|--------------------|
+| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten        | two players         | deck contains one exploding kitten   | :white_check_mark: |
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands              | two players         | each player's hand is non-empty      | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens     | five players        | deck contains four exploding kittens | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands             | five players        | each player's hand is non-empty      | :white_check_mark: |
+| dealCardsAndReturnDeck_createsFullDeck_AssertsDeckMethodsCalled    | two players         | deck methods are asserted            | :white_check_mark: |
