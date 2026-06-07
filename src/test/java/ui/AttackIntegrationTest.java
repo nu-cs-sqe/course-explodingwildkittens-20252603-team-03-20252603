@@ -169,6 +169,8 @@ public class AttackIntegrationTest {
 				.andReturn(List.of(attackCard)).times(TWO_TURNS);
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
 				.andReturn(false).anyTimes();
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -245,6 +247,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER)
 				.andReturn(false).times(TWO_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -320,6 +324,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(TWO_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -397,6 +403,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -485,6 +493,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(THREE_PLAYERS)
 				.andReturn(false).times(THREE_PLAYERS)
 				.andReturn(false).times(THREE_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().times(TWO_TURNS);
 
 		EasyMock.replay(display, input);
 

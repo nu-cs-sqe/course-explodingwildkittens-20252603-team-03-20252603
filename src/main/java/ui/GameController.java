@@ -148,6 +148,7 @@ public class GameController {
 		}
 		Player currentPlayer = gameState.getCurrentPlayer();
 		display.showCurrentPlayer(currentPlayer, gameState.turnState().turnsRemaining());
+		showAttackedMessageIfNeeded(currentPlayer);
 		while (hasToPlayATurn()) {
 			PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
 			if (playerChoice == PlayerChoice.PLAY_CARD) {
@@ -159,6 +160,12 @@ public class GameController {
 			}
 		}
 		advanceTurnOrTriggerEndGame(currentPlayer);
+	}
+
+	private void showAttackedMessageIfNeeded(Player player) {
+		if (player.wasAttacked()) {
+			display.showMessage(ViewMessages.format("view.player.attacked", gameState.turnState().turnsRemaining()));
+		}
 	}
 
 	void advanceTurnOrTriggerEndGame(Player currentPlayer) {
