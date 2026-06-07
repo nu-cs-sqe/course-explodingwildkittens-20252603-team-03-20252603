@@ -150,23 +150,28 @@ public class GameController {
 		display.showCurrentPlayer(currentPlayer, gameState.turnState().turnsRemaining());
 		showAttackedMessageIfNeeded(currentPlayer);
 		while (hasToPlayATurn()) {
-			PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
-			if (playerChoice == PlayerChoice.PLAY_CARD) {
-				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
-				if (!chosenCards.isEmpty()) {
-					playCard(chosenCards);
-				}
-			} else {
-				handleDrawingCards();
-				decrementTurns();
-			}
+			handlePlayerTurnChoice(currentPlayer);
 		}
 		advanceTurnOrTriggerEndGame(currentPlayer);
 	}
 
+	private void handlePlayerTurnChoice(Player currentPlayer) {
+		PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
+		if (playerChoice == PlayerChoice.PLAY_CARD) {
+			List<Card> chosenCards = input.promptCardSelection(currentPlayer);
+			if (!chosenCards.isEmpty()) {
+				playCard(chosenCards);
+			}
+		} else {
+			handleDrawingCards();
+			decrementTurns();
+		}
+	}
+
 	private void showAttackedMessageIfNeeded(Player player) {
 		if (player.wasAttacked()) {
-			display.showMessage(ViewMessages.format("view.player.attacked", gameState.turnState().turnsRemaining()));
+			int turnsRemaining = gameState.turnState().turnsRemaining();
+			display.showMessage(ViewMessages.format("view.player.attacked", turnsRemaining));
 		}
 	}
 

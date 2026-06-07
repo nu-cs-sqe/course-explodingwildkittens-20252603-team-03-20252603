@@ -33,6 +33,7 @@ public class AttackIntegrationTest {
 	private static final int THREE_TURNS = 3;
 	private static final int FOUR_TURNS = 4;
 	private static final int SIX_TURNS = 6;
+	private static final int THREE_TIMES = 3;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
@@ -250,7 +251,7 @@ public class AttackIntegrationTest {
 				.andReturn(true).times(ONE_PLAYER)
 				.andReturn(false).times(TWO_PLAYERS);
 		display.showMessage(EasyMock.anyString());
-		EasyMock.expectLastCall().times(3);
+		EasyMock.expectLastCall().times(THREE_TIMES);
 
 		EasyMock.replay(display, input);
 

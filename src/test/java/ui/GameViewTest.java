@@ -37,6 +37,7 @@ public class GameViewTest {
 	private static final int DISCARD_SIZE = 1;
 	private static final int ACTIVE_PLAYERS = 2;
 	private static final int TURNS_REMAINING = 1;
+	private static final int THREE_TURNS = 3;
 
 	private ByteArrayOutputStream outputBuffer;
 
@@ -128,8 +129,8 @@ public class GameViewTest {
 	@Test
 	void showCurrentPlayer_ShowsTurnsRemaining() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		createView("").showCurrentPlayer(mockPlayer, 3);
-		assertTrue(capturedOutput().contains("3 turn(s) remaining"));
+		createView("").showCurrentPlayer(mockPlayer, THREE_TURNS);
+		assertTrue(capturedOutput().contains(THREE_TURNS + " turn(s) remaining"));
 		EasyMock.verify(mockPlayer);
 	}
 
