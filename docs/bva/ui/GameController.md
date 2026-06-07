@@ -46,6 +46,24 @@ cases:
 | startGame_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 | startGame_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 5 (valid maximum)                                | showMessage never called; promptNumPlayers called once | :white_check_mark: |
 
+### Method under test: `startGame() (created for integration tests)`
+
+spaces: numPlayers = {< 2, 2, 5, > 5}
+
+cases:
+- numPlayers below minimum (e.g., 1): `showMessage` called, `promptNumPlayers` called again until valid
+- numPlayers above maximum (e.g., 6): `showMessage` called, `promptNumPlayers` called again until valid
+- numPlayers = 2 (minimum valid): no error shown, game initializes
+- numPlayers = 5 (maximum valid): no error shown, game initializes
+
+| test_Name                                                                                       | State of the System                                                         | Expected output                                                                  | Implemented?       |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------|--------------------|
+| startGame_ConstructorIntegrationTest_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 1 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
+| startGame_ConstructorIntegrationTest_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
+| startGame_ValidMinPlayers_InitializesWithoutError_PlayerNamesAreCorrect                         | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
+| startGame_ConstructorIntegrationTest_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once                           | :white_check_mark: |
+| startGame_ConstructorIntegrationTest_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
+| startGame_ConstructorIntegrationTest_ValidMinPlayers_PlayerNamesAreCorrect                      | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
 
 
 ### Method under test: `endGame()`
@@ -140,7 +158,18 @@ cases:
 
 ---
 
-#### Partition 6 — Nope window: multiple players
+#### Partition 6 — playCard sets the pending Action
+
+cases:
+- valid card is noped; action is not executed; assert pending action
+
+| test_Name                                                            | State of the System                           | Expected output       | Implemented? |
+|----------------------------------------------------------------------|-----------------------------------------------|-----------------------|--------------|
+| playCard_ValidSingleCard_Noped_ActionNotExecuted_AssertPendingAction | valid card is noped; action is not executed   | pending action is set | :white_check_mark: |
+
+---
+
+#### Partition 7 — Nope window: multiple players
 
 cases:
 - no other players → promptNope never called, action executes
@@ -343,9 +372,10 @@ cases:
 - two players
 - five players
 
-| test_Name                                                            | State of the System | Expected output                                                         | Implemented?       |
-|----------------------------------------------------------------------|---------------------|-------------------------------------------------------------------------|--------------------|
-| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten          | two players         | deck contains one exploding kitten                                      | :white_check_mark: |
-| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands                | two players         | each player's hand is non-empty                                         | :white_check_mark: |
-| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens       | five players        | deck contains four exploding kittens                                    | :white_check_mark: |
-| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands               | five players        | each player's hand is non-empty                                         | :white_check_mark: |
+| test_Name                                                          | State of the System | Expected output                      | Implemented?       |
+|--------------------------------------------------------------------|---------------------|--------------------------------------|--------------------|
+| dealCardsAndReturnDeck_twoPlayers_returnsOneExplodingKitten        | two players         | deck contains one exploding kitten   | :white_check_mark: |
+| dealCardsAndReturnDeck_twoPlayers_updatesPlayersHands              | two players         | each player's hand is non-empty      | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_returnsFourExplodingKittens     | five players        | deck contains four exploding kittens | :white_check_mark: |
+| dealCardsAndReturnDeck_fivePlayers_updatesPlayersHands             | five players        | each player's hand is non-empty      | :white_check_mark: |
+| dealCardsAndReturnDeck_createsFullDeck_AssertsDeckMethodsCalled    | two players         | deck methods are asserted            | :white_check_mark: |
