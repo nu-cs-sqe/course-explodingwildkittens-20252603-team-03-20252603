@@ -89,6 +89,10 @@ final class TerminalDisplayWriter {
 		output.println(ViewMessages.format("view.current.player.turn", player.getName()));
 	}
 
+	void showEliminated(Player player) {
+		output.println(ViewMessages.format("view.player.eliminated", player.getName()));
+	}
+
 	void printNumberedPlayers(List<Player> candidates) {
 		for (int index = 0; index < candidates.size(); index++) {
 			int displayNumber = index + 1;

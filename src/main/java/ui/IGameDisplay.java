@@ -13,4 +13,6 @@ public interface IGameDisplay {
 	void showWinner(Player player);
 
 	void showCurrentPlayer(Player player);
+
+	void showEliminated(Player player);
 }

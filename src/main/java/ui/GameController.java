@@ -307,11 +307,13 @@ public class GameController {
 
 	private void eliminateWithCleanup(Card card) {
 		gameState.discardCard(card);
-		List<Card> handCopy = new ArrayList<>(gameState.getCurrentPlayer().getHand());
+		Player current = gameState.getCurrentPlayer();
+		List<Card> handCopy = new ArrayList<>(current.getHand());
 		for (Card handCard : handCopy) {
 			gameState.removeCardFromCurrentPlayer(handCard);
 			gameState.discardCard(handCard);
 		}
+		display.showEliminated(current);
 		gameState.eliminateCurrentPlayer();
 	}
 
