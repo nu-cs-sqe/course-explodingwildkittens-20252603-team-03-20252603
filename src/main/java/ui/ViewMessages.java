@@ -12,7 +12,11 @@ final class ViewMessages {
 	}
 
 	static void setLocale(Locale newLocale) {
-		locale = newLocale;
+		if (newLocale == null) {
+			locale = Locale.getDefault();
+		} else {
+			locale = newLocale;
+		}
 	}
 
 	static String format(String key, Object... arguments) {
