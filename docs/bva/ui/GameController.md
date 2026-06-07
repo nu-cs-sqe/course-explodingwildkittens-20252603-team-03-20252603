@@ -63,13 +63,12 @@ cases:
 | startGame_ValidMinPlayers_InitializesWithoutError_PlayerNamesAreCorrect                         | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
 | startGame_ConstructorIntegrationTest_ValidMinPlayers_InitializesWithoutError                    | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once                           | :white_check_mark: |
 | startGame_ConstructorIntegrationTest_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
+| startGame_ConstructorIntegrationTest_ValidMinPlayers_PlayerNamesAreCorrect                      | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
 
 
 
 | startGame_ConstructorIntegrationTest_ValidMaxPlayers_InitializesWithoutError                    | promptNumPlayers() returns 6 on first call (invalid), then 2 on second call | showMessage called once; promptNumPlayers called twice                           | :white_check_mark: |
 | startGame_ValidMinPlayers_InitializesWithoutError_PlayerNamesAreCorrect                         | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
-| startGame_ConstructorIntegrationTest_ValidMinPlayers_PlayerNamesAreCorrect                      | promptNumPlayers() returns 2 (valid minimum)                                | showMessage never called; promptNumPlayers called once; player names are correct | :white_check_mark: |
-
 
 ### Method under test: `endGame()`
 
