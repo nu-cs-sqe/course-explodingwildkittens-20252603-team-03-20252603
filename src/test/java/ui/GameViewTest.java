@@ -442,7 +442,8 @@ public class GameViewTest {
 
 	@Test
 	void promptCardType_OutOfUpperBoundThenValid_LoopsAndReturnsType() {
-		CardType type = createView("10\n1\n").promptCardType();
+		int outOfRangeOption = CardType.values().length + 1;
+		CardType type = createView(outOfRangeOption + "\n1\n").promptCardType();
 		assertEquals(CardType.EXPLODING_KITTEN, type);
 		assertTrue(capturedOutput().contains(ViewMessages.format("view.invalid.selection")));
 	}
