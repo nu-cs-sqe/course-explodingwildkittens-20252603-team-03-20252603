@@ -21,6 +21,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,6 +37,7 @@ public class GameViewTest {
 	private static final int DISCARD_SIZE = 1;
 	private static final int ACTIVE_PLAYERS = 2;
 	private static final int TURNS_REMAINING = 1;
+	private static final int THREE_TURNS = 3;
 
 	private ByteArrayOutputStream outputBuffer;
 
@@ -92,6 +94,11 @@ public class GameViewTest {
 	}
 
 	@Test
+	void gameView_DefaultConstructor_CreatesInstance() {
+		assertNotNull(new GameView());
+	}
+
+	@Test
 	void showMessage_NonEmpty_PrintsMessage() {
 		createView("").showMessage("Hello");
 		assertTrue(capturedOutput().contains("Hello"));
@@ -114,8 +121,24 @@ public class GameViewTest {
 	@Test
 	void showCurrentPlayer_NamedPlayer_PrintsTurnHeader() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		createView("").showCurrentPlayer(mockPlayer);
+		createView("").showCurrentPlayer(mockPlayer, 1);
 		assertTrue(capturedOutput().contains("Bob's turn"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_ShowsTurnsRemaining() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, THREE_TURNS);
+		assertTrue(capturedOutput().contains(THREE_TURNS + " turn(s) remaining"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_StartsWithBlankLine() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, 1);
+		assertTrue(capturedOutput().startsWith("\n"));
 		EasyMock.verify(mockPlayer);
 	}
 
@@ -216,6 +239,14 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptCardSelection_DonePlayingInput_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("DONE_PLAYING\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
 	void promptCardSelection_SingleIndex_ReturnsCard() {
 		Card card = skipCard();
 		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
@@ -304,14 +335,126 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptPlayerChoice_MenuStartsWithBlankLine() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().startsWith("\n"));
+	}
+
+	@Test
 	void promptPlayerChoice_PlayCardOption_ReturnsPlayCard() {
-		PlayerChoice choice = createView("1\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("1\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.PLAY_CARD, choice);
 	}
 
 	@Test
 	void promptPlayerChoice_DoneOption_ReturnsDonePlaying() {
-		PlayerChoice choice = createView("2\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("2\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
+	}
+
+	@Test
+	void promptPlayerChoice_ShowsPlayerNameInChoosePrompt() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("Alice"));
+	}
+
+	@Test
+	void promptPlayerChoice_DoneOptionMentionsDrawingCard() {
+		Player player = mockNamedPlayer("Alice");
+		createView("2\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("draw"));
+	}
+
+	@Test
+	void promptNumPlayers_NoInput_ThrowsIllegalStateException() {
+		assertThrows(IllegalStateException.class, () -> createView("").promptNumPlayers());
+	}
+
+	@Test
+	void promptNope_NoInput_ThrowsIllegalStateException() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		assertThrows(IllegalStateException.class, () -> createView("").promptNope(mockPlayer));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptInsertPosition_BelowMin_PromptsAgain() {
+		int position = createView("-1\n0\n").promptInsertPosition(DECK_SIZE);
+		assertEquals(0, position);
+	}
+
+	@Test
+	void promptTargetSelection_NegativeIndex_PromptsAgain() {
+		Player first = new Player("p1", "Alice");
+		Player second = new Player("p2", "Bob");
+		Player chosen = createView("0\n2\n").promptTargetSelection(List.of(first, second));
+		assertEquals(second, chosen);
+	}
+
+	@Test
+	void promptCardSelection_NegativeIndex_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("0\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_NonNumericToken_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("abc\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_LeadingComma_SkipsEmptyToken() {
+		Card card = skipCard();
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
+		List<Card> selected = createView(",1\n").promptCardSelection(mockPlayer);
+		assertEquals(SINGLE_CARD, selected.size());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_PromptMentionsSeparators() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		createView("1\n").promptCardSelection(mockPlayer);
+		assertTrue(capturedOutput().contains("comma"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardType_InvalidThenValid_LoopsAndReturnsType() {
+		CardType type = createView("0\n1\n").promptCardType();
+		assertEquals(CardType.EXPLODING_KITTEN, type);
+	}
+
+	@Test
+	void showEliminated_NamedPlayer_PrintsEliminationMessage() {
+		Player mockPlayer = mockNamedPlayer("Alice");
+		createView("").showEliminated(mockPlayer);
+		String output = capturedOutput();
+		assertTrue(output.contains("Alice"));
+		assertTrue(output.contains("eliminated"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showPlayerHand_UnknownCard_PrintsUnknown() {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.isName(EasyMock.anyObject(CardName.class))).andReturn(false).anyTimes();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getName()).andReturn("Alice").anyTimes();
+		EasyMock.expect(mockPlayer.getHand()).andReturn(List.of(mockCard)).anyTimes();
+		EasyMock.expect(mockPlayer.getPeekCards()).andReturn(List.of()).anyTimes();
+		EasyMock.replay(mockCard, mockPlayer);
+		createView("").showPlayerHand(mockPlayer);
+		assertTrue(capturedOutput().contains(ViewMessages.format("view.card.unknown")));
+		EasyMock.verify(mockCard, mockPlayer);
 	}
 }

@@ -6,6 +6,7 @@ import domain.enums.CardName;
 import domain.enums.CardType;
 import domain.enums.PlayerChoice;
 import domain.factory.ComboValidator;
+import domain.factory.DeckFactory;
 import domain.input.IPlayerInput;
 import domain.model.Card;
 import domain.model.Deck;
@@ -37,6 +38,7 @@ public class GameControllerTest {
 	private static final int FOUR_TURNS = 4;
 	private static final int FIVE_TURNS = 5;
 	private static final int SIX_TURNS = 6;
+	private static final int SEVEN_CARDS = 7;
 
 	@BeforeEach
 	void setUp() {
@@ -104,6 +106,8 @@ public class GameControllerTest {
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(other));
 		EasyMock.expect(mockInput.promptNope(other)).andReturn(true);
+		mockDisplay.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 	}
 
 	@Test
@@ -207,6 +211,25 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void playCard_ValidSingleCard_Noped_ActionNotExecuted_AssertPendingAction() {
+		List<Card> cards = List.of(skipCard());
+		TurnState turnState = EasyMock.createMock(TurnState.class);
+		expectNopedPlaySetup(cards, turnState);
+		turnState.setPendingAction(cards.get(0));
+		EasyMock.expectLastCall().once();
+		turnState.incrementNopeCount();
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(turnState.nopeCount()).andReturn(1);
+		turnState.clearPendingAction();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator, turnState);
+
+		controller.playCard(cards);
+
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator, turnState);
+	}
+
+	@Test
 	void playCard_ValidSingleCard_Noped_IncrementsNopeCount() {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
@@ -242,6 +265,18 @@ public class GameControllerTest {
 
 		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertTrue(turnState.pendingAction().isEmpty());
+	}
+
+	@Test
+	void playCard_ValidSingleCard_Noped_ShowsNopedMessage() {
+		List<Card> cards = List.of(skipCard());
+		TurnState turnState = new TurnState();
+		expectNopedPlaySetup(cards, turnState);
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
+
+		controller.playCard(cards);
+
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 	}
 
 	@Test
@@ -338,6 +373,8 @@ public class GameControllerTest {
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(false);
 		EasyMock.expect(mockInput.promptNope(p2)).andReturn(true);
 		EasyMock.expect(mockInput.promptNope(p3)).andReturn(false);
+		mockDisplay.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
@@ -365,6 +402,8 @@ public class GameControllerTest {
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(true);
 		EasyMock.expect(mockInput.promptNope(p2)).andReturn(true);
 		EasyMock.expect(mockInput.promptNope(p3)).andReturn(true);
+		mockDisplay.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
 
 		controller.playCard(cards);
@@ -372,6 +411,131 @@ public class GameControllerTest {
 		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
 		assertEquals(expectedNopeCount, turnState.nopeCount());
 	}
+
+	@Test
+	void startGame_ConstructorIntegrationTest_InvalidNumPlayersBelowMin_ShowsErrorAndRepromptsNumPlayers() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(1).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ConstructorIntegrationTest_ValidMaxPlayers_InitializesWithoutError() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(FIVE_PLAYERS_IN_GAME);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ValidMinPlayers_InitializesWithoutError_PlayerNamesAreCorrect() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame();
+		GameState gamestate = gc.gameState();
+		Player firstPlayer = gamestate.getCurrentPlayer();
+		Player secondPlayer = gamestate.getOtherActivePlayers().get(0);
+		int playersInGame = gamestate.getOtherActivePlayers().size() + 1;
+
+		assertEquals("p1", firstPlayer.getId());
+		assertEquals("p2", secondPlayer.getId());
+		assertEquals("Player 1", firstPlayer.getName());
+		assertEquals("Player 2", secondPlayer.getName());
+		assertEquals(playersInGame, 2 );
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ConstructorIntegrationTest_InvalidNumPlayersAboveMax_ShowsErrorAndRepromptsNumPlayers() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(SIX_PLAYERS_ATTEMPTED).andReturn(2);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+	@Test
+	void startGame_ConstructorIntegrationTest_ValidMinPlayers_PlayerNamesAreCorrect() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+		GameState gamestate = gc.gameState();
+		Player firstPlayer = gamestate.getCurrentPlayer();
+		Player secondPlayer = gamestate.getOtherActivePlayers().get(0);
+
+		assertEquals("p1", firstPlayer.getId());
+		assertEquals("p2", secondPlayer.getId());
+		assertEquals("Player 1", firstPlayer.getName());
+		assertEquals("Player 2", secondPlayer.getName());
+
+		EasyMock.verify(display, input);
+	}
+
+
+
+	@Test
+	void startGame_ConstructorIntegrationTest_ValidMinPlayers_InitializesWithoutError() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		List<Card> cards = List.of(skipCard(), skipCard());
+		Deck deck = new Deck(cards);
+
+		EasyMock.expect(input.promptNumPlayers()).andReturn(2);
+		EasyMock.replay(display, input);
+
+		GameController gc = new GameController(display, input, comboValidator);
+		gc.startGame(deck, cards);
+
+		EasyMock.verify(display, input);
+	}
+
+
 
 	@Test
 	void startGame_ValidMinPlayers_InitializesWithoutError() {
@@ -514,6 +678,33 @@ public class GameControllerTest {
 		}
 		EasyMock.verify(display, input);
 	}
+
+	@Test
+	void dealCardsAndReturnDeck_createsFullDeck_AssertsDeckMethodsCalled(){
+		DeckFactory mockDeckFactory = EasyMock.createMock(DeckFactory.class);
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeckFactory.buildDeck()).andReturn(mockDeck);
+		List<Card> defuseCards = List.of();
+		List<Card> explodingKittenCards = List.of();
+		List<Player> players = List.of(new Player("p1", "Player 1"));
+		EasyMock.expect(mockDeckFactory.buildDefuseCards()).andReturn(defuseCards);
+		EasyMock.expect(mockDeckFactory.buildExplodingKittenCards()).andReturn(explodingKittenCards);
+
+		mockDeck.shuffle();
+		EasyMock.expect(mockDeck.dealCards(SEVEN_CARDS)).andReturn(List.of());
+		mockDeck.addToDeck(explodingKittenCards);
+		mockDeck.addToDeck(defuseCards);
+		mockDeck.shuffle();
+
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		EasyMock.replay(mockDeck, mockDeckFactory, display, input, comboValidator);
+		GameController gc = new GameController(display, input, comboValidator, mockDeckFactory);
+		gc.dealCardsAndReturnDeck(players);
+		EasyMock.verify(mockDeck, mockDeckFactory);
+	}
+
 
 	@Test
 	void endGame_OneActivePlayer_SetsGameInactive() {
@@ -1118,6 +1309,39 @@ public class GameControllerTest {
 	}
 
 	@Test
+	void playATurn_CurrentPlayerWasAttacked_ShowsAttackedMessage() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState turnState = new TurnState();
+		EasyMock.expect(mockGameState.isActive()).andReturn(true);
+		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
+		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(true);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
+		EasyMock.expectLastCall().once();
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
+				.andReturn(domain.enums.PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(mockCard);
+		EasyMock.expectLastCall().once();
+		mockPlayer.resetWasAttacked();
+		EasyMock.expectLastCall().once();
+		mockGameState.advancePlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
+		new GameController(mockGameState, display, input, comboValidator).playATurn();
+		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
+	}
+
+	@Test
 	void playATurn_ReadyToPlayATurn_DoesNotHaveToPlayATurn_NoLoopRun() {
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
@@ -1130,7 +1354,8 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
 		mockPlayer.resetWasAttacked();
 		EasyMock.expectLastCall().once();
@@ -1139,6 +1364,39 @@ public class GameControllerTest {
 		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator);
 		new GameController(mockGameState, display, input, comboValidator).playATurn();
 		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator);
+	}
+
+	@Test
+	void playATurn_CardSelectionReturnsEmpty_SkipsPlayCardAndRepromptsMenu() {
+		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
+		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
+		ComboValidator comboValidator = EasyMock.createMock(ComboValidator.class);
+		Card mockCard = EasyMock.createMock(Card.class);
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		GameState mockGameState = EasyMock.createMock(GameState.class);
+		TurnState turnState = new TurnState();
+		EasyMock.expect(mockGameState.isActive()).andReturn(true);
+		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
+		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
+		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
+		EasyMock.expectLastCall().once();
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
+				.andReturn(PlayerChoice.PLAY_CARD)
+				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptCardSelection(mockPlayer)).andReturn(Collections.emptyList());
+		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
+		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
+		mockGameState.addCardToCurrentPlayer(mockCard);
+		EasyMock.expectLastCall().once();
+		mockPlayer.resetWasAttacked();
+		EasyMock.expectLastCall().once();
+		mockGameState.advancePlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
+		new GameController(mockGameState, display, input, comboValidator).playATurn();
+		EasyMock.verify(mockGameState, mockPlayer, display, input, comboValidator, mockCard);
 	}
 
 	@Test
@@ -1156,9 +1414,10 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(domain.enums.PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(mockPlayer)).andReturn(cards);
@@ -1198,9 +1457,11 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getCurrentPlayer()).andReturn(mockPlayer).anyTimes();
 		EasyMock.expect(mockPlayer.isActive()).andReturn(true).anyTimes();
 		EasyMock.expect(mockGameState.turnState()).andReturn(turnState).anyTimes();
-		display.showCurrentPlayer(mockPlayer);
+		EasyMock.expect(mockPlayer.wasAttacked()).andReturn(false);
+		display.showCurrentPlayer(EasyMock.same(mockPlayer), EasyMock.anyInt());
 		EasyMock.expectLastCall().once();
-		EasyMock.expect(input.promptPlayerChoice()).andReturn(domain.enums.PlayerChoice.DONE_PLAYING_CARDS);
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
+				.andReturn(domain.enums.PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(mockGameState.drawFromDeck()).andReturn(mockCard);
 		EasyMock.expect(mockCard.isType(CardType.EXPLODING_KITTEN)).andReturn(false);
 		mockGameState.addCardToCurrentPlayer(mockCard);
@@ -1296,6 +1557,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockPlayer.getHand()).andReturn(List.of(handCard));
 		mockGameState.removeCardFromCurrentPlayer(handCard);
 		mockGameState.discardCard(handCard);
+		mockDisplay.showEliminated(mockPlayer);
 		mockGameState.eliminateCurrentPlayer();
 		EasyMock.replay(mockGameState, mockTurnState, mockCard, mockPlayer, mockInput, mockDisplay);
 		new GameController(mockGameState, mockDisplay, mockInput, mockComboValidator).drawCard();

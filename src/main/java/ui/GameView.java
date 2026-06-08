@@ -52,8 +52,12 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		display.showWinner(player);
 	}
 
-	public void showCurrentPlayer(Player player) {
-		display.showCurrentPlayer(player);
+	public void showCurrentPlayer(Player player, int turnsRemaining) {
+		display.showCurrentPlayer(player, turnsRemaining);
+	}
+
+	public void showEliminated(Player player) {
+		display.showEliminated(player);
 	}
 
 	public List<Card> promptCardSelection(Player player) {
@@ -92,8 +96,8 @@ public class GameView implements IGameDisplay, IPlayerInput {
 		return input.promptRestart();
 	}
 
-	public PlayerChoice promptPlayerChoice() {
-		int choice = input.readPlayerChoice();
+	public PlayerChoice promptPlayerChoice(Player player) {
+		int choice = input.readPlayerChoice(player);
 		return resolvePlayerChoice(choice);
 	}
 
