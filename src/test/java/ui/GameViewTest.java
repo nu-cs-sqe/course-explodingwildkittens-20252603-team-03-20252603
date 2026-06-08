@@ -219,6 +219,12 @@ public class GameViewTest {
 	}
 
 	@Test
+	void setLocale_Null_FallsBackToSystemDefault() {
+		ViewMessages.setLocale(null);
+		assertFalse(ViewMessages.format("view.winner", "Player").isEmpty());
+	}
+
+	@Test
 	void promptNumPlayers_ValidInput_ReturnsValue() {
 		int count = createView("3\n").promptNumPlayers();
 		assertEquals(THREE_PLAYERS, count);
@@ -432,6 +438,13 @@ public class GameViewTest {
 	void promptCardType_InvalidThenValid_LoopsAndReturnsType() {
 		CardType type = createView("0\n1\n").promptCardType();
 		assertEquals(CardType.EXPLODING_KITTEN, type);
+	}
+
+	@Test
+	void promptCardType_OutOfUpperBoundThenValid_LoopsAndReturnsType() {
+		CardType type = createView("10\n1\n").promptCardType();
+		assertEquals(CardType.EXPLODING_KITTEN, type);
+		assertTrue(capturedOutput().contains(ViewMessages.format("view.invalid.selection")));
 	}
 
 	@Test
