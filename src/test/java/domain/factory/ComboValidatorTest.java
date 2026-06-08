@@ -156,9 +156,9 @@ public class ComboValidatorTest {
 	}
 
 	@Test
-	void resolveAction_OneNope_ReturnsNopeAction() {
-		CardAction action = validator().resolveAction(List.of(card(CardType.NOPE, CardName.NOPE)));
-		assertInstanceOf(NopeAction.class, action);
+	void resolveAction_OneNope_ThrowsIllegalArgumentException() {
+		assertThrows(IllegalArgumentException.class,
+				() -> validator().resolveAction(List.of(card(CardType.NOPE, CardName.NOPE))));
 	}
 
 	@Test
@@ -194,5 +194,10 @@ public class ComboValidatorTest {
 		replay(unknownCard);
 		assertThrows(IllegalArgumentException.class,
 				() -> validator().resolveAction(List.of(unknownCard)));
+	}
+
+	@Test
+	void isValid_OneNope_ReturnsFalse() {
+		assertFalse(validator().isValid(List.of(card(CardType.NOPE, CardName.NOPE))));
 	}
 }
