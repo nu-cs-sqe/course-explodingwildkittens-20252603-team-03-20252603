@@ -3,6 +3,7 @@ package domain.model;
 import domain.action.SkipAction;
 import domain.enums.CardName;
 import domain.enums.CardType;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -101,6 +102,16 @@ public class GameStateTest {
 	public void shuffleDeck_DelegatesShuffleToDeck() {
 		GameState gs = new GameState(twoPlayers(), multiCardDeck());
 		assertDoesNotThrow(gs::shuffleDeck);
+	}
+
+	@Test
+	public void shuffleDeck_CallsShuffleOnDeck() {
+		Deck mockDeck = EasyMock.mock(Deck.class);
+		mockDeck.shuffle();
+		EasyMock.replay(mockDeck);
+		GameState gs = new GameState(twoPlayers(), mockDeck, new TurnState());
+		gs.shuffleDeck();
+		EasyMock.verify(mockDeck);
 	}
 
 	@Test

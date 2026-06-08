@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.easymock.EasyMock.*;
 
 public class ComboValidatorTest {
 
@@ -185,5 +186,13 @@ public class ComboValidatorTest {
 	void resolveAction_InvalidCombo_ThrowsIllegalArgumentException() {
 		List<Card> cards = List.of(card(CardType.CAT_CARD, CardName.TACO_CAT));
 		assertThrows(IllegalArgumentException.class, () -> validator().resolveAction(cards));
+	}
+
+	@Test
+	void resolveAction_ValidButUnhandledCardType_ThrowsIllegalArgumentException() {
+		Card unknownCard = createNiceMock(Card.class);
+		replay(unknownCard);
+		assertThrows(IllegalArgumentException.class,
+				() -> validator().resolveAction(List.of(unknownCard)));
 	}
 }
