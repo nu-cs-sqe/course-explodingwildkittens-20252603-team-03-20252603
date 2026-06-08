@@ -220,8 +220,10 @@ public class GameViewTest {
 
 	@Test
 	void setLocale_Null_FallsBackToSystemDefault() {
+		Locale systemDefault = Locale.getDefault();
 		ViewMessages.setLocale(null);
 		assertFalse(ViewMessages.format("view.winner", "Player").isEmpty());
+		ViewMessages.setLocale(systemDefault);
 	}
 
 	@Test
