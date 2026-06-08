@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -445,7 +446,7 @@ public class GameViewTest {
 	@Test
 	void promptCardType_OutOfUpperBoundThenValid_LoopsAndReturnsType() {
 		int outOfRangeOption = CardType.values().length + 1;
-		CardType type = createView(outOfRangeOption + "\n1\n").promptCardType();
+		CardType type = createView(MessageFormat.format("{0}\n1\n", outOfRangeOption)).promptCardType();
 		assertEquals(CardType.EXPLODING_KITTEN, type);
 		assertTrue(capturedOutput().contains(ViewMessages.format("view.invalid.selection")));
 	}
