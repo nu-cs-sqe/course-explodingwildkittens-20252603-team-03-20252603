@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -216,6 +217,14 @@ public class GameViewTest {
 	void promptLocale_Spanish_ReturnsLocale() {
 		Locale result = createView("4\n").promptLocale();
 		assertEquals(new Locale("es"), result);
+	}
+
+	@Test
+	void setLocale_Null_DoesNotThrowAndAllowsFormat() {
+		Locale systemDefault = Locale.getDefault();
+		ViewMessages.setLocale(null);
+		assertFalse(ViewMessages.format("view.winner", "Player").isEmpty());
+		ViewMessages.setLocale(systemDefault);
 	}
 
 	@Test
@@ -432,6 +441,14 @@ public class GameViewTest {
 	void promptCardType_InvalidThenValid_LoopsAndReturnsType() {
 		CardType type = createView("0\n1\n").promptCardType();
 		assertEquals(CardType.EXPLODING_KITTEN, type);
+	}
+
+	@Test
+	void promptCardType_OutOfUpperBoundThenValid_LoopsAndReturnsType() {
+		int outOfRangeOption = CardType.values().length + 1;
+		CardType type = createView(MessageFormat.format("{0}\n1\n", outOfRangeOption)).promptCardType();
+		assertEquals(CardType.EXPLODING_KITTEN, type);
+		assertTrue(capturedOutput().contains(ViewMessages.format("view.invalid.selection")));
 	}
 
 	@Test
