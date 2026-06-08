@@ -147,18 +147,32 @@ public class GameController {
 			throw new IllegalStateException(ViewMessages.format("error.not.ready.to.play"));
 		}
 		Player currentPlayer = gameState.getCurrentPlayer();
-		display.showCurrentPlayer(currentPlayer);
+		display.showCurrentPlayer(currentPlayer, gameState.turnState().turnsRemaining());
+		showAttackedMessageIfNeeded(currentPlayer);
 		while (hasToPlayATurn()) {
-			PlayerChoice playerChoice = input.promptPlayerChoice();
-			if (playerChoice == PlayerChoice.PLAY_CARD) {
-				List<Card> chosenCards = input.promptCardSelection(currentPlayer);
-				playCard(chosenCards);
-			} else {
-				handleDrawingCards();
-				decrementTurns();
-			}
+			handlePlayerTurnChoice(currentPlayer);
 		}
 		advanceTurnOrTriggerEndGame(currentPlayer);
+	}
+
+	private void handlePlayerTurnChoice(Player currentPlayer) {
+		PlayerChoice playerChoice = input.promptPlayerChoice(currentPlayer);
+		if (playerChoice == PlayerChoice.PLAY_CARD) {
+			List<Card> chosenCards = input.promptCardSelection(currentPlayer);
+			if (!chosenCards.isEmpty()) {
+				playCard(chosenCards);
+			}
+		} else {
+			handleDrawingCards();
+			decrementTurns();
+		}
+	}
+
+	private void showAttackedMessageIfNeeded(Player player) {
+		if (player.wasAttacked()) {
+			int turnsRemaining = gameState.turnState().turnsRemaining();
+			display.showMessage(ViewMessages.format("view.player.attacked", turnsRemaining));
+		}
 	}
 
 	void advanceTurnOrTriggerEndGame(Player currentPlayer) {
@@ -255,6 +269,8 @@ public class GameController {
 		if (turnState.nopeCount() % 2 == 0) {
 			CardAction action = comboValidator.resolveAction(cards);
 			action.execute(gameState);
+		} else {
+			display.showMessage(ViewMessages.format("view.action.noped"));
 		}
 		turnState.clearPendingAction();
 	}

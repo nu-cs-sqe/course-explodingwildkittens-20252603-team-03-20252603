@@ -33,6 +33,7 @@ public class AttackIntegrationTest {
 	private static final int THREE_TURNS = 3;
 	private static final int FOUR_TURNS = 4;
 	private static final int SIX_TURNS = 6;
+	private static final int THREE_TIMES = 3;
 
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
@@ -60,8 +61,8 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(attackCard)).once();
@@ -110,14 +111,16 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(TWO_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
-		EasyMock.expect(input.promptPlayerChoice())
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(attackCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
 				.andReturn(true);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -160,15 +163,17 @@ public class AttackIntegrationTest {
 		playerHandCards.add(attackCard);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(attackCard)).times(TWO_TURNS);
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
 				.andReturn(false).anyTimes();
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -228,9 +233,9 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
@@ -245,6 +250,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER)
 				.andReturn(false).times(TWO_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().times(THREE_TIMES);
 
 		EasyMock.replay(display, input);
 
@@ -305,9 +312,9 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
@@ -320,6 +327,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(TWO_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(display, input);
 
@@ -380,9 +389,9 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard3);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(THREE_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(TWO_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS)
@@ -397,6 +406,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(TWO_PLAYERS)
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().times(2);
 
 		EasyMock.replay(display, input);
 
@@ -471,9 +482,9 @@ public class AttackIntegrationTest {
 		playerHandCards.add(shuffleCard6);
 
 		EasyMock.expect(input.promptNumPlayers()).andReturn(FOUR_PLAYERS);
-		display.showCurrentPlayer(EasyMock.isA(Player.class));
+		display.showCurrentPlayer(EasyMock.isA(Player.class), EasyMock.anyInt());
 		EasyMock.expectLastCall().times(THREE_TURNS);
-		EasyMock.expect(input.promptPlayerChoice())
+		EasyMock.expect(input.promptPlayerChoice(EasyMock.anyObject()))
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD)
 				.andReturn(PlayerChoice.PLAY_CARD);
@@ -485,6 +496,8 @@ public class AttackIntegrationTest {
 				.andReturn(false).times(THREE_PLAYERS)
 				.andReturn(false).times(THREE_PLAYERS)
 				.andReturn(false).times(THREE_PLAYERS);
+		display.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().times(TWO_TURNS);
 
 		EasyMock.replay(display, input);
 

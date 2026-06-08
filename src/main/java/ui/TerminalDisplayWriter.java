@@ -85,8 +85,8 @@ final class TerminalDisplayWriter {
 		output.println(ViewMessages.format("view.winner", player.getName()));
 	}
 
-	void showCurrentPlayer(Player player) {
-		output.println(ViewMessages.format("view.current.player.turn", player.getName()));
+	void showCurrentPlayer(Player player, int turnsRemaining) {
+		output.println(ViewMessages.format("view.current.player.turn", player.getName(), turnsRemaining));
 	}
 
 	void showEliminated(Player player) {
@@ -109,10 +109,11 @@ final class TerminalDisplayWriter {
 		}
 	}
 
-	void printPlayerChoiceMenu() {
+	void printPlayerChoiceMenu(Player player) {
+		output.println();
 		output.println(ViewMessages.format("view.menu.play.card", 1));
 		output.println(ViewMessages.format("view.menu.done.playing"));
-		output.print(ViewMessages.format("view.prompt.choose"));
+		output.print(ViewMessages.format("view.prompt.choose", player.getName()));
 	}
 
 	void printInvalidSelection() {

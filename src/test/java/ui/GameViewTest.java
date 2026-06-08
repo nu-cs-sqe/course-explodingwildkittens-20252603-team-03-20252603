@@ -37,6 +37,7 @@ public class GameViewTest {
 	private static final int DISCARD_SIZE = 1;
 	private static final int ACTIVE_PLAYERS = 2;
 	private static final int TURNS_REMAINING = 1;
+	private static final int THREE_TURNS = 3;
 
 	private ByteArrayOutputStream outputBuffer;
 
@@ -120,8 +121,24 @@ public class GameViewTest {
 	@Test
 	void showCurrentPlayer_NamedPlayer_PrintsTurnHeader() {
 		Player mockPlayer = mockNamedPlayer("Bob");
-		createView("").showCurrentPlayer(mockPlayer);
+		createView("").showCurrentPlayer(mockPlayer, 1);
 		assertTrue(capturedOutput().contains("Bob's turn"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_ShowsTurnsRemaining() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, THREE_TURNS);
+		assertTrue(capturedOutput().contains(THREE_TURNS + " turn(s) remaining"));
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void showCurrentPlayer_StartsWithBlankLine() {
+		Player mockPlayer = mockNamedPlayer("Bob");
+		createView("").showCurrentPlayer(mockPlayer, 1);
+		assertTrue(capturedOutput().startsWith("\n"));
 		EasyMock.verify(mockPlayer);
 	}
 
@@ -222,6 +239,14 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptCardSelection_DonePlayingInput_ReturnsEmptyList() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		List<Card> selected = createView("DONE_PLAYING\n").promptCardSelection(mockPlayer);
+		assertTrue(selected.isEmpty());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
 	void promptCardSelection_SingleIndex_ReturnsCard() {
 		Card card = skipCard();
 		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
@@ -310,15 +335,38 @@ public class GameViewTest {
 	}
 
 	@Test
+	void promptPlayerChoice_MenuStartsWithBlankLine() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().startsWith("\n"));
+	}
+
+	@Test
 	void promptPlayerChoice_PlayCardOption_ReturnsPlayCard() {
-		PlayerChoice choice = createView("1\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("1\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.PLAY_CARD, choice);
 	}
 
 	@Test
 	void promptPlayerChoice_DoneOption_ReturnsDonePlaying() {
-		PlayerChoice choice = createView("2\n").promptPlayerChoice();
+		Player player = mockNamedPlayer("Alice");
+		PlayerChoice choice = createView("2\n").promptPlayerChoice(player);
 		assertEquals(PlayerChoice.DONE_PLAYING_CARDS, choice);
+	}
+
+	@Test
+	void promptPlayerChoice_ShowsPlayerNameInChoosePrompt() {
+		Player player = mockNamedPlayer("Alice");
+		createView("1\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("Alice"));
+	}
+
+	@Test
+	void promptPlayerChoice_DoneOptionMentionsDrawingCard() {
+		Player player = mockNamedPlayer("Alice");
+		createView("2\n").promptPlayerChoice(player);
+		assertTrue(capturedOutput().contains("draw"));
 	}
 
 	@Test
@@ -369,6 +417,14 @@ public class GameViewTest {
 		Player mockPlayer = mockPlayerWithHand("Alice", List.of(card));
 		List<Card> selected = createView(",1\n").promptCardSelection(mockPlayer);
 		assertEquals(SINGLE_CARD, selected.size());
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	void promptCardSelection_PromptMentionsSeparators() {
+		Player mockPlayer = mockPlayerWithHand("Alice", List.of(skipCard()));
+		createView("1\n").promptCardSelection(mockPlayer);
+		assertTrue(capturedOutput().contains("comma"));
 		EasyMock.verify(mockPlayer);
 	}
 

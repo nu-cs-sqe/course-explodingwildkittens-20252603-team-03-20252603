@@ -5,6 +5,7 @@ import domain.model.Player;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.OptionalInt;
@@ -53,10 +54,15 @@ final class TerminalInputReader {
 		return readIntInRange(LOCALE_FIRST_OPTION, LOCALE_LAST_OPTION);
 	}
 
+	private static final String CANCEL_KEYWORD = "DONE_PLAYING";
+
 	List<Card> promptCardSelection(Player player) {
 		display.showPlayerHand(player);
 		output.print(ViewMessages.format("view.prompt.card.selection"));
 		String line = scanner.nextLine().trim();
+		if (line.equalsIgnoreCase(CANCEL_KEYWORD)) {
+			return Collections.emptyList();
+		}
 		return cardsAtIndices(player.getHand(), parseIndices(line));
 	}
 
@@ -103,8 +109,8 @@ final class TerminalInputReader {
 		return readYesNo();
 	}
 
-	int readPlayerChoice() {
-		display.printPlayerChoiceMenu();
+	int readPlayerChoice(Player player) {
+		display.printPlayerChoiceMenu(player);
 		return readInt();
 	}
 
