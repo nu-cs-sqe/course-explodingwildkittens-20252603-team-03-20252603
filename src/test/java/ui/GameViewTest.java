@@ -219,7 +219,7 @@ public class GameViewTest {
 	}
 
 	@Test
-	void setLocale_Null_FallsBackToSystemDefault() {
+	void setLocale_Null_DoesNotThrowAndAllowsFormat() {
 		Locale systemDefault = Locale.getDefault();
 		ViewMessages.setLocale(null);
 		assertFalse(ViewMessages.format("view.winner", "Player").isEmpty());
