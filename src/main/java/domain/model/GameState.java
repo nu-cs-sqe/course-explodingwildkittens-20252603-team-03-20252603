@@ -25,6 +25,15 @@ public class GameState {
 		this.turnState = new TurnState();
 	}
 
+	GameState(List<Player> players, Deck deck, TurnState turnState) {
+		this.status = GameStatus.ACTIVE;
+		this.deck = deck;
+		this.discardPile = new ArrayList<>();
+		this.eliminatedPlayers = new ArrayList<>();
+		this.activePlayers = new LinkedList<>(players);
+		this.turnState = turnState;
+	}
+
 	public boolean isActive() {
 		return status == GameStatus.ACTIVE;
 	}
