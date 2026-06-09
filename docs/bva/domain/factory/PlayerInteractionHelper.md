@@ -26,11 +26,11 @@ cases:
 - more than one element: one random card transferred
 - max size (N/A)
 
-| test_Name                                          | State of the System  | Expected output                          | Implemented? |
-|----------------------------------------------------|----------------------|------------------------------------------|--------------|
-| stealRandomCard_FromEmptyHand_NoTransfer           | from has 0 cards     | no card moved                            | :x:          |
-| stealRandomCard_FromOneCard_TransfersThatCard      | from has 1 card      | from loses it, to gains it               | :x:          |
-| stealRandomCard_FromManyCards_TransfersOneCard     | from has 3 cards     | from loses exactly 1, to gains exactly 1 | :x:          |
+| test_Name                                          | State of the System  | Expected output                          | Implemented?       |
+|----------------------------------------------------|----------------------|------------------------------------------|--------------------|
+| stealRandomCard_FromEmptyHand_NoTransfer           | from has 0 cards     | no card moved                            | :white_check_mark: |
+| stealRandomCard_FromOneCard_TransfersThatCard      | from has 1 card      | from loses it, to gains it               | :white_check_mark: |
+| stealRandomCard_FromManyCards_TransfersOneCard     | from has 3 cards     | from loses exactly 1, to gains exactly 1 | :white_check_mark: |
 
 
 
@@ -43,11 +43,11 @@ cases:
 - more than one of type: one card of that type transferred
 - empty hand (N/A — covered by type not present)
 
-| test_Name                                          | State of the System  | Expected output                    | Implemented? |
-|----------------------------------------------------|----------------------|------------------------------------|--------------|
-| stealNamedCard_TypeNotPresent_NoTransfer           | from has no SKIP     | no card moved                      | :x:          |
-| stealNamedCard_OneOfType_TransfersThatCard         | from has 1 SKIP      | from loses SKIP, to gains SKIP     | :x:          |
-| stealNamedCard_MultipleOfType_TransfersOne         | from has 2 SKIP      | from loses 1 SKIP, to gains 1 SKIP | :x:          |
+| test_Name                                          | State of the System  | Expected output                    | Implemented?       |
+|----------------------------------------------------|----------------------|------------------------------------|--------------------|
+| stealNamedCard_TypeNotPresent_NoTransfer           | from has no SKIP     | no card moved                      | :white_check_mark: |
+| stealNamedCard_OneOfType_TransfersThatCard         | from has 1 SKIP      | from loses SKIP, to gains SKIP     | :white_check_mark: |
+| stealNamedCard_MultipleOfType_TransfersOne         | from has 2 SKIP      | from loses 1 SKIP, to gains 1 SKIP | :white_check_mark: |
 
 
 
@@ -59,8 +59,8 @@ cases:
 - promptCardSelection returns one card: that card transferred
 - promptCardSelection returns many (N/A — only first card is taken)
 
-| test_Name                                          | State of the System             | Expected output            | Implemented? |
-|----------------------------------------------------|---------------------------------|----------------------------|--------------|
-| giveCard_SelectionEmpty_NoTransfer                 | from prompted, returns no card  | no card moved              | :x:          |
-| giveCard_SelectionOneCard_TransfersThatCard        | from prompted, returns 1 card   | from loses it, to gains it | :x:          |
-| giveCard_SelectedCardNotInHand_NoTransfer          | selection returns card not in from's hand | no card moved     | :x:          |
+| test_Name                                   | State of the System                       | Expected output            | Implemented?       |
+|---------------------------------------------|-------------------------------------------|----------------------------|--------------------|
+| giveCard_SelectionEmpty_NoTransfer          | from prompted, returns no card            | no card moved              | :white_check_mark: |
+| giveCard_SelectionOneCard_TransfersThatCard | from prompted, returns 1 card             | from loses it, to gains it | :white_check_mark: |
+| giveCard_SelectedCardNotInHand_NoTransfer   | selection returns card not in from's hand | no card moved              | :white_check_mark: |

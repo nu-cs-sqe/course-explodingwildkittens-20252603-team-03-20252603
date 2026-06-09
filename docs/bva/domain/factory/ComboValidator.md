@@ -30,20 +30,20 @@ cases:
 - four or more cards: false
 - max size (N/A)
 
-| test_Name                                             | State of the System         | Expected output | Implemented? |
-|-------------------------------------------------------|-----------------------------|-----------------|--------------|
-| isValid_NullList_ReturnsFalse                         | null passed                 | false           | :x:          |
-| isValid_EmptyList_ReturnsFalse                        | 0 cards                     | false           | :x:          |
-| isValid_OneActionCard_ReturnsTrue                     | 1 SKIP card                 | true            | :x:          |
-| isValid_OneCatCard_ReturnsFalse                       | 1 CAT_CARD                  | false           | :x:          |
-| isValid_OneExplodingKitten_ReturnsFalse               | 1 EXPLODING_KITTEN          | false           | :x:          |
-| isValid_OneDefuse_ReturnsFalse                        | 1 DEFUSE                    | false           | :x:          |
-| isValid_TwoMatchingCatCards_ReturnsTrue               | 2 TACO_CAT cards            | true            | :x:          |
-| isValid_TwoDifferentCatCards_ReturnsFalse             | 1 TACO_CAT + 1 CATTERMELON  | false           | :x:          |
-| isValid_TwoCardsOneNotCat_ReturnsFalse                | 1 TACO_CAT + 1 SKIP         | false           | :x:          |
-| isValid_ThreeMatchingCatCards_ReturnsTrue             | 3 TACO_CAT cards            | true            | :x:          |
-| isValid_ThreeDifferentCatCards_ReturnsFalse           | 3 different cat types       | false           | :x:          |
-| isValid_FourOrMoreCards_ReturnsFalse                  | 4 TACO_CAT cards            | false           | :x:          |
+| test_Name                                             | State of the System         | Expected output | Implemented?       |
+|-------------------------------------------------------|-----------------------------|-----------------|--------------------|
+| isValid_NullList_ReturnsFalse                         | null passed                 | false           | :white_check_mark: |
+| isValid_EmptyList_ReturnsFalse                        | 0 cards                     | false           | :white_check_mark: |
+| isValid_OneActionCard_ReturnsTrue                     | 1 SKIP card                 | true            | :white_check_mark: |
+| isValid_OneCatCard_ReturnsFalse                       | 1 CAT_CARD                  | false           | :white_check_mark: |
+| isValid_OneExplodingKitten_ReturnsFalse               | 1 EXPLODING_KITTEN          | false           | :white_check_mark: |
+| isValid_OneDefuse_ReturnsFalse                        | 1 DEFUSE                    | false           | :white_check_mark: |
+| isValid_TwoMatchingCatCards_ReturnsTrue               | 2 TACO_CAT cards            | true            | :white_check_mark: |
+| isValid_TwoDifferentCatCards_ReturnsFalse             | 1 TACO_CAT + 1 CATTERMELON  | false           | :white_check_mark: |
+| isValid_TwoCardsOneNotCat_ReturnsFalse                | 1 TACO_CAT + 1 SKIP         | false           | :white_check_mark: |
+| isValid_ThreeMatchingCatCards_ReturnsTrue             | 3 TACO_CAT cards            | true            | :white_check_mark: |
+| isValid_ThreeDifferentCatCards_ReturnsFalse           | 3 different cat types       | false           | :white_check_mark: |
+| isValid_FourOrMoreCards_ReturnsFalse                  | 4 TACO_CAT cards            | false           | :white_check_mark: |
 
 
 
@@ -62,14 +62,14 @@ cases:
 - invalid combo: IllegalArgumentException
 - max size (N/A)
 
-| test_Name                                                 | State of the System    | Expected output                  | Implemented? |
-|-----------------------------------------------------------|------------------------|----------------------------------|--------------|
-| resolveAction_OneSkip_ReturnsSkipAction                   | 1 SKIP card            | SkipAction instance              | :x:          |
-| resolveAction_OneAttack_ReturnsAttackAction               | 1 ATTACK card          | AttackAction instance            | :x:          |
-| resolveAction_OneShuffle_ReturnsShuffleAction             | 1 SHUFFLE card         | ShuffleAction instance           | :x:          |
-| resolveAction_OneSeeFuture_ReturnsSeeTheFutureAction      | 1 SEE_THE_FUTURE card  | SeeTheFutureAction instance      | :x:          |
-| resolveAction_OneFavor_ReturnsFavorAction                 | 1 FAVOR card           | FavorAction instance             | :x:          |
-| resolveAction_OneNope_ReturnsNopeAction                   | 1 NOPE card            | NopeAction instance              | :x:          |
-| resolveAction_TwoMatchingCats_ReturnsTwoCatAction         | 2 TACO_CAT cards       | TwoCatAction instance            | :x:          |
-| resolveAction_ThreeMatchingCats_ReturnsThreeCatAction     | 3 TACO_CAT cards       | ThreeCatAction instance          | :x:          |
-| resolveAction_InvalidCombo_ThrowsIllegalArgumentException | invalid combo          | IllegalArgumentException         | :x:          |
+| test_Name                                                 | State of the System    | Expected output                  | Implemented?       |
+|-----------------------------------------------------------|------------------------|----------------------------------|--------------------|
+| resolveAction_OneSkip_ReturnsSkipAction                   | 1 SKIP card            | SkipAction instance              | :white_check_mark: |
+| resolveAction_OneAttack_ReturnsAttackAction               | 1 ATTACK card          | AttackAction instance            | :white_check_mark: |
+| resolveAction_OneShuffle_ReturnsShuffleAction             | 1 SHUFFLE card         | ShuffleAction instance           | :white_check_mark: |
+| resolveAction_OneSeeFuture_ReturnsSeeTheFutureAction      | 1 SEE_THE_FUTURE card  | SeeTheFutureAction instance      | :white_check_mark: |
+| resolveAction_OneFavor_ReturnsFavorAction                 | 1 FAVOR card           | FavorAction instance             | :white_check_mark: |
+| resolveAction_OneNope_ReturnsNopeAction                   | 1 NOPE card            | NopeAction instance              | :white_check_mark: |
+| resolveAction_TwoMatchingCats_ReturnsTwoCatAction         | 2 TACO_CAT cards       | TwoCatAction instance            | :white_check_mark: |
+| resolveAction_ThreeMatchingCats_ReturnsThreeCatAction     | 3 TACO_CAT cards       | ThreeCatAction instance          | :white_check_mark: |
+| resolveAction_InvalidCombo_ThrowsIllegalArgumentException | invalid combo          | IllegalArgumentException         | :white_check_mark: |

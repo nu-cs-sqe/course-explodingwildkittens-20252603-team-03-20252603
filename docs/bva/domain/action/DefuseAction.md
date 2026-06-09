@@ -22,9 +22,9 @@ cases:
 - position -1 (N/A — rejected by Deck.insertAt, not this action's responsibility)
 - position > deckSize (N/A — rejected by Deck.insertAt)
 
-| test_Name                                              | State of the System                                          | Expected output                              | Implemented? |
-|--------------------------------------------------------|--------------------------------------------------------------|----------------------------------------------|--------------|
-| execute_NoPendingKitten_ThrowsIllegalStateException    | pendingAction is null                                        | IllegalStateException                        | :x:          |
-| execute_KittenPending_PositionZero_InsertsAtTop        | pendingAction = kitten, promptInsertPosition returns 0       | kitten at index 0, pendingAction cleared     | :x:          |
-| execute_KittenPending_PositionDeckSize_InsertsAtBottom | pendingAction = kitten, promptInsertPosition returns deckSize | kitten at bottom, pendingAction cleared     | :x:          |
-| execute_KittenPending_PositionMiddle_InsertsAtMiddle   | pendingAction = kitten, promptInsertPosition returns middle  | kitten at given index, pendingAction cleared | :x:          |
+| test_Name                                              | State of the System                                            | Expected output                              | Implemented?       |
+|--------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------|--------------------|
+| execute_NoPendingKitten_ThrowsIllegalStateException    | pendingAction is null                                          | IllegalStateException                        | :white_check_mark: |
+| execute_KittenPending_PositionZero_InsertsAtTop        | pendingAction = kitten, promptInsertPosition returns 0         | kitten at index 0, pendingAction cleared     | :white_check_mark: |
+| execute_KittenPending_PositionDeckSize_InsertsAtBottom | pendingAction = kitten, promptInsertPosition returns deckSize  | kitten at bottom, pendingAction cleared      | :white_check_mark: |
+| execute_KittenPending_PositionMiddle_InsertsAtMiddle   | pendingAction = kitten, promptInsertPosition returns middle    | kitten at given index, pendingAction cleared | :white_check_mark: |

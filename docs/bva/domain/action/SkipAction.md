@@ -16,6 +16,6 @@ cases:
 - skipDraw already false (normal turn): enableSkipDraw() called
 - skipDraw already true (N/A — a duplicate skip has no additional effect at the action level)
 
-| test_Name                                     | State of the System             | Expected output                        | Implemented? |
-|-----------------------------------------------|---------------------------------|----------------------------------------|--------------|
-| execute_ValidGameState_EnablesSkipDraw        | GameState with a valid TurnState | turnState.enableSkipDraw() is called  | :x:          |
+| test_Name                                     | State of the System             | Expected output                        | Implemented?       |
+|-----------------------------------------------|---------------------------------|----------------------------------------|--------------------|
+| execute_ValidGameState_EnablesSkipDraw        | GameState with a valid TurnState | turnState.enableSkipDraw() is called  | :white_check_mark: |

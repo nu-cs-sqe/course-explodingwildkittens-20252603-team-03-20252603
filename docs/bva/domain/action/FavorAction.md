@@ -22,9 +22,9 @@ cases:
 - multiple other players: selected player's chosen card transferred
 - max size (N/A)
 
-| test_Name                                                | State of the System                           | Expected output                                | Implemented? |
-|----------------------------------------------------------|-----------------------------------------------|------------------------------------------------|--------------|
-| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current)              | IllegalStateException                          | :x:          |
-| execute_OneOtherPlayerEmptyHand_NoTransfer               | one target with 0 cards                       | no card moved                                  | :x:          |
-| execute_OneOtherPlayerOneCard_TransfersThatCard          | one target with 1 card, target gives it       | current player gains card, target loses it     | :x:          |
-| execute_MultipleOtherPlayers_TransfersFromSelectedTarget | multiple targets; selected has 1 card         | current player gains card from selected target | :x:          |
+| test_Name                                                | State of the System                           | Expected output                                | Implemented?       |
+|----------------------------------------------------------|-----------------------------------------------|------------------------------------------------|--------------------|
+| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current)              | IllegalStateException                          | :white_check_mark: |
+| execute_OneOtherPlayerEmptyHand_NoTransfer               | one target with 0 cards                       | no card moved                                  | :white_check_mark: |
+| execute_OneOtherPlayerOneCard_TransfersThatCard          | one target with 1 card, target gives it       | current player gains card, target loses it     | :white_check_mark: |
+| execute_MultipleOtherPlayers_TransfersFromSelectedTarget | multiple targets; selected has 1 card         | current player gains card from selected target | :white_check_mark: |
