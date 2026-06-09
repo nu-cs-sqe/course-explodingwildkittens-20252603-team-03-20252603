@@ -6,7 +6,12 @@ This is a digital implementation of
 [Exploding Kittens](https://cdn.shopify.com/s/files/1/0345/9180/1483/files/Exploding-Kittens_Grab-N-Game_Instructions_2023.pdf?v=1712786226) 
 (Original Edition, 2–5 players).
 
+---
+## Changes to game requirements
+-No changes were made to the game rules.
 
+
+---
 ## Contributors
 - Caroline Guerra
 - Mercy Muiruri
@@ -14,14 +19,14 @@ This is a digital implementation of
 - Chibueze Anyachebelu
 
 
-
+---
 ## Dependencies
 - JDK 11
 - JUnit 5.10
 - Gradle 8.10
 
 
-
+---
 ## Running the Game
 To run the game you either:
 1. click the run <| button on the Main.java file in `src/main/java/ui/Main.java`
@@ -38,15 +43,29 @@ OR
 ./gradlew run --console=plain
 ```
 
+---
+## Grading Notes
+- During Week 6, the weekly report was submitted as a PR but was not merged in time.
+  The Week 7 and 8 reports were also submitted late due to academic workload.
+  This was communicated to the Professor in advance, who advised us to note it here.
 
 
+---
 ## Special Design Decisions
-`GameController`: 4-parameter constructor
+- We added a provision to pass in the PlayerInteractionHelper to the SeeTheFuture card. 
+PlayerInteractionHelper has methods that interact with the _gameDisplay_ and _gameInput_ 
+This is to allow the card to access the display methods so it can display the PeekCards
 
-The linter flags constructors with more than 3 parameters. `GameController` is an intentional exception: its 4 parameters (`GameState`, `IGameDisplay`, `IPlayerInput`, `ComboValidator`) are each distinct collaborators specified in `design.puml`. Merging any two would create a meaningless wrapper. This is the only place in the codebase where the limit is exceeded.
+
+---
+## Missing Code Coverage
 
 
+---
+## Remaining Mutants
 
+
+---
 ## Code Standards
 This project enforces the following Checkstyle rules (build fails on any violation) for all files both
 src and test files.
