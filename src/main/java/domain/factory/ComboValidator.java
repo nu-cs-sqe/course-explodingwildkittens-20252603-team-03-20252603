@@ -30,7 +30,8 @@ public class ComboValidator {
 	private boolean isValidSingle(Card card) {
 		return !card.isType(CardType.CAT_CARD)
 				&& !card.isType(CardType.EXPLODING_KITTEN)
-				&& !card.isType(CardType.DEFUSE);
+				&& !card.isType(CardType.DEFUSE)
+				&& !card.isType(CardType.NOPE);
 	}
 
 	private boolean isValidCatCombo(List<Card> cards) {
@@ -62,7 +63,6 @@ public class ComboValidator {
 		else if (card.isType(CardType.SHUFFLE)) { return new ShuffleAction(); }
 		else if (card.isType(CardType.SEE_THE_FUTURE)) { return new SeeTheFutureAction(helper); }
 		else if (card.isType(CardType.FAVOR)) { return new FavorAction(helper); }
-		else if (card.isType(CardType.NOPE)) { return new NopeAction(); }
 		else {
 			ResourceBundle bundle = ResourceBundle.getBundle("labels", Locale.getDefault());
 			throw new IllegalArgumentException(
