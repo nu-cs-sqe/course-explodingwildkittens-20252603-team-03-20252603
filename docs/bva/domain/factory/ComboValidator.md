@@ -62,6 +62,7 @@ cases:
 - 2 matching CAT_CARD: TwoCatAction
 - 3 matching CAT_CARD: ThreeCatAction
 - invalid combo: IllegalArgumentException
+- valid combo but card type not handled by resolver: IllegalArgumentException
 - max size (N/A)
 
 | test_Name                                                 | State of the System    | Expected output                  | Implemented?       |
@@ -75,3 +76,4 @@ cases:
 | resolveAction_TwoMatchingCats_ReturnsTwoCatAction         | 2 TACO_CAT cards       | TwoCatAction instance            | :white_check_mark: |
 | resolveAction_ThreeMatchingCats_ReturnsThreeCatAction     | 3 TACO_CAT cards       | ThreeCatAction instance          | :white_check_mark: |
 | resolveAction_InvalidCombo_ThrowsIllegalArgumentException | invalid combo          | IllegalArgumentException         | :white_check_mark: |
+| resolveAction_ValidButUnhandledCardType_ThrowsIllegalArgumentException | valid 1-card combo, unhandled CardType | IllegalArgumentException | :white_check_mark: |
