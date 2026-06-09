@@ -46,8 +46,8 @@ OR
 ---
 ## Grading Notes
 - During Week 6, the weekly report was submitted as a PR but was not merged in time.
-  The Week 7 and 8 reports were also submitted late due to academic workload.
-  This was communicated to the Professor in advance, who advised us to note it here.
+  The Week 7 was submitted late due to academic workload.
+  This was communicated to the Professor in advance, who advised us to note it here and said that it was acceptable.
 
 
 ---
