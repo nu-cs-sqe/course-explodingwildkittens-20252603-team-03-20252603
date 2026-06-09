@@ -312,6 +312,31 @@ public class GameStateTest {
 	}
 
 	@Test
+	public void getAllActivePlayers_TwoPlayers_ReturnsBothPlayers() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		GameState gs = new GameState(List.of(first, second), emptyDeck());
+		assertEquals(List.of(first, second), gs.getAllActivePlayers());
+	}
+
+	@Test
+	public void getAllActivePlayers_MultiplePlayers_ReturnsAllPlayers() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		Player third = new Player("p3", "Chibu");
+		GameState gs = new GameState(List.of(first, second, third), emptyDeck());
+		assertEquals(List.of(first, second, third), gs.getAllActivePlayers());
+	}
+
+	@Test
+	public void getAllActivePlayers_IncludesCurrentPlayer() {
+		Player first = new Player("p1", "Caroline");
+		Player second = new Player("p2", "Mercy");
+		GameState gs = new GameState(List.of(first, second), emptyDeck());
+		assertTrue(gs.getAllActivePlayers().contains(first));
+	}
+
+	@Test
 	public void getOtherActivePlayers_TwoPlayers_ReturnsListWithOnePlayer() {
 		Player first = new Player("p1", "Caroline");
 		Player second = new Player("p2", "Mercy");

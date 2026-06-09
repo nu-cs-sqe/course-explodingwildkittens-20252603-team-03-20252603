@@ -140,6 +140,10 @@ public class GameState {
 		return Collections.unmodifiableList(others);
 	}
 
+	public List<Player> getAllActivePlayers() {
+		return Collections.unmodifiableList(new ArrayList<>(activePlayers));
+	}
+
 	public List<Card> peekTopOfDeck(int n) {
 		return deck.peekTop(n);
 	}
