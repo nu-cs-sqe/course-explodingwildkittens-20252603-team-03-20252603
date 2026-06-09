@@ -59,10 +59,17 @@ This is to allow the card to access the display methods so it can display the Pe
 
 ---
 ## Missing Code Coverage
+All code is fully covered. 100% code coverage.
 
 
 ---
 ## Remaining Mutants
+All model and controller classes mutants are fully killed.
+Only remaining mutants are in the UI classes:
+    - Main.java
+    - TerminalDisplayWriter.java
+    - TerminalInputWriter.java
+    - GameView.java
 
 
 ---
@@ -150,5 +157,3 @@ src and test files.
 ## Acknowledgements
 Claude AI Usage
 Claude was used as a development assistant throughout this project, following the guidelines of the syllabus
-
-Here are all the suppressions with their relative file paths:
