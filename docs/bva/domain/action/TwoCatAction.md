@@ -21,9 +21,9 @@ cases:
 - target has many cards: one random card stolen
 - max size (N/A)
 
-| test_Name                                                | State of the System              | Expected output                           | Implemented? |
-|----------------------------------------------------------|----------------------------------|-------------------------------------------|--------------|
-| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current) | IllegalStateException                     | :x:          |
-| execute_TargetHasNoCards_NoTransfer                      | target has empty hand            | no card moved                             | :x:          |
-| execute_TargetHasOneCard_StealsThatCard                  | target has 1 card                | current player gains it, target loses it  | :x:          |
-| execute_TargetHasMultipleCards_StealsOneCard             | target has 3 cards               | current gains 1 card, target loses 1      | :x:          |
+| test_Name                                                | State of the System              | Expected output                           | Implemented?       |
+|----------------------------------------------------------|----------------------------------|-------------------------------------------|--------------------|
+| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current) | IllegalStateException                     | :white_check_mark: |
+| execute_TargetHasNoCards_NoTransfer                      | target has empty hand            | no card moved                             | :white_check_mark: |
+| execute_TargetHasOneCard_StealsThatCard                  | target has 1 card                | current player gains it, target loses it  | :white_check_mark: |
+| execute_TargetHasMultipleCards_StealsOneCard             | target has 3 cards               | current gains 1 card, target loses 1      | :white_check_mark: |

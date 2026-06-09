@@ -48,11 +48,11 @@ cases:
 - activePlayers populated from passed list
 - eliminatedPlayers starts empty
 
-| test_Name                                          | State of the System              | Expected output                  | Implemented?     |
-|----------------------------------------------------|----------------------------------|----------------------------------|------------------|
-| constructor_InitializesStatusActive                | new GameState with players, deck | isActive() = true                | :cross_mark:     |
-| constructor_InitializesActivePlayerCount           | new GameState with 2 players     | activePlayerCount() = 2          | :cross_mark:     |
-| constructor_InitializesEliminatedPlayersEmpty      | new GameState with players, deck | eliminated list is empty         | :cross_mark:     |
+| test_Name                                          | State of the System              | Expected output                  | Implemented?       |
+|----------------------------------------------------|----------------------------------|----------------------------------|--------------------|
+| constructor_InitializesStatusActive                | new GameState with players, deck | isActive() = true                | :white_check_mark: |
+| constructor_InitializesActivePlayerCount           | new GameState with 2 players     | activePlayerCount() = 2          | :white_check_mark: |
+| constructor_InitializesEliminatedPlayersEmpty      | new GameState with players, deck | eliminated list is empty         | :white_check_mark: |
 
 
 
@@ -169,11 +169,11 @@ cases:
 - 1 player → 1
 - 2+ players → exact count
 
-| test_Name                                      | State of the System | Expected output | Implemented? |
-|------------------------------------------------|---------------------|-----------------|--------------|
-| activePlayerCount_NoPlayers_ReturnsZero        | 0 active players    | 0               | :cross_mark: |
-| activePlayerCount_OnePlayer_ReturnsOne         | 1 active player     | 1               | :cross_mark: |
-| activePlayerCount_MultiplePlayers_ReturnsCount | 2+ active players   | count           | :cross_mark: |
+| test_Name                                      | State of the System | Expected output | Implemented?       |
+|------------------------------------------------|---------------------|-----------------|--------------------|
+| activePlayerCount_NoPlayers_ReturnsZero        | 0 active players    | 0               | :white_check_mark: |
+| activePlayerCount_OnePlayer_ReturnsOne         | 1 active player     | 1               | :white_check_mark: |
+| activePlayerCount_MultiplePlayers_ReturnsCount | 2+ active players   | count           | :white_check_mark: |
 
 
 
@@ -227,7 +227,7 @@ cases:
 | insertIntoDeck_EmptyDeckIndexZero_InsertsCard                              | empty deck, index 0                | deck size = 1             | :white_check_mark: |
 | insertIntoDeck_EmptyDeckIndexOne_ThrowsIndexOutOfBoundsException           | empty deck, index 1                | IndexOutOfBoundsException | :white_check_mark: |
 | insertIntoDeck_NonEmptyDeckValidIndex_InsertsCard                          | deck with 2+ cards, valid index    | deck size increments      | :white_check_mark: |
-| insertIntoDeck_NonEmptyDeckIndexPastBounds_ThrowsIndexOutOfBoundsException | deck with 2+ cards, index past end | IndexOutOfBoundsException | :cross_mark:       |
+| insertIntoDeck_NonEmptyDeckIndexPastBounds_ThrowsIndexOutOfBoundsException | deck with 2+ cards, index past end | IndexOutOfBoundsException | :white_check_mark: |
 
 
 

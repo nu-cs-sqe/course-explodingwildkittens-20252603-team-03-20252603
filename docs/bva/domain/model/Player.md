@@ -24,30 +24,30 @@
 
 spaces: hand size, peek size, id/name assignment
 
-| test_Name                              | State of the System        | Expected output              | Implemented?       |
-|----------------------------------------|-----------------------------|------------------------------|--------------------|
-| constructor_SetsIdAndName              | any id and name strings     | getId/getName match          | :white_check_mark: |
-| constructor_InitializesEmptyHand       | new player                  | getHand is empty             | :white_check_mark: |
-| constructor_InitializesEmptyPeekBuffer | new player                  | getPeekCards is empty        | :white_check_mark: |
+| test_Name                              | State of the System     | Expected output       | Implemented?       |
+|----------------------------------------|-------------------------|-----------------------|--------------------|
+| constructor_SetsIdAndName              | any id and name strings | getId/getName match   | :white_check_mark: |
+| constructor_InitializesEmptyHand       | new player              | getHand is empty      | :white_check_mark: |
+| constructor_InitializesEmptyPeekBuffer | new player              | getPeekCards is empty | :white_check_mark: |
 
 ### Method under test: `addCard()`
 
 spaces: hand size before add (0 vs ≥1)
 
-| test_Name                        | State of the System | Expected output     | Implemented?       |
-|----------------------------------|---------------------|---------------------|--------------------|
-| addCard_EmptyHand_AddsCard       | empty hand          | hand size 1, card present | :white_check_mark: |
-| addCard_NonEmptyHand_AppendsCard | hand has one card   | hand size 2, order preserved | :white_check_mark: |
+| test_Name                        | State of the System | Expected output              | Implemented?        |
+|----------------------------------|---------------------|------------------------------|---------------------|
+| addCard_EmptyHand_AddsCard       | empty hand          | hand size 1, card present    | :white_check_mark:  |
+| addCard_NonEmptyHand_AppendsCard | hand has one card   | hand size 2, order preserved | :white_check_mark:  |
 
 ### Method under test: `removeCard()`
 
 spaces: card reference in hand or not; hand empty or not
 
-| test_Name                              | State of the System        | Expected output     | Implemented?       |
-|----------------------------------------|----------------------------|---------------------|--------------------|
+| test_Name                              | State of the System        | Expected output              | Implemented?       |
+|----------------------------------------|----------------------------|------------------------------|--------------------|
 | removeCard_CardInHand_RemovesCard      | same ref in hand           | hand no longer contains card | :white_check_mark: |
-| removeCard_CardNotInHand_Unchanged     | different ref, same fields | hand unchanged      | :white_check_mark: |
-| removeCard_EmptyHand_DoesNothing       | empty hand, remove call    | still empty         | :white_check_mark: |
+| removeCard_CardNotInHand_Unchanged     | different ref, same fields | hand unchanged               | :white_check_mark: |
+| removeCard_EmptyHand_DoesNothing       | empty hand, remove call    | still empty                  | :white_check_mark: |
 
 ### Method under test: `hasCard()`
 
@@ -63,21 +63,21 @@ spaces: empty hand; matching type present; no matching type
 
 spaces: no match; single match; multiple matches (first wins)
 
-| test_Name                                    | State of the System      | Expected output | Implemented?       |
-|----------------------------------------------|--------------------------|-----------------|--------------------|
-| removeCardOfType_NoMatch_ReturnsEmpty        | hand has no such type    | empty Optional, hand unchanged | :white_check_mark: |
-| removeCardOfType_OneMatch_RemovesAndReturnsThatCard | one matching card | Optional with that card, hand no longer contains it | :white_check_mark: |
-| removeCardOfType_MultipleMatches_RemovesFirstInHandOrder | two matching, order known | first removed, second remains | :white_check_mark: |
+| test_Name                                                | State of the System       | Expected output                                     | Implemented?       |
+|----------------------------------------------------------|---------------------------|-----------------------------------------------------|--------------------|
+| removeCardOfType_NoMatch_ReturnsEmpty                    | hand has no such type     | empty Optional, hand unchanged                      | :white_check_mark: |
+| removeCardOfType_OneMatch_RemovesAndReturnsThatCard      | one matching card         | Optional with that card, hand no longer contains it | :white_check_mark: |
+| removeCardOfType_MultipleMatches_RemovesFirstInHandOrder | two matching, order known | first removed, second remains                       | :white_check_mark: |
 
 ### Method under test: `storePeek()`
 
 spaces: null vs non-null list; replace behavior
 
-| test_Name                              | State of the System     | Expected output        | Implemented?       |
-|----------------------------------------|-------------------------|------------------------|--------------------|
-| storePeek_Null_ClearsPeek              | had peek cards before   | peek empty             | :white_check_mark: |
-| storePeek_NonNull_ReplacesPeek         | prior peek + new list   | peek equals new cards  | :white_check_mark: |
-| storePeek_SecondCall_ReplacesFirst     | two storePeek in sequence | only second content  | :white_check_mark: |
+| test_Name                          | State of the System       | Expected output       | Implemented?       |
+|------------------------------------|---------------------------|-----------------------|--------------------|
+| storePeek_Null_ClearsPeek          | had peek cards before     | peek empty            | :white_check_mark: |
+| storePeek_NonNull_ReplacesPeek     | prior peek + new list     | peek equals new cards | :white_check_mark: |
+| storePeek_SecondCall_ReplacesFirst | two storePeek in sequence | only second content   | :white_check_mark: |
 
 ### Method under test: `clearPeek()`
 
@@ -109,13 +109,13 @@ cases:
 - after resetWasAttacked() when true → wasAttacked is false
 - resetWasAttacked() when already false → wasAttacked stays false (idempotent)
 
-| test_Name                                                | State of the System              | Expected output          | Implemented?       |
-|----------------------------------------------------------|----------------------------------|--------------------------|--------------------|
-| wasAttacked_InitialState_ReturnsFalse                    | freshly constructed player       | wasAttacked() = false    | :white_check_mark: |
-| setWasAttacked_WhenFalse_SetsToTrue                      | wasAttacked = false              | wasAttacked() = true     | :white_check_mark: |
-| setWasAttacked_WhenAlreadyTrue_RemainsTrue                | wasAttacked = true               | wasAttacked() = true     | :white_check_mark: |
-| resetWasAttacked_WhenTrue_SetsToFalse                    | wasAttacked = true               | wasAttacked() = false    | :white_check_mark: |
-| resetWasAttacked_WhenAlreadyFalse_RemainsAlreadyFalse    | wasAttacked = false              | wasAttacked() = false    | :white_check_mark: |
+| test_Name                                             | State of the System        | Expected output       | Implemented?       |
+|-------------------------------------------------------|----------------------------|-----------------------|--------------------|
+| wasAttacked_InitialState_ReturnsFalse                 | freshly constructed player | wasAttacked() = false | :white_check_mark: |
+| setWasAttacked_WhenFalse_SetsToTrue                   | wasAttacked = false        | wasAttacked() = true  | :white_check_mark: |
+| setWasAttacked_WhenAlreadyTrue_RemainsTrue            | wasAttacked = true         | wasAttacked() = true  | :white_check_mark: |
+| resetWasAttacked_WhenTrue_SetsToFalse                 | wasAttacked = true         | wasAttacked() = false | :white_check_mark: |
+| resetWasAttacked_WhenAlreadyFalse_RemainsAlreadyFalse | wasAttacked = false        | wasAttacked() = false | :white_check_mark: |
 
 
 

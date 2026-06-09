@@ -21,9 +21,9 @@ cases:
 - more than three: peek returns top 3 only
 - max size (N/A — identical behaviour to more than three)
 
-| test_Name                                                     | State of the System   | Expected output                                     | Implemented? |
-|---------------------------------------------------------------|-----------------------|-----------------------------------------------------|--------------|
-| execute_EmptyDeck_StoresPeekWithEmptyList                     | deck has 0 cards      | currentPlayer.storePeek([]) is called               | :x:          |
-| execute_DeckWithOneCard_StoresPeekWithOneCard                 | deck has 1 card       | currentPlayer.storePeek([card1]) is called          | :x:          |
-| execute_DeckWithTwoCards_StoresPeekWithTwoCards               | deck has 2 cards      | currentPlayer.storePeek([card1, card2]) is called   | :x:          |
-| execute_DeckWithThreeOrMoreCards_StoresPeekWithThreeCards     | deck has 3+ cards     | currentPlayer.storePeek([card1, card2, card3])      | :x:          |
+| test_Name                                                     | State of the System   | Expected output                                     | Implemented?       |
+|---------------------------------------------------------------|-----------------------|-----------------------------------------------------|--------------------|
+| execute_EmptyDeck_StoresPeekWithEmptyList                     | deck has 0 cards      | currentPlayer.storePeek([]) is called               | :white_check_mark: |
+| execute_DeckWithOneCard_StoresPeekWithOneCard                 | deck has 1 card       | currentPlayer.storePeek([card1]) is called          | :white_check_mark: |
+| execute_DeckWithTwoCards_StoresPeekWithTwoCards               | deck has 2 cards      | currentPlayer.storePeek([card1, card2]) is called   | :white_check_mark: |
+| execute_DeckWithThreeOrMoreCards_StoresPeekWithThreeCards     | deck has 3+ cards     | currentPlayer.storePeek([card1, card2, card3])      | :white_check_mark: |

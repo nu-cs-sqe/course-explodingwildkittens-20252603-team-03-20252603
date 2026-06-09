@@ -16,6 +16,6 @@ cases:
 - no active attack: startAttack(2) called
 - already attacking (N/A — stacking attack behaviour is a GameController concern, not this action)
 
-| test_Name                                              | State of the System              | Expected output                         | Implemented? |
-|--------------------------------------------------------|----------------------------------|-----------------------------------------|--------------|
-| execute_ValidGameState_StartsAttackWithTwoTurns        | GameState with valid TurnState   | turnState.startAttack(2) is called      | :x:          |
+| test_Name                                              | State of the System              | Expected output                         | Implemented?       |
+|--------------------------------------------------------|----------------------------------|-----------------------------------------|--------------------|
+| execute_ValidGameState_StartsAttackWithTwoTurns        | GameState with valid TurnState   | turnState.startAttack(2) is called      | :white_check_mark: |

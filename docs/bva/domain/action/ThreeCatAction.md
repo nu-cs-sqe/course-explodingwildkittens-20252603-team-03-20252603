@@ -21,9 +21,9 @@ cases:
 - target has multiple of named type: one card of that type stolen
 - max size (N/A)
 
-| test_Name                                                | State of the System                       | Expected output                      | Implemented? |
-|----------------------------------------------------------|-------------------------------------------|--------------------------------------|--------------|
-| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current)          | IllegalStateException                | :x:          |
-| execute_TargetLacksNamedType_NoTransfer                  | target has no SKIP, current requests SKIP | no card moved                        | :x:          |
-| execute_TargetHasNamedType_StealsIt                      | target has 1 SKIP, current requests SKIP  | current gains SKIP, target loses it  | :x:          |
-| execute_TargetHasMultipleOfNamedType_StealsOne           | target has 2 SKIP, current requests SKIP  | current gains 1 SKIP, target loses 1 | :x:          |
+| test_Name                                                | State of the System                       | Expected output                      | Implemented?       |
+|----------------------------------------------------------|-------------------------------------------|--------------------------------------|--------------------|
+| execute_NoOtherActivePlayers_ThrowsIllegalStateException | only one active player (current)          | IllegalStateException                | :white_check_mark: |
+| execute_TargetLacksNamedType_NoTransfer                  | target has no SKIP, current requests SKIP | no card moved                        | :white_check_mark: |
+| execute_TargetHasNamedType_StealsIt                      | target has 1 SKIP, current requests SKIP  | current gains SKIP, target loses it  | :white_check_mark: |
+| execute_TargetHasMultipleOfNamedType_StealsOne           | target has 2 SKIP, current requests SKIP  | current gains 1 SKIP, target loses 1 | :white_check_mark: |

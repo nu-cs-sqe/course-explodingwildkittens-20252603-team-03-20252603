@@ -25,8 +25,8 @@ cases:
 - player draws EK; no Defuse; player eliminated; hand cleared; EK discarded; game ends; winner identified
 - player draws EK; no Defuse; eliminated player never reappears in queue on subsequent turns
 
-| test_Name                                               | State of the System                        | Expected output                                                          | Implemented?       |
-|---------------------------------------------------------|--------------------------------------------|--------------------------------------------------------------------------|--------------------|
-| explodingKitten_HasDefuse_PlayerSurvivesAndEKReinserted | has Defuse card                            | survives; Defuse discarded; EK back in deck at top                       | :white_check_mark: |
-| explodingKitten_NoDefuse_PlayerEliminatedAndGameEnds    | no Defuse; 2 players                       | eliminated; hand cleared; EK in discard; game ended; winner is player2   | :white_check_mark: |
-| explodingKitten_NoDefuse_EliminatedPlayerRemovedFromQueue | no Defuse; 3 players                     | eliminated player never becomes current on subsequent turns              | :white_check_mark: |
+| test_Name                                                 | State of the System  | Expected output                                                        | Implemented?       |
+|-----------------------------------------------------------|----------------------|------------------------------------------------------------------------|--------------------|
+| explodingKitten_HasDefuse_PlayerSurvivesAndEKReinserted   | has Defuse card      | survives; Defuse discarded; EK back in deck at top                     | :white_check_mark: |
+| explodingKitten_NoDefuse_PlayerEliminatedAndGameEnds      | no Defuse; 2 players | eliminated; hand cleared; EK in discard; game ended; winner is player2 | :white_check_mark: |
+| explodingKitten_NoDefuse_EliminatedPlayerRemovedFromQueue | no Defuse; 3 players | eliminated player never becomes current on subsequent turns            | :white_check_mark: |

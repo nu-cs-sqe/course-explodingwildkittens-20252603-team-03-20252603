@@ -77,12 +77,12 @@ cases:
 - promptRestart = true: `startGame()` is called again (promptNumPlayers invoked once more)
 - promptRestart = false: game ends, `startGame()` is not called again
 
-| test_Name                                       | State of the System                                                     | Expected output                            | Implemented?       |
-|-------------------------------------------------|-------------------------------------------------------------------------|--------------------------------------------|---------------------|
-| endGame_OneActivePlayer_SetsGameInactive        | game started with 2 players; promptRestart returns false                | isGameActive() = false                     | :white_check_mark: |
+| test_Name                                       | State of the System                                                    | Expected output                            | Implemented?       |
+|-------------------------------------------------|------------------------------------------------------------------------|--------------------------------------------|--------------------|
+| endGame_OneActivePlayer_SetsGameInactive        | game started with 2 players; promptRestart returns false               | isGameActive() = false                     | :white_check_mark: |
 | endGame_OneActivePlayer_DisplaysSurvivor        | game started with 2 players; 1 player eliminated; survivor is player 2 | showWinner called with player 2            | :white_check_mark: |
-| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                            | promptNumPlayers called a second time      | :white_check_mark: |
-| endGame_PromptRestartFalse_DoesNotCallStartGame | 1 player remains; promptRestart returns false                           | promptNumPlayers called exactly once total | :white_check_mark: |
+| endGame_PromptRestartTrue_CallsStartGame        | 1 player remains; promptRestart returns true                           | promptNumPlayers called a second time      | :white_check_mark: |
+| endGame_PromptRestartFalse_DoesNotCallStartGame | 1 player remains; promptRestart returns false                          | promptNumPlayers called exactly once total | :white_check_mark: |
 
 
 
@@ -100,8 +100,8 @@ cases:
 - single DEFUSE card → invalid (can't be played directly)
 - single CAT_CARD alone → invalid (needs a pair)
 
-| test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
-|--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
+| test_Name                                              | State of the System                        | Expected output                                          | Implemented?       |
+|--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------------|
 | playCard_NullList_ShowsErrorAndNoStateChange           | valid game, null passed                    | display.showMessage called; no cards discarded           | :white_check_mark: |
 | playCard_EmptyList_ShowsErrorAndNoStateChange          | valid game, empty list passed              | display.showMessage called; no cards discarded           | :white_check_mark: |
 | playCard_SingleDefuse_ShowsErrorAndNoStateChange       | player holds Defuse card                   | display.showMessage called; card stays in hand           | :white_check_mark: |
@@ -114,11 +114,11 @@ cases:
 cases:
 - promptNope returns false → action executes, cards discarded, pending cleared
 
-| test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
-|--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
-| playCard_ValidSingleCard_NotNoped_ExecutesAction       | player holds Skip; promptNope returns false | cards removed from hand, discarded; SkipAction executes | :white_check_mark: |
-| playCard_ValidSingleCard_NotNoped_ClearsPendingAction  | player holds Skip; promptNope returns false | pendingAction() = Optional.empty() after call            | :white_check_mark: |
-| playCard_ValidSingleCard_NotNoped_CardsAddedToDiscard  | player holds Skip; promptNope returns false | discard pile size increases by 1                         | :white_check_mark: |
+| test_Name                                             | State of the System                         | Expected output                                         | Implemented?       |
+|-------------------------------------------------------|---------------------------------------------|---------------------------------------------------------|--------------------|
+| playCard_ValidSingleCard_NotNoped_ExecutesAction      | player holds Skip; promptNope returns false | cards removed from hand, discarded; SkipAction executes | :white_check_mark: |
+| playCard_ValidSingleCard_NotNoped_ClearsPendingAction | player holds Skip; promptNope returns false | pendingAction() = Optional.empty() after call           | :white_check_mark: |
+| playCard_ValidSingleCard_NotNoped_CardsAddedToDiscard | player holds Skip; promptNope returns false | discard pile size increases by 1                        | :white_check_mark: |
 
 ---
 
@@ -127,8 +127,8 @@ cases:
 cases:
 - promptNope returns true → action does NOT execute; nopeCount incremented; cards still discarded
 
-| test_Name                                              | State of the System                        | Expected output                                          | Implemented? |
-|--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------|
+| test_Name                                              | State of the System                        | Expected output                                          | Implemented?       |
+|--------------------------------------------------------|--------------------------------------------|----------------------------------------------------------|--------------------|
 | playCard_ValidSingleCard_Noped_ActionNotExecuted       | player holds Skip; one player nopes        | SkipAction not executed                                  | :white_check_mark: |
 | playCard_ValidSingleCard_Noped_IncrementsNopeCount     | player holds Skip; one player nopes        | turnState.nopeCount() = 1                                | :white_check_mark: |
 | playCard_ValidSingleCard_Noped_CardsStillDiscarded     | player holds Skip; one player nopes        | cards removed from hand and added to discard pile        | :white_check_mark: |
@@ -141,8 +141,8 @@ cases:
 cases:
 - 2 matching cat cards → TwoCatAction executes
 
-| test_Name                                              | State of the System                          | Expected output                                          | Implemented? |
-|--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------|
+| test_Name                                              | State of the System                          | Expected output                                          | Implemented?       |
+|--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------------|
 | playCard_TwoCatCombo_NotNoped_ExecutesAction           | player holds 2 matching cats; no one nopes   | TwoCatAction executes; 2 cards discarded                 | :white_check_mark: |
 
 ---
@@ -152,8 +152,8 @@ cases:
 cases:
 - 3 matching cat cards → ThreeCatAction executes
 
-| test_Name                                              | State of the System                          | Expected output                                          | Implemented? |
-|--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------|
+| test_Name                                              | State of the System                          | Expected output                                          | Implemented?       |
+|--------------------------------------------------------|----------------------------------------------|----------------------------------------------------------|--------------------|
 | playCard_ThreeCatCombo_NotNoped_ExecutesAction         | player holds 3 matching cats; no one nopes   | ThreeCatAction executes; 3 cards discarded               | :white_check_mark: |
 
 ---
@@ -163,8 +163,8 @@ cases:
 cases:
 - valid card is noped; action is not executed; assert pending action
 
-| test_Name                                                            | State of the System                           | Expected output       | Implemented? |
-|----------------------------------------------------------------------|-----------------------------------------------|-----------------------|--------------|
+| test_Name                                                            | State of the System                           | Expected output       | Implemented?       |
+|----------------------------------------------------------------------|-----------------------------------------------|-----------------------|--------------------|
 | playCard_ValidSingleCard_Noped_ActionNotExecuted_AssertPendingAction | valid card is noped; action is not executed   | pending action is set | :white_check_mark: |
 
 ---
@@ -179,12 +179,12 @@ cases:
 - multiple players, one nopes → nopeCount = 1
 - multiple players, all nope → nopeCount = 3
 
-| test_Name                                                    | State of the System                          | Expected output      | Implemented? |
-|--------------------------------------------------------------|----------------------------------------------|----------------------|--------------|
-| applyNopeWindow_OnePlayer_DoesNotNope_NopeCountUnchanged     | 1 other player, returns false                | nopeCount = 0        | :white_check_mark: |
-| applyNopeWindow_MultiplePlayers_NobodyNopes_NopeCountUnchanged | 3 other players, all return false          | nopeCount = 0        | :white_check_mark: |
-| applyNopeWindow_MultiplePlayers_OneNopes_NopeCountIsOne      | 3 other players, one returns true            | nopeCount = 1        | :white_check_mark: |
-| applyNopeWindow_MultiplePlayers_AllNope_NopeCountIsThree     | 3 other players, all return true             | nopeCount = 3        | :white_check_mark: |
+| test_Name                                                      | State of the System               | Expected output | Implemented?       |
+|----------------------------------------------------------------|-----------------------------------|-----------------|--------------------|
+| applyNopeWindow_OnePlayer_DoesNotNope_NopeCountUnchanged       | 1 other player, returns false     | nopeCount = 0   | :white_check_mark: |
+| applyNopeWindow_MultiplePlayers_NobodyNopes_NopeCountUnchanged | 3 other players, all return false | nopeCount = 0   | :white_check_mark: |
+| applyNopeWindow_MultiplePlayers_OneNopes_NopeCountIsOne        | 3 other players, one returns true | nopeCount = 1   | :white_check_mark: |
+| applyNopeWindow_MultiplePlayers_AllNope_NopeCountIsThree       | 3 other players, all return true  | nopeCount = 3   | :white_check_mark: |
 
 
 
@@ -260,8 +260,8 @@ cases:
 - turnsRemaining = 0 (N/A- can never start with 0 remaning turns)
 - turnsRemaining = INT_MAX (N/A)
 
-| test_Name                                    | State of the System  | Expected output                 |    Implemented?    |
-|----------------------------------------------|----------------------|---------------------------------|:------------------:|
+| test_Name                                   | State of the System  | Expected output                 |    Implemented?    |
+|---------------------------------------------|----------------------|---------------------------------|:------------------:|
 | decrementTurns_startWithOneTurn_decrements  | start with one turn  | turnsRemaining decremented to 0 | :white_check_mark: |
 | decrementTurns_startWithTwoTurns_decrements | start with two turns | turnsRemaining decremented to 1 | :white_check_mark: |
 

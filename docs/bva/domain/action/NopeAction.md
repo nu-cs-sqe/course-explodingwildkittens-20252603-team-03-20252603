@@ -16,6 +16,6 @@ cases:
 - nopeCount is 0 (first nope): increment called
 - nopeCount is 1 (counter-nope): increment called — same delegation regardless of current count
 
-| test_Name                                         | State of the System              | Expected output                             | Implemented? |
-|---------------------------------------------------|----------------------------------|---------------------------------------------|--------------|
-| execute_ValidGameState_IncrementsNopeCount        | GameState with valid TurnState   | turnState.incrementNopeCount() is called    | :x:          |
+| test_Name                                         | State of the System              | Expected output                             | Implemented?       |
+|---------------------------------------------------|----------------------------------|---------------------------------------------|--------------------|
+| execute_ValidGameState_IncrementsNopeCount        | GameState with valid TurnState   | turnState.incrementNopeCount() is called    | :white_check_mark: |

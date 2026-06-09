@@ -29,12 +29,12 @@
 
 spaces: initial value of each field
 
-| test_Name                                  | State of the System | Expected output          | Implemented? |
-|--------------------------------------------|---------------------|--------------------------|--------------|
-| constructor_InitializesDefaultTurnCount    | new TurnState       | turnsRemaining() = 1     | :white_check_mark:          |
-| constructor_InitializesSkipDrawFalse       | new TurnState       | shouldSkipDraw() = false | :white_check_mark:          |
-| constructor_InitializesNotAttacking        | new TurnState       | isAttacking() = false    | :white_check_mark:          |
-| constructor_InitializesNopeCountZero       | new TurnState       | nopeCount() = 0          | :white_check_mark:          |
+| test_Name                                  | State of the System | Expected output                    | Implemented?       |
+|--------------------------------------------|---------------------|------------------------------------|--------------------|
+| constructor_InitializesDefaultTurnCount    | new TurnState       | turnsRemaining() = 1               | :white_check_mark: |
+| constructor_InitializesSkipDrawFalse       | new TurnState       | shouldSkipDraw() = false           | :white_check_mark: |
+| constructor_InitializesNotAttacking        | new TurnState       | isAttacking() = false              | :white_check_mark: |
+| constructor_InitializesNopeCountZero       | new TurnState       | nopeCount() = 0                    | :white_check_mark: |
 | constructor_InitializesNoPendingAction     | new TurnState       | pendingAction() = Optional.empty() | :white_check_mark: |
 
 
@@ -47,10 +47,10 @@ cases:
 - skipDraw was false → becomes true
 - skipDraw already true → stays true
 
-| test_Name                                  | State of the System            | Expected output         | Implemented? |
-|--------------------------------------------|--------------------------------|-------------------------|--------------|
-| enableSkipDraw_WhenFalse_SetsSkipDrawTrue  | default state (skipDraw=false) | shouldSkipDraw() = true | :white_check_mark:          |
-| enableSkipDraw_AlreadyTrue_RemainsTrue     | enableSkipDraw called twice    | shouldSkipDraw() = true | :white_check_mark:          |
+| test_Name                                  | State of the System            | Expected output         | Implemented?       |
+|--------------------------------------------|--------------------------------|-------------------------|--------------------|
+| enableSkipDraw_WhenFalse_SetsSkipDrawTrue  | default state (skipDraw=false) | shouldSkipDraw() = true | :white_check_mark: |
+| enableSkipDraw_AlreadyTrue_RemainsTrue     | enableSkipDraw called twice    | shouldSkipDraw() = true | :white_check_mark: |
 
 
 
@@ -63,11 +63,11 @@ cases:
 - turns = 1: minimum meaningful attack
 - turns = 2: standard attack
 
-| test_Name                                        | State of the System    | Expected output                        | Implemented? |
-|--------------------------------------------------|------------------------|----------------------------------------|--------------|
-| startAttack_TwoTurns_SetsIsAttackingAndTurns     | default state, turns=2 | isAttacking()=true, turnsRemaining()=2 | :white_check_mark:          |
-| startAttack_OneTurn_SetsIsAttackingAndOneTurn    | default state, turns=1 | isAttacking()=true, turnsRemaining()=1 | :white_check_mark:          |
-| startAttack_ZeroTurns_SetsIsAttackingZeroTurns   | default state, turns=0 | isAttacking()=true, turnsRemaining()=0 | :white_check_mark:          |
+| test_Name                                        | State of the System    | Expected output                        | Implemented?       |
+|--------------------------------------------------|------------------------|----------------------------------------|--------------------|
+| startAttack_TwoTurns_SetsIsAttackingAndTurns     | default state, turns=2 | isAttacking()=true, turnsRemaining()=2 | :white_check_mark: |
+| startAttack_OneTurn_SetsIsAttackingAndOneTurn    | default state, turns=1 | isAttacking()=true, turnsRemaining()=1 | :white_check_mark: |
+| startAttack_ZeroTurns_SetsIsAttackingZeroTurns   | default state, turns=0 | isAttacking()=true, turnsRemaining()=0 | :white_check_mark: |
 
 
 
@@ -79,10 +79,10 @@ cases:
 - card provided, no prior pending action
 - card provided, replaces existing pending action
 
-| test_Name                                          | State of the System         | Expected output                          | Implemented? |
-|----------------------------------------------------|-----------------------------|------------------------------------------|--------------|
-| setPendingAction_NonNullCard_StoresPendingAction   | no prior pending action     | pendingAction() = Optional.of(card)      | :white_check_mark:          |
-| setPendingAction_ReplacesExisting_StoresNewCard    | prior pending action exists | pendingAction() = Optional.of(new card)  | :white_check_mark:          |
+| test_Name                                          | State of the System         | Expected output                          | Implemented?       |
+|----------------------------------------------------|-----------------------------|------------------------------------------|--------------------|
+| setPendingAction_NonNullCard_StoresPendingAction   | no prior pending action     | pendingAction() = Optional.of(card)      | :white_check_mark: |
+| setPendingAction_ReplacesExisting_StoresNewCard    | prior pending action exists | pendingAction() = Optional.of(new card)  | :white_check_mark: |
 
 
 
@@ -94,10 +94,10 @@ cases:
 - pendingAction is set → clears to empty
 - pendingAction already empty → stays empty, no throw
 
-| test_Name                                  | State of the System       | Expected output                    | Implemented? |
-|--------------------------------------------|---------------------------|------------------------------------|--------------|
-| clearPendingAction_WhenSet_ClearsToEmpty   | pendingAction was set     | pendingAction() = Optional.empty() | :white_check_mark:          |
-| clearPendingAction_AlreadyEmpty_NoThrow    | pendingAction was empty   | pendingAction() = Optional.empty() | :white_check_mark:          |
+| test_Name                                  | State of the System       | Expected output                    | Implemented?       |
+|--------------------------------------------|---------------------------|------------------------------------|--------------------|
+| clearPendingAction_WhenSet_ClearsToEmpty   | pendingAction was set     | pendingAction() = Optional.empty() | :white_check_mark: |
+| clearPendingAction_AlreadyEmpty_NoThrow    | pendingAction was empty   | pendingAction() = Optional.empty() | :white_check_mark: |
 
 
 
@@ -109,10 +109,10 @@ cases:
 - nopeCount = 0 → becomes 1
 - nopeCount = 1 → becomes 2
 
-| test_Name                                  | State of the System | Expected output | Implemented? |
-|--------------------------------------------|---------------------|-----------------|--------------|
-| incrementNopeCount_FromZero_BecomesOne     | nopeCount = 0       | nopeCount() = 1 | :white_check_mark:          |
-| incrementNopeCount_FromPositive_Increments | nopeCount = 1       | nopeCount() = 2 | :white_check_mark:          |
+| test_Name                                  | State of the System | Expected output | Implemented?       |
+|--------------------------------------------|---------------------|-----------------|--------------------|
+| incrementNopeCount_FromZero_BecomesOne     | nopeCount = 0       | nopeCount() = 1 | :white_check_mark: |
+| incrementNopeCount_FromPositive_Increments | nopeCount = 1       | nopeCount() = 2 | :white_check_mark: |
 
 
 
@@ -125,11 +125,11 @@ cases:
 - turnsToTake = 1: decrements to 0
 - turnsToTake = 2: decrements to 1
 
-| test_Name                           | State of the System               | Expected output      | Implemented? |
-|-------------------------------------|-----------------------------------|----------------------|--------------|
-| decrementTurns_FromOne_BecomesZero  | turnsToTake = 1 (default)         | turnsRemaining() = 0 | :white_check_mark:          |
-| decrementTurns_FromTwo_BecomesOne   | turnsToTake = 2 (via startAttack) | turnsRemaining() = 1 | :white_check_mark:          |
-| decrementTurns_FromZero_StaysZero   | turnsToTake = 0                   | turnsRemaining() = 0 | :white_check_mark:          |
+| test_Name                           | State of the System               | Expected output      | Implemented?       |
+|-------------------------------------|-----------------------------------|----------------------|--------------------|
+| decrementTurns_FromOne_BecomesZero  | turnsToTake = 1 (default)         | turnsRemaining() = 0 | :white_check_mark: |
+| decrementTurns_FromTwo_BecomesOne   | turnsToTake = 2 (via startAttack) | turnsRemaining() = 1 | :white_check_mark: |
+| decrementTurns_FromZero_StaysZero   | turnsToTake = 0                   | turnsRemaining() = 0 | :white_check_mark: |
 
 
 
@@ -141,7 +141,7 @@ cases:
 - dirty state → all fields reset to defaults
 - already default → remains default
 
-| test_Name                                 | State of the System                                                  | Expected output                                                                              | Implemented? |
-|-------------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------------------------------------------|--------------|
-| reset_FromDirtyState_RestoresDefaults     | skipDraw=true, isAttacking=true, nopeCount=3, pendingAction=present | turnsRemaining()=1, shouldSkipDraw()=false, isAttacking()=false, nopeCount()=0, pendingAction()=Optional.empty() | :white_check_mark: |
-| reset_FromDefaultState_RemainsDefault     | fresh TurnState                                                      | all defaults unchanged                                                                       | :white_check_mark:          |
+| test_Name                             | State of the System                                                 | Expected output                                                                                                  | Implemented?       |
+|---------------------------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------|
+| reset_FromDirtyState_RestoresDefaults | skipDraw=true, isAttacking=true, nopeCount=3, pendingAction=present | turnsRemaining()=1, shouldSkipDraw()=false, isAttacking()=false, nopeCount()=0, pendingAction()=Optional.empty() | :white_check_mark: |
+| reset_FromDefaultState_RemainsDefault | fresh TurnState                                                     | all defaults unchanged                                                                                           | :white_check_mark: |

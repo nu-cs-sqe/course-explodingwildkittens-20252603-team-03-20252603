@@ -46,10 +46,10 @@ User-facing text lives in `src/main/resources/labels.properties` and is formatte
 
 spaces: message content (empty vs non-empty)
 
-| test_Name                         | State of the System | Expected output              | Implemented?       |
-|-----------------------------------|---------------------|------------------------------|--------------------|
-| showMessage_NonEmpty_PrintsMessage | message = "Hello"   | stdout contains "Hello"      | :white_check_mark: |
-| showMessage_Empty_PrintsBlankLine  | message = ""        | stdout contains blank line   | :white_check_mark: |
+| test_Name                          | State of the System | Expected output            | Implemented?       |
+|------------------------------------|---------------------|----------------------------|--------------------|
+| showMessage_NonEmpty_PrintsMessage | message = "Hello"   | stdout contains "Hello"    | :white_check_mark: |
+| showMessage_Empty_PrintsBlankLine  | message = ""        | stdout contains blank line | :white_check_mark: |
 
 ### Method under test: `showWinner()`
 
@@ -63,17 +63,17 @@ spaces: player name
 
 spaces: player name
 
-| test_Name                                   | State of the System | Expected output                      | Implemented?       |
-|---------------------------------------------|---------------------|--------------------------------------|--------------------|
-| showCurrentPlayer_NamedPlayer_PrintsTurnHeader | player name "Bob"   | stdout contains "Bob's turn"       | :white_check_mark: |
+| test_Name                                      | State of the System | Expected output              | Implemented?       |
+|------------------------------------------------|---------------------|------------------------------|--------------------|
+| showCurrentPlayer_NamedPlayer_PrintsTurnHeader | player name "Bob"   | stdout contains "Bob's turn" | :white_check_mark: |
 
 ### Method under test: `showGameState()`
 
 spaces: deck size, discard size, active player count, turns remaining
 
-| test_Name                              | State of the System                          | Expected output                                      | Implemented?       |
-|----------------------------------------|----------------------------------------------|------------------------------------------------------|--------------------|
-| showGameState_ActiveGame_PrintsSummary | deck size 2, discard 1, 2 players, 1 turn    | stdout contains deck, discard, active, turn fields  | :white_check_mark: |
+| test_Name                              | State of the System                          | Expected output                                       | Implemented?       |
+|----------------------------------------|----------------------------------------------|-------------------------------------------------------|--------------------|
+| showGameState_ActiveGame_PrintsSummary | deck size 2, discard 1, 2 players, 1 turn    | stdout contains deck, discard, active, turn fields    | :white_check_mark: |
 
 ### Method under test: `showPlayerHand()`
 
@@ -98,49 +98,49 @@ spaces: peek cards empty vs present
 
 spaces: valid integer; invalid then valid input
 
-| test_Name                                      | State of the System              | Expected output | Implemented?       |
-|------------------------------------------------|----------------------------------|-----------------|--------------------|
-| promptNumPlayers_ValidInput_ReturnsValue         | scanner input "3"                | returns 3       | :white_check_mark: |
-| promptNumPlayers_InvalidThenValid_ReturnsValue | scanner input "x" then "4"       | returns 4       | :white_check_mark: |
+| test_Name                                      | State of the System        | Expected output | Implemented?       |
+|------------------------------------------------|----------------------------|-----------------|--------------------|
+| promptNumPlayers_ValidInput_ReturnsValue       | scanner input "3"          | returns 3       | :white_check_mark: |
+| promptNumPlayers_InvalidThenValid_ReturnsValue | scanner input "x" then "4" | returns 4       | :white_check_mark: |
 
 ### Method under test: `promptCardSelection()`
 
 spaces: empty input; single index; multiple indices; out-of-range index
 
-| test_Name                                           | State of the System              | Expected output        | Implemented?       |
-|-----------------------------------------------------|----------------------------------|------------------------|--------------------|
-| promptCardSelection_EmptyInput_ReturnsEmptyList     | hand has cards, input ""         | empty list             | :white_check_mark: |
-| promptCardSelection_SingleIndex_ReturnsCard         | hand has cards, input "1"        | list size 1            | :white_check_mark: |
-| promptCardSelection_MultipleIndices_ReturnsCards    | hand has 2 cards, input "1,2"    | list size 2            | :white_check_mark: |
-| promptCardSelection_OutOfRangeIndex_ReturnsEmptyList | hand size 1, input "9"        | empty list             | :white_check_mark: |
+| test_Name                                            | State of the System           | Expected output | Implemented?       |
+|------------------------------------------------------|-------------------------------|-----------------|--------------------|
+| promptCardSelection_EmptyInput_ReturnsEmptyList      | hand has cards, input ""      | empty list      | :white_check_mark: |
+| promptCardSelection_SingleIndex_ReturnsCard          | hand has cards, input "1"     | list size 1     | :white_check_mark: |
+| promptCardSelection_MultipleIndices_ReturnsCards     | hand has 2 cards, input "1,2" | list size 2     | :white_check_mark: |
+| promptCardSelection_OutOfRangeIndex_ReturnsEmptyList | hand size 1, input "9"        | empty list      | :white_check_mark: |
 
 ### Method under test: `promptNope()`
 
 spaces: null player; yes answer; no answer; invalid then yes
 
-| test_Name                              | State of the System     | Expected output | Implemented?       |
-|----------------------------------------|-------------------------|-----------------|--------------------|
-| promptNope_NullPlayer_ThrowsIllegalArgumentException | player is null | throws IllegalArgumentException | :white_check_mark: |
-| promptNope_YesAnswer_ReturnsTrue         | one player, input "yes" | true            | :white_check_mark: |
-| promptNope_NoAnswer_ReturnsFalse         | one player, input "no"  | false           | :white_check_mark: |
-| promptNope_InvalidThenYes_ReturnsTrue  | input "maybe" then "yes" | true           | :white_check_mark: |
+| test_Name                                            | State of the System      | Expected output                 | Implemented?       |
+|------------------------------------------------------|--------------------------|---------------------------------|--------------------|
+| promptNope_NullPlayer_ThrowsIllegalArgumentException | player is null           | throws IllegalArgumentException | :white_check_mark: |
+| promptNope_YesAnswer_ReturnsTrue                     | one player, input "yes"  | true                            | :white_check_mark: |
+| promptNope_NoAnswer_ReturnsFalse                     | one player, input "no"   | false                           | :white_check_mark: |
+| promptNope_InvalidThenYes_ReturnsTrue                | input "maybe" then "yes" | true                            | :white_check_mark: |
 
 ### Method under test: `promptInsertPosition()`
 
 spaces: value below min; value in range
 
-| test_Name                                         | State of the System    | Expected output | Implemented?       |
-|---------------------------------------------------|------------------------|-----------------|--------------------|
-| promptInsertPosition_OutOfRangeThenValid_ReturnsValue | deckSize 2, "5" then "1" | returns 1     | :white_check_mark: |
-| promptInsertPosition_MinBoundary_ReturnsZero      | deckSize 3, input "0"  | returns 0       | :white_check_mark: |
+| test_Name                                             | State of the System      | Expected output | Implemented?       |
+|-------------------------------------------------------|--------------------------|-----------------|--------------------|
+| promptInsertPosition_OutOfRangeThenValid_ReturnsValue | deckSize 2, "5" then "1" | returns 1       | :white_check_mark: |
+| promptInsertPosition_MinBoundary_ReturnsZero          | deckSize 3, input "0"    | returns 0       | :white_check_mark: |
 
 ### Method under test: `promptTargetSelection()`
 
 spaces: invalid then valid selection
 
-| test_Name                                         | State of the System              | Expected output      | Implemented?       |
-|---------------------------------------------------|----------------------------------|----------------------|--------------------|
-| promptTargetSelection_InvalidThenValid_ReturnsPlayer | 2 candidates, "9" then "2"     | second candidate     | :white_check_mark: |
+| test_Name                                            | State of the System        | Expected output  | Implemented?       |
+|------------------------------------------------------|----------------------------|------------------|--------------------|
+| promptTargetSelection_InvalidThenValid_ReturnsPlayer | 2 candidates, "9" then "2" | second candidate | :white_check_mark: |
 
 ### Method under test: `promptCardType()`
 
@@ -154,8 +154,8 @@ spaces: valid index maps to enum value
 
 spaces: yes vs no answer
 
-| test_Name                         | State of the System | Expected output | Implemented?       |
-|-----------------------------------|---------------------|-----------------|--------------------|
+| test_Name                           | State of the System | Expected output | Implemented?       |
+|-------------------------------------|---------------------|-----------------|--------------------|
 | promptRestart_YesAnswer_ReturnsTrue | input "yes"         | true            | :white_check_mark: |
 | promptRestart_NoAnswer_ReturnsFalse | input "n"           | false           | :white_check_mark: |
 

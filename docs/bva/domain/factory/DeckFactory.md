@@ -53,10 +53,10 @@ cases:
 - most positive + 1 (N/A fixed return  size)
 - most negative -1 (N/A fixed return  size)
 
-|                                        | State of the System | Expected output          | Implemented?              |
-|----------------------------------------|---------------------|--------------------------|---------------------------|
-| buildExplodingKittenCards_ReturnsCards | two players         | 1 exploding kitten card  | :x: or :white_check_mark: |
-| buildExplodingKittenCards_ReturnsCards | five players        | 4 exploding kitten cards | :x: or :white_check_mark: |
+|                                        | State of the System | Expected output          | Implemented?       |
+|----------------------------------------|---------------------|--------------------------|--------------------|
+| buildExplodingKittenCards_ReturnsCards | two players         | 1 exploding kitten card  | :white_check_mark: |
+| buildExplodingKittenCards_ReturnsCards | five players        | 4 exploding kitten cards | :white_check_mark: |
 
 
 
@@ -74,6 +74,6 @@ cases:
 - most positive + 1 (N/A fixed return  size)
 - most negative -1 (N/A fixed return  size)
 
-|                                          | State of the System | Expected output | Implemented?              |
-|------------------------------------------|---------------------|-----------------|---------------------------|
-| buildDefuseCards()_ReturnsSixDefuseCards | no inputs           | 6 defuse cards  | :x: or :white_check_mark: |
+|                                          | State of the System | Expected output | Implemented?       |
+|------------------------------------------|---------------------|-----------------|--------------------|
+| buildDefuseCards()_ReturnsSixDefuseCards | no inputs           | 6 defuse cards  | :white_check_mark: |
