@@ -18,7 +18,8 @@ spaces: collection size, card types
 cases:
 - null: false
 - empty (0 cards): false
-- one action card (SKIP, ATTACK, SHUFFLE, SEE_THE_FUTURE, FAVOR, NOPE): true
+- one action card (SKIP, ATTACK, SHUFFLE, SEE_THE_FUTURE, FAVOR): true
+- one NOPE: false
 - one CAT_CARD: false
 - one EXPLODING_KITTEN: false
 - one DEFUSE: false
@@ -35,6 +36,7 @@ cases:
 | isValid_NullList_ReturnsFalse                         | null passed                 | false           | :white_check_mark: |
 | isValid_EmptyList_ReturnsFalse                        | 0 cards                     | false           | :white_check_mark: |
 | isValid_OneActionCard_ReturnsTrue                     | 1 SKIP card                 | true            | :white_check_mark: |
+| isValid_OneNope_ReturnsFalse                          | 1 NOPE card                 | false           | :white_check_mark: |
 | isValid_OneCatCard_ReturnsFalse                       | 1 CAT_CARD                  | false           | :white_check_mark: |
 | isValid_OneExplodingKitten_ReturnsFalse               | 1 EXPLODING_KITTEN          | false           | :white_check_mark: |
 | isValid_OneDefuse_ReturnsFalse                        | 1 DEFUSE                    | false           | :white_check_mark: |
@@ -56,7 +58,7 @@ cases:
 - 1 SHUFFLE: ShuffleAction
 - 1 SEE_THE_FUTURE: SeeTheFutureAction
 - 1 FAVOR: FavorAction
-- 1 NOPE: NopeAction
+- 1 NOPE: IllegalArgumentException
 - 2 matching CAT_CARD: TwoCatAction
 - 3 matching CAT_CARD: ThreeCatAction
 - invalid combo: IllegalArgumentException
@@ -69,7 +71,7 @@ cases:
 | resolveAction_OneShuffle_ReturnsShuffleAction             | 1 SHUFFLE card         | ShuffleAction instance           | :white_check_mark: |
 | resolveAction_OneSeeFuture_ReturnsSeeTheFutureAction      | 1 SEE_THE_FUTURE card  | SeeTheFutureAction instance      | :white_check_mark: |
 | resolveAction_OneFavor_ReturnsFavorAction                 | 1 FAVOR card           | FavorAction instance             | :white_check_mark: |
-| resolveAction_OneNope_ReturnsNopeAction                   | 1 NOPE card            | NopeAction instance              | :white_check_mark: |
+| resolveAction_OneNope_ThrowsIllegalArgumentException      | 1 NOPE card            | IllegalArgumentException         | :white_check_mark: |
 | resolveAction_TwoMatchingCats_ReturnsTwoCatAction         | 2 TACO_CAT cards       | TwoCatAction instance            | :white_check_mark: |
 | resolveAction_ThreeMatchingCats_ReturnsThreeCatAction     | 3 TACO_CAT cards       | ThreeCatAction instance          | :white_check_mark: |
 | resolveAction_InvalidCombo_ThrowsIllegalArgumentException | invalid combo          | IllegalArgumentException         | :white_check_mark: |
