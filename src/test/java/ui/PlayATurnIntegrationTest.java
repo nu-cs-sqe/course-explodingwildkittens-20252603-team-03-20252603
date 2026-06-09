@@ -50,7 +50,10 @@ public class PlayATurnIntegrationTest {
 		cards.add(nopeCard1);
 		cards.add(nopeCard2);
 		cards.add(nopeCard3);
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)   // other player nopes the skip in round 1
+				.andReturn(false)  // active player declines counter-nope in round 2
+				.andReturn(false); // other player still has nopes but declines counter-nope in round 2
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		display.showMessage(EasyMock.anyString());

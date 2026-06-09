@@ -27,7 +27,6 @@ public class NopeIntegrationTest {
 	private static final int TWO_PLAYERS = 2;
 	private static final int TWO_TURNS = 2;
 	private static final int ONE_CARD = 1;
-	private static final int ONE_PLAYER = 1;
 	private static final int THREE_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
 
@@ -106,7 +105,9 @@ public class NopeIntegrationTest {
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true).once();
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)   // other player nopes in round 1
+				.andReturn(false); // active player declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
@@ -139,11 +140,7 @@ public class NopeIntegrationTest {
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
-		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
-		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
 		playerHandCards.add(nopeCard1);
-		playerHandCards.add(nopeCard2);
-		playerHandCards.add(nopeCard3);
 		drawPileCards.add(skipCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
@@ -157,8 +154,9 @@ public class NopeIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true)
-				.andReturn(true);
+				.andReturn(true)   // other player 1 nopes in round 1
+				.andReturn(true)   // other player 2 nopes in round 1
+				.andReturn(false); // active player declines counter-nope in round 2
 
 		EasyMock.replay(display, input);
 
@@ -191,11 +189,7 @@ public class NopeIntegrationTest {
 		Card skipCard = new Card(CardType.SKIP, CardName.SKIP, new SkipAction());
 		Card cattermelonCard = new Card(CardType.CAT_CARD, CardName.CATTERMELON, new NoAction());
 		Card nopeCard1 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
-		Card nopeCard2 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
-		Card nopeCard3 = new Card(CardType.NOPE, CardName.NOPE, new NoAction());
 		playerHandCards.add(nopeCard1);
-		playerHandCards.add(nopeCard2);
-		playerHandCards.add(nopeCard3);
 		drawPileCards.add(skipCard);
 		drawPileCards.add(cattermelonCard);
 		drawPileCards.add(shuffleCard);
@@ -209,9 +203,10 @@ public class NopeIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true)
-				.andReturn(true)
-				.andReturn(true);
+				.andReturn(true)   // other player 1 nopes in round 1
+				.andReturn(true)   // other player 2 nopes in round 1
+				.andReturn(true)   // other player 3 nopes in round 1
+				.andReturn(false); // active player declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
@@ -235,7 +230,7 @@ public class NopeIntegrationTest {
 	}
 
 	@Test
-	void nope_ThreePlayers_OneLeftWithNope_OnlyOnePlayerPrompted(){
+	void nope_FourPlayers_MultiTurn_ActivePlayerParticipatesInNopeChain(){
 		IGameDisplay display = EasyMock.createMock(IGameDisplay.class);
 		IPlayerInput input = EasyMock.createMock(IPlayerInput.class);
 		List<Card> playerHandCards = new ArrayList<>();
@@ -267,10 +262,14 @@ public class NopeIntegrationTest {
 				.andReturn(List.of(skipCard1))
 				.andReturn(List.of(skipCard2));
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true).times(TWO_PLAYERS)
-				.andReturn(false).times(ONE_PLAYER)
-				.andReturn(true).times(ONE_PLAYER)
-				.andReturn(false).times(ONE_PLAYER);
+				.andReturn(true)   // turn 1 round 1: player 2 nopes
+				.andReturn(true)   // turn 1 round 1: player 3 nopes (nopeCount=2, even)
+				.andReturn(false)  // turn 1 round 1: player 4 declines
+				.andReturn(false)  // turn 1 round 2: player 1 (active) declines counter-nope
+				.andReturn(false)  // turn 1 round 2: player 4 declines
+				.andReturn(true)   // turn 2 round 1: player 1 nopes (nopeCount=1, odd)
+				.andReturn(false)  // turn 2 round 1: player 4 declines
+				.andReturn(false); // turn 2 round 2: player 4 is last with a nope, declines
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
@@ -296,8 +295,6 @@ public class NopeIntegrationTest {
 		assertNotEquals(secondPlayer, thirdPlayer);
 
 		EasyMock.verify(display, input);
-
-
 	}
 
 

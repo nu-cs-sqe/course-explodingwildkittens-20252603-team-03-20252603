@@ -33,8 +33,6 @@ public class AttackIntegrationTest {
 	private static final int THREE_TURNS = 3;
 	private static final int FOUR_TURNS = 4;
 	private static final int SIX_TURNS = 6;
-	private static final int THREE_TIMES = 3;
-
 	private static ComboValidator realComboValidator(IPlayerInput input) {
 		return new ComboValidator(new PlayerInteractionHelper(input, new Random()));
 	}
@@ -118,7 +116,9 @@ public class AttackIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(attackCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true);
+				.andReturn(true)   // other player nopes the attack in round 1
+				.andReturn(false)  // active player declines counter-nope in round 2
+				.andReturn(false); // other player still has nopes but declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
@@ -246,12 +246,18 @@ public class AttackIntegrationTest {
 				.andReturn(List.of(attackCard))
 				.andReturn(List.of(shuffleCard1));
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				// p1 attack round 1: both others decline
 				.andReturn(false).times(TWO_PLAYERS)
+				// p2 attack round 1: first other declines, second nopes (nopeCount=1)
 				.andReturn(false).times(ONE_PLAYER)
 				.andReturn(true).times(ONE_PLAYER)
+				// p2 attack round 2: all 3 still have nopes, all decline
+				.andReturn(false).times(THREE_PLAYERS)
+				// p2 shuffle round 1: others decline, shuffle executes (nopeCount reset per card)
 				.andReturn(false).times(TWO_PLAYERS);
+		// attacked msg + attack noped (shuffle executes cleanly on its own nopeCount)
 		display.showMessage(EasyMock.anyString());
-		EasyMock.expectLastCall().times(THREE_TIMES);
+		EasyMock.expectLastCall().times(TWO_TURNS);
 
 		EasyMock.replay(display, input);
 
@@ -402,10 +408,15 @@ public class AttackIntegrationTest {
 				.andReturn(List.of(shuffleCard1))
 				.andReturn(List.of(attackCard));
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				// p1 attack round 1: both others decline
 				.andReturn(false).times(TWO_PLAYERS)
+				// p2 shuffle round 1: both others decline
 				.andReturn(false).times(TWO_PLAYERS)
+				// p2 attack round 1: first other declines, second nopes
 				.andReturn(false).times(ONE_PLAYER)
-				.andReturn(true).times(ONE_PLAYER);
+				.andReturn(true).times(ONE_PLAYER)
+				// p2 attack round 2: all 3 still have nopes, all decline
+				.andReturn(false).times(THREE_PLAYERS);
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().times(2);
 

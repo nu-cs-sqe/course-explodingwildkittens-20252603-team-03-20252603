@@ -103,9 +103,11 @@ public class GameControllerTest {
 
 	private void expectNopedPlaySetup(List<Card> cards, TurnState turnState) {
 		Player other = otherPlayer();
+		Player current = new Player("p1", "Current Player");
 		expectBasePlaySetup(cards, turnState);
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(other));
 		EasyMock.expect(mockInput.promptNope(other)).andReturn(true);
+		EasyMock.expect(mockGameState.getAllActivePlayers()).andReturn(List.of(current, other));
 		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 	}
@@ -122,6 +124,19 @@ public class GameControllerTest {
 	@Test
 	void playCard_EmptyList_ShowsErrorMessage() {
 		List<Card> cards = Collections.emptyList();
+		EasyMock.expect(mockValidator.isValid(cards)).andReturn(false);
+		mockDisplay.showMessage(EasyMock.anyString());
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);
+
+		controller.playCard(cards);
+
+		EasyMock.verify(mockGameState, mockDisplay, mockInput, mockValidator);
+	}
+
+	@Test
+	void playCard_SingleNope_ShowsErrorMessage() {
+		List<Card> cards = List.of(new Card(CardType.NOPE, CardName.NOPE, new NoAction()));
 		EasyMock.expect(mockValidator.isValid(cards)).andReturn(false);
 		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
@@ -359,6 +374,7 @@ public class GameControllerTest {
 	void applyNopeWindow_MultiplePlayers_OneNopes_NopeCountIsOne() {
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
+		Player current = new Player("p0", "Current Player");
 		Player p1 = new Player("p1", "Player 1");
 		Player p2 = new Player("p2", "Player 2");
 		Player p3 = new Player("p3", "Player 3");
@@ -372,6 +388,9 @@ public class GameControllerTest {
 		EasyMock.expect(mockGameState.getOtherActivePlayers()).andReturn(List.of(p1, p2, p3));
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(false);
 		EasyMock.expect(mockInput.promptNope(p2)).andReturn(true);
+		EasyMock.expect(mockInput.promptNope(p3)).andReturn(false);
+		EasyMock.expect(mockGameState.getAllActivePlayers()).andReturn(List.of(current, p1, p2, p3));
+		EasyMock.expect(mockInput.promptNope(p1)).andReturn(false);
 		EasyMock.expect(mockInput.promptNope(p3)).andReturn(false);
 		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
@@ -388,6 +407,7 @@ public class GameControllerTest {
 		final int expectedNopeCount = 3;
 		List<Card> cards = List.of(skipCard());
 		TurnState turnState = new TurnState();
+		Player current = new Player("p0", "Current Player");
 		Player p1 = new Player("p1", "Player 1");
 		Player p2 = new Player("p2", "Player 2");
 		Player p3 = new Player("p3", "Player 3");
@@ -402,6 +422,7 @@ public class GameControllerTest {
 		EasyMock.expect(mockInput.promptNope(p1)).andReturn(true);
 		EasyMock.expect(mockInput.promptNope(p2)).andReturn(true);
 		EasyMock.expect(mockInput.promptNope(p3)).andReturn(true);
+		EasyMock.expect(mockGameState.getAllActivePlayers()).andReturn(List.of(current, p1, p2, p3));
 		mockDisplay.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockGameState, mockDisplay, mockInput, mockValidator);

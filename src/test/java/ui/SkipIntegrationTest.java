@@ -107,7 +107,10 @@ public class SkipIntegrationTest {
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)   // other player nopes the skip in round 1
+				.andReturn(false)  // active player declines counter-nope in round 2
+				.andReturn(false); // other player still has nopes but declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
@@ -156,8 +159,13 @@ public class SkipIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true)
-				.andReturn(true);
+				// round 1: both other players nope (nopeCount=2, even: skip executes)
+				.andReturn(true)   // other player 1 nopes
+				.andReturn(true)   // other player 2 nopes
+				// round 2: all 3 players still have nopes, all decline
+				.andReturn(false)  // active player declines
+				.andReturn(false)  // other player 1 declines
+				.andReturn(false); // other player 2 declines
 
 		EasyMock.replay(display, input);
 
@@ -204,9 +212,15 @@ public class SkipIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(skipCard)).once();
 		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
-				.andReturn(true)
-				.andReturn(true)
-				.andReturn(true);
+				// round 1: all 3 other players nope (nopeCount=3, odd: skip noped)
+				.andReturn(true)   // other player 1 nopes
+				.andReturn(true)   // other player 2 nopes
+				.andReturn(true)   // other player 3 nopes
+				// round 2: all 4 players still have nopes, all decline
+				.andReturn(false)  // active player declines
+				.andReturn(false)  // other player 1 declines
+				.andReturn(false)  // other player 2 declines
+				.andReturn(false); // other player 3 declines
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 

@@ -115,7 +115,10 @@ public class SeeTheFutureIntegrationTest {
 				.andReturn(PlayerChoice.DONE_PLAYING_CARDS);
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(seeTheFutureCard)).once();
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)   // other player nopes seeTheFuture in round 1
+				.andReturn(false)  // active player declines counter-nope in round 2
+				.andReturn(false); // other player still has nopes but declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 

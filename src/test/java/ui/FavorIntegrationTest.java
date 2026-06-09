@@ -194,7 +194,10 @@ public class FavorIntegrationTest {
 		EasyMock.expect(input.promptCardSelection(EasyMock.isA(Player.class)))
 				.andReturn(List.of(favorCard)).once();
 
-		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class))).andReturn(true);
+		EasyMock.expect(input.promptNope(EasyMock.isA(Player.class)))
+				.andReturn(true)   // other player nopes the favor in round 1
+				.andReturn(false)  // active player declines counter-nope in round 2
+				.andReturn(false); // other player still has nopes but declines counter-nope in round 2
 		display.showMessage(EasyMock.anyString());
 		EasyMock.expectLastCall().once();
 
