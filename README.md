@@ -63,40 +63,6 @@ src and test files.
 | Unused/redundant imports  | Not allowed                 |                                               |
 | `equals()` / `hashCode()` | Must be overridden together |                                               |
 | Boolean expressions       | Must be simplified          |                                               |
-
-
-
-## Suppressed Warnings
-
-The project uses Checkstyle and SpotBugs for static analysis. A small number of suppressions are applied where a tool rule conflicts with a deliberate design decision.
-
-### Checkstyle
-
-| Suppression | Where | Why |
-|---|---|---|
-| `checkstyle:ParameterNumber` | `GameController` — two package-private constructors | Checkstyle flags constructors with more than 3 parameters. These constructors require 4 parameters (`GameState`, `IGameDisplay`, `IPlayerInput`, `ComboValidator` / `DeckFactory`) because the UML design mandates each as a distinct injected dependency. Merging any two would violate the design contract. |
-| `checkstyle:MethodLength` | All 11 integration test classes (`AttackIntegrationTest`, `ExplodingKittenIntegrationTest`, `FavorIntegrationTest`, `GameControllerTest`, `NopeIntegrationTest`, `PlayATurnIntegrationTest`, `SeeTheFutureIntegrationTest`, `ShuffleIntegrationTest`, `SkipIntegrationTest`, `ThreeCardIntegrationTest`, `TwoCardIntegrationTest`) | Integration tests must set up a full game state and assert many sequential steps in one method. Splitting them would obscure the scenario's narrative flow and make failures harder to diagnose. |
-
-### SpotBugs
-
-| Suppression | Where | Why |
-|---|---|---|
-| `EI_EXPOSE_REP2` — *may expose internal representation by incorporating reference to mutable object* | `Deck(List, Random)` constructor; `GameController` (3 constructors); `GameView(Scanner, PrintStream)` constructor | These constructors accept external collaborators (scanner, display, input, random seed) that are intentionally shared references — they are injected dependencies, not owned data. Defensive copies would break the injection contract and prevent callers from controlling behaviour during tests. |
-| `EI_EXPOSE_REP` — *may expose internal representation by returning reference to mutable object* | `GameState.turnState()` | `TurnState` is a mutable object that callers legitimately need to update. Returning a copy would require mirroring all mutation methods elsewhere and complicates the design without a real safety benefit, since `TurnState` is an internal domain object, not a public API surface. |
-| `UUF_UNUSED_FIELD` — *unused field* | `GameState` (class-level); `GameController` (class-level) | SpotBugs flags fields it cannot trace as read across all code paths. These fields are accessed through paths SpotBugs cannot follow statically. They are genuinely used at runtime. |
-| `URF_UNREAD_FIELD` — *field is written but never read* | `GameController` (class-level) | Same root cause as `UUF_UNUSED_FIELD` — SpotBugs cannot resolve reads that happen through indirect dispatch or across constructor variants. |
-| `UWF_UNWRITTEN_FIELD` — *field is read but never written* | `GameController` (class-level) | Some fields are written only in certain constructors (package-private testing constructors vs. the public production constructor). SpotBugs analyses each constructor path independently and flags fields it sees as unset, but at runtime exactly one constructor runs and all fields are properly initialised. |
-| `NP_UNWRITTEN_FIELD` — *possible null pointer dereference of field that has not been written* | `GameController` (class-level) | Follows directly from `UWF_UNWRITTEN_FIELD` — because SpotBugs believes certain fields may never be written, it also warns they could be null at the point of use. The actual constructors guarantee all fields are set before any method reads them. |
-
-
-
-
-## Acknowledgements
-Claude AI Usage
-Claude was used as a development assistant throughout this project, following the guidelines of the syllabus
-
-Here are all the suppressions with their relative file paths:
-
 ---
 
 ## Checkstyle Exceptions / Suppressed Errors
@@ -106,13 +72,7 @@ Here are all the suppressions with their relative file paths:
 **`checkstyle:ParameterNumber`**
 - **Files:**
     - `src/main/java/ui/GameController.java` (lines 43, 54 — two package-private constructors)
-- **Why:** 
-Checkstyle flags constructors with more than 3 parameters. 
-These constructors need 4 parameters (`GameState`, `IGameDisplay`, `IPlayerInput`, `ComboValidator` / `DeckFactory`) 
-for the GameController because the UML class diagram mandates each as a distinct injected dependency and the 
-game controller needs these four objects to manage the game state and merging any two would violate 
-the design contract and make it hard to test
-
+- **Why:** Checkstyle flags constructors with more than 3 parameters. Both constructors take 4 because each parameter is a distinct dependency required by `design.puml`: `GameState` holds live game data, `IGameDisplay` handles all output, `IPlayerInput` reads player decisions, and `ComboValidator`/`DeckFactory` handles card logic and deck construction. None of these can be merged without violating the class responsibilities defined in the UML.
 
 **`checkstyle:MethodLength`**
 - **Files:**
@@ -127,9 +87,7 @@ the design contract and make it hard to test
     - `src/test/java/ui/SkipIntegrationTest.java`
     - `src/test/java/ui/ThreeCardIntegrationTest.java`
     - `src/test/java/ui/TwoCardIntegrationTest.java`
-- **Why:** 
-Integration tests must set up a full game state and assert many sequential steps in one method. 
-Splitting them would obscure the scenario flow and make failures harder to trace.
+- **Why:** Each integration test simulates a complete game scenario end-to-end: it stubs player input, starts the game, plays one or more cards, and then asserts the resulting game state. Each assertion step depends on the game state left by the previous step, so the entire scenario must live in one method. Splitting it into smaller helpers would hide which step caused a failure and make the test harder to read as a game narrative.
 
 ---
 
@@ -140,31 +98,38 @@ Splitting them would obscure the scenario flow and make failures harder to trace
     - `src/main/java/domain/model/Deck.java` (line 23)
     - `src/main/java/ui/GameController.java` (lines 35, 44, 55)
     - `src/main/java/ui/GameView.java` (line 29)
-- **Why:** These constructors accept injected collaborators (scanner, display, input, random) that are intentionally shared references. Defensive copies would break the injection contract and prevent test control over behaviour.
+- **Why:** SpotBugs warns that storing a passed-in mutable object directly (rather than copying it) lets the caller mutate the object after construction. Here that is intentional: tests inject a stubbed `Scanner`, a mock `IGameDisplay`, or a seeded `Random` so they can control exactly what the class reads and outputs. If the constructor copied these objects, the test's stub would be disconnected and tests would lose control over the class's behaviour.
 
 **`EI_EXPOSE_REP`** — *"May expose internal representation by returning reference to mutable object"*
 - **Files:**
     - `src/main/java/domain/model/GameState.java` (line 159 — `turnState()` getter)
-- **Why:** Callers legitimately need to read and mutate `TurnState` directly i.e updating the nopeCount and turns. 
-Returning a copy would require duplicating all mutation methods and complicates the design without a real safety benefit.
+- **Why:** `GameController` calls methods on the returned `TurnState` directly — e.g. `turnState.setPendingAction()`, `turnState.incrementNopeCount()`, and `turnState.clearPendingAction()` — to track what card is being played and whether it has been noped. If `turnState()` returned a copy, those mutations would be applied to the copy and discarded, so the real game state would never update.
 
 **`UUF_UNUSED_FIELD`** — *"Unused field"*
 - **Files:**
     - `src/main/java/domain/model/GameState.java` (class-level)
     - `src/main/java/ui/GameController.java` (class-level)
-- **Why:** SpotBugs cannot trace all reads across constructor variants and indirect dispatch paths. The fields are genuinely used at runtime.
+- **Why:** In `GameController`, the public constructor (`GameController(IGameDisplay, IPlayerInput, ComboValidator)`) never assigns `gameState` or `deckFactory` — both are set later by `startGame()`. SpotBugs sees the public constructor path and flags those fields as never assigned. In `GameState`, all six fields are read by its methods, but the package-private constructor (`GameState(List, Deck, TurnState)`) uses a different initialization path, which confuses the analyser into thinking some fields are never used.
 
 **`URF_UNREAD_FIELD`** — *"Field is written but never read"*
 - **Files:**
     - `src/main/java/ui/GameController.java` (class-level)
-- **Why:** Same root cause as `UUF_UNUSED_FIELD` — SpotBugs cannot resolve reads that occur through indirect dispatch or across multiple constructor branches.
+- **Why:** The third constructor (`GameController(IGameDisplay, IPlayerInput, ComboValidator, DeckFactory)`) assigns `deckFactory`, but SpotBugs does not connect that assignment to the reads in `dealCardsAndReturnDeck()` (lines 107–109), which is called from `startGame()` rather than the constructor itself. Because the write and the read are in different methods, SpotBugs treats the field as written but never read.
 
 **`UWF_UNWRITTEN_FIELD`** — *"Field is read but never written"*
 - **Files:**
     - `src/main/java/ui/GameController.java` (class-level)
-- **Why:** Some fields are only written in certain constructors (e.g. the testing constructor vs. the production constructor). SpotBugs analyses each path independently and flags fields it sees as unset, but at runtime exactly one constructor runs and all fields are properly initialised.
+- **Why:** The public constructor never writes `gameState`, yet methods like `isGameActive()` and `playATurn()` read it. SpotBugs flags this as a field that is read but potentially never written. In practice, `startGame()` always sets `gameState` before any of those methods are called, so the field is never null at the point of use.
 
 **`NP_UNWRITTEN_FIELD`** — *"Possible null pointer dereference of field that has not been written"*
 - **Files:**
     - `src/main/java/ui/GameController.java` (class-level)
-- **Why:** Follows directly from `UWF_UNWRITTEN_FIELD` — because SpotBugs believes certain fields may never be written, it also warns they could be null at the point of use. The actual constructors guarantee all fields are set before any method reads them.
+- **Why:** Because SpotBugs believes `gameState` may never be written (see `UWF_UNWRITTEN_FIELD`), it also warns that calls like `gameState.isActive()` (line 138) and `gameState.getCurrentPlayer()` (line 149) could throw a `NullPointerException`. The expected call order is always `startGame()` first, which sets `gameState` before any other method can run, so null is never reached.
+
+
+---
+## Acknowledgements
+Claude AI Usage
+Claude was used as a development assistant throughout this project, following the guidelines of the syllabus
+
+Here are all the suppressions with their relative file paths:
