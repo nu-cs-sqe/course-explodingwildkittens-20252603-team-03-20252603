@@ -98,4 +98,13 @@
 8. [in progress] Caroline: Manual Testing: Cat Card (issue #71)
 9. [in progress] Austin, Chibueze: Command Line UI fixes (issue #86)
 
+## Week 11 (06/08/2026-06/10/2026)
+**Planning and Progress Tracking**:
+1. [done] Mercy: Update README.md for grading
+2. [done] Caroline: Added bug-fix for nope bug #1 -> reject single nope card
+3. [done] Caroline: Manual Testing: Cat Card (issue #71)
+4. [done] Team: All manual testing done by team
+5. [done] Chibueze: Added bug-fix for nope bug #2 --> nope is one-sided, non-recursive, and gives premature feedback
+6. [done] Austin: Completed overhaul on Command Line UI fixes
+
 
