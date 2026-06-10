@@ -92,6 +92,15 @@ public class TurnStateTest {
 	}
 
 	@Test
+	void setPendingAction_AfterNopesAccumulated_ResetsNopeCountToZero() {
+		TurnState turnState = new TurnState();
+		turnState.incrementNopeCount();
+		turnState.incrementNopeCount();
+		turnState.setPendingAction(anyCard());
+		assertEquals(0, turnState.nopeCount());
+	}
+
+	@Test
 	void clearPendingAction_WhenSet_ClearsToEmpty() {
 		TurnState turnState = new TurnState();
 		turnState.setPendingAction(anyCard());

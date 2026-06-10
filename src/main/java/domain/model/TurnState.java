@@ -32,6 +32,7 @@ public class TurnState {
 			throw new IllegalArgumentException(bundle.getString("error.card.arg.null"));
 		}
 		pendingAction = card;
+		nopeCount = 0;
 	}
 
 	public void clearPendingAction() {
