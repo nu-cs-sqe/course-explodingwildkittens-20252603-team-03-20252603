@@ -237,10 +237,12 @@ spaces: delegates to deck (not in BVA catalog — boundary cases covered by Deck
 
 cases:
 - delegates shuffle to the deck
+- calls shuffle() on the deck exactly once
 
-| test_Name                          | State of the System | Expected output | Implemented?       |
-|------------------------------------|---------------------|-----------------|--------------------|
-| shuffleDeck_DelegatesShuffleToDeck | deck with 2+ cards  | void            | :white_check_mark: |
+| test_Name                          | State of the System | Expected output             | Implemented?       |
+|------------------------------------|---------------------|-----------------------------|--------------------|
+| shuffleDeck_DelegatesShuffleToDeck | deck with 2+ cards  | void                        | :white_check_mark: |
+| shuffleDeck_CallsShuffleOnDeck     | mocked deck         | deck.shuffle() invoked once | :white_check_mark: |
 
 
 
