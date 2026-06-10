@@ -283,16 +283,22 @@ public class GameController {
 	}
 
 	private void applyNopeWindow(TurnState turnState) {
-		List<Player> others = gameState.getOtherActivePlayers();
-		for (Player player : others) {
-			if (player.hasCard(CardType.NOPE)){
-				if (input.promptNope(player)) {
-					player.removeCardOfType(CardType.NOPE);
-					turnState.incrementNopeCount();
-				}
-			}
-
+		boolean anyNopeThisRound = runNopeRound(gameState.getOtherActivePlayers(), turnState);
+		while (anyNopeThisRound) {
+			anyNopeThisRound = runNopeRound(gameState.getAllActivePlayers(), turnState);
 		}
+	}
+
+	private boolean runNopeRound(List<Player> players, TurnState turnState) {
+		boolean anyNopeThisRound = false;
+		for (Player player : players) {
+			if (player.hasCard(CardType.NOPE) && input.promptNope(player)) {
+				player.removeCardOfType(CardType.NOPE);
+				turnState.incrementNopeCount();
+				anyNopeThisRound = true;
+			}
+		}
+		return anyNopeThisRound;
 	}
 
 	public void drawCard() {
